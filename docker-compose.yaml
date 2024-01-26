@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  db:
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: tickets
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    image: postgres:16.1-alpine
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U admin -d tickets" ]
+      interval: 15s
+      timeout: 10s
+      retries: 7
+      start_period: 12s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4GB
+
+volumes:
+  postgres_data:
