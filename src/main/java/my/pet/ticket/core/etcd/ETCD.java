@@ -24,12 +24,16 @@ public class ETCD {
     private static String DEFAULT_KEY;
     private static Client client;
 
-    private static List<String> POSTFIXS;
+    private static List<String> POSTFIXES;
 
     public static void init(EtcdProperty property) {
         REQ_TIMEOUT = Long.parseLong(property.requestTimeout());
         DEFAULT_KEY = property.keysPrefix() + property.componentName();
-        POSTFIXS = List.of("/value", "/value/"+ property.dc(),  "/value/"+ property.dc() + "/" +property.instanceName());
+        POSTFIXES = List.of(
+                "/value",
+                "/value/"+ property.dc(),
+                "/value/"+ property.dc() + "/" +property.instanceName()
+        );
         client = Client.builder()
                 .endpoints(property.endpoints())
                 .keepaliveTime(Duration.parse(property.dialKeepAliveTime()))
@@ -47,7 +51,7 @@ public class ETCD {
             throws EtcdException {
         try {
             List<KeyValue> kvs = getKVS(etcdKey);
-            List<String> postfixes = new ArrayList<>(POSTFIXS);
+            List<String> postfixes = new ArrayList<>(POSTFIXES);
             postfixes.reversed();
 
             Map<String, String> mapKeyToValue = new HashMap<>();
@@ -73,11 +77,13 @@ public class ETCD {
 
     }
 
-    public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow) throws EtcdException {
-
+    public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow)
+            throws EtcdException {
+        //TODO isShow - что-то про логи
     }
 
-    public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow, WatchParams watchParams) throws EtcdException {
+    public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow,
+                                    WatchParams watchParams) throws EtcdException {
        //TODO сделдаем потом
     }
 
@@ -97,7 +103,7 @@ public class ETCD {
     private static List<KeyValue> getKVS (String etcdKey)
             throws ExecutionException, InterruptedException, TimeoutException {
         return client.getKVClient().get(
-                        ByteSequence.from(DEFAULT_KEY + etcdKey + POSTFIXS.getFirst(),
+                        ByteSequence.from(DEFAULT_KEY + etcdKey + POSTFIXES.getFirst(),
                                 StandardCharsets.UTF_8),
                         GetOption.builder().isPrefix(true).build())
                 .get(REQ_TIMEOUT, TimeUnit.SECONDS)
