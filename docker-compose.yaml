@@ -25,5 +25,15 @@ services:
           cpus: '1'
           memory: 4GB
 
+  etcd:
+    container_name: etcd
+    image: quay.io/coreos/etcd
+    command: etcd --advertise-client-urls=http://etcd:2379 --listen-client-urls=http://0.0.0.0:2379
+    ports:
+      - "2379:2379"
+    volumes:
+      - etcd_data:/etcd-data
+
 volumes:
   postgres_data:
+  etcd_data:
