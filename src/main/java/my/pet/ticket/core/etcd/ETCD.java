@@ -45,25 +45,18 @@ public class ETCD {
     }
     public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter)
             throws EtcdException {
-        String defAddress = DEFAULT_KEY + etcdKey ;
-
         try {
-            List<KeyValue> kvs =  client.getKVClient().get(
-                            ByteSequence.from(defAddress + POSTFIXS.getFirst(),
-                            StandardCharsets.UTF_8),
-                            GetOption.builder().isPrefix(true).build())
-                    .get(REQ_TIMEOUT, TimeUnit.SECONDS)
-                    .getKvs();
-            List<String> postfixs = new ArrayList<>(POSTFIXS);
-            postfixs.reversed();
+            List<KeyValue> kvs = getKVS(etcdKey);
+            List<String> postfixes = new ArrayList<>(POSTFIXS);
+            postfixes.reversed();
 
             Map<String, String> mapKeyToValue = new HashMap<>();
             for (KeyValue kv : kvs) {
                 mapKeyToValue.put(kv.getKey().toString(), kv.getValue().toString());
             }
 
-            for(String postfix: postfixs) {
-                String key = defAddress + postfix;
+            for(String postfix: postfixes) {
+                String key = DEFAULT_KEY + etcdKey  + postfix;
                 if (mapKeyToValue.containsKey(key) && StringUtils.hasLength(mapKeyToValue.get(key))) {
                     setter.accept(clazz.cast(mapKeyToValue.get(key)));
                     return;
@@ -90,13 +83,7 @@ public class ETCD {
 
     public static boolean testKey(String etcdKey) {
         try {
-            List<KeyValue> kvs = client.getKVClient().get(
-                            ByteSequence.from(DEFAULT_KEY + etcdKey + POSTFIXS.getFirst(),
-                            StandardCharsets.UTF_8),
-                            GetOption.builder().isPrefix(true).build())
-                    .get(REQ_TIMEOUT, TimeUnit.SECONDS)
-                    .getKvs();
-
+            List<KeyValue> kvs = getKVS(etcdKey);
             return kvs.stream()
                     .map(kv -> kv.getValue().toString(StandardCharsets.UTF_8))
                     .anyMatch(StringUtils::hasLength);
@@ -107,5 +94,13 @@ public class ETCD {
         }
     }
 
-
+    private static List<KeyValue> getKVS (String etcdKey)
+            throws ExecutionException, InterruptedException, TimeoutException {
+        return client.getKVClient().get(
+                        ByteSequence.from(DEFAULT_KEY + etcdKey + POSTFIXS.getFirst(),
+                                StandardCharsets.UTF_8),
+                        GetOption.builder().isPrefix(true).build())
+                .get(REQ_TIMEOUT, TimeUnit.SECONDS)
+                .getKvs();
+    }
 }
