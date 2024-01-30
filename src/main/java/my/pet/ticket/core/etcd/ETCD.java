@@ -5,6 +5,9 @@ import io.etcd.jetcd.Client;
 import io.etcd.jetcd.KeyValue;
 import io.etcd.jetcd.common.exception.EtcdException;
 import io.etcd.jetcd.options.GetOption;
+import my.pet.ticket.core.logging.Detail;
+import my.pet.ticket.core.logging.Log;
+import my.pet.ticket.core.logging.impl.DetailEtcdImpl;
 import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
@@ -12,7 +15,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -47,21 +49,34 @@ public class ETCD {
     public static Status getStatus() {
         return STATUS;
     }
+
     public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter)
             throws EtcdException {
+        readEtcd(clazz, etcdKey, defaultValue, setter, true);
+    }
+
+    public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow)
+            throws EtcdException {
+
         try {
             List<KeyValue> kvs = getKVS(etcdKey);
             List<String> postfixes = new ArrayList<>(POSTFIXES);
             postfixes.reversed();
 
-            Map<String, String> mapKeyToValue = new HashMap<>();
+            HashMap<String, String> mapKeyToValue = new HashMap<>();
             for (KeyValue kv : kvs) {
                 mapKeyToValue.put(kv.getKey().toString(), kv.getValue().toString());
             }
 
             for(String postfix: postfixes) {
                 String key = DEFAULT_KEY + etcdKey  + postfix;
+
                 if (mapKeyToValue.containsKey(key) && StringUtils.hasLength(mapKeyToValue.get(key))) {
+
+                    String v = isShow ? mapKeyToValue.get(key): "*";
+                    Detail detail = new DetailEtcdImpl(key, v);
+                    Log.INFO("readETCD: ", detail);
+
                     setter.accept(clazz.cast(mapKeyToValue.get(key)));
                     return;
                 }
@@ -71,15 +86,8 @@ public class ETCD {
                 setter.accept(clazz.cast(defaultValue));
             }
         } catch (InterruptedException| ExecutionException| TimeoutException e) {
-            System.err.println(e.getMessage());
+            Log.ERROR(e.getMessage());
         }
-
-
-    }
-
-    public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow)
-            throws EtcdException {
-        //TODO isShow - что-то про логи
     }
 
     public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow,
@@ -89,19 +97,17 @@ public class ETCD {
 
     public static boolean testKey(String etcdKey) {
         try {
-            List<KeyValue> kvs = getKVS(etcdKey);
-            return kvs.stream()
-                    .map(kv -> kv.getValue().toString(StandardCharsets.UTF_8))
-                    .anyMatch(StringUtils::hasLength);
+            return !getKVS(etcdKey).isEmpty();
 
         } catch (InterruptedException| ExecutionException| TimeoutException e) {
-            System.err.println(e.getMessage());
+            Log.ERROR(e.getMessage());
             return false;
         }
     }
 
     private static List<KeyValue> getKVS (String etcdKey)
             throws ExecutionException, InterruptedException, TimeoutException {
+
         return client.getKVClient().get(
                         ByteSequence.from(DEFAULT_KEY + etcdKey + POSTFIXES.getFirst(),
                                 StandardCharsets.UTF_8),
