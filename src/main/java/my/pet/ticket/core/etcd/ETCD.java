@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,18 +30,18 @@ public class ETCD {
     private static List<String> POSTFIXES;
 
     public static void init(EtcdProperty property) {
-        REQ_TIMEOUT = Long.parseLong(property.requestTimeout());
-        DEFAULT_KEY = property.keysPrefix() + property.componentName();
+        REQ_TIMEOUT = property.getRequestTimeout();
+        DEFAULT_KEY = property.getKeysPrefix() + property.getComponentName();
         POSTFIXES = List.of(
                 "/value",
-                "/value/"+ property.dc(),
-                "/value/"+ property.dc() + "/" +property.instanceName()
+                "/value/"+ property.getDc(),
+                "/value/"+ property.getDc() + "/" +property.getInstanceName()
         );
         client = Client.builder()
-                .endpoints(property.endpoints())
-                .keepaliveTime(Duration.parse(property.dialKeepAliveTime()))
-                .keepaliveTimeout(Duration.parse(property.dialKeepAliveTimeout()))
-                .connectTimeout(Duration.parse(property.dialTimeout()))
+                .endpoints(property.getEndpoints())
+                .keepaliveTime(Duration.of(property.getDialKeepAliveTime(), ChronoUnit.SECONDS))
+                .keepaliveTimeout(Duration.of(property.getDialKeepAliveTimeout(), ChronoUnit.SECONDS))
+                .connectTimeout(Duration.of(property.getDialTimeout(), ChronoUnit.SECONDS))
                 .build();
 
         STATUS = Status.ON;
@@ -74,7 +75,7 @@ public class ETCD {
                 if (mapKeyToValue.containsKey(key) && StringUtils.hasLength(mapKeyToValue.get(key))) {
 
                     String v = isShow ? mapKeyToValue.get(key): "*";
-                    Detail detail = new DetailEtcdImpl(key, v);
+                    Detail detail = new DetailEtcdImpl("value", v);
                     Log.INFO("readETCD: ", detail);
 
                     setter.accept(clazz.cast(mapKeyToValue.get(key)));
@@ -90,10 +91,10 @@ public class ETCD {
         }
     }
 
-    public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow,
-                                    WatchParams watchParams) throws EtcdException {
-       //TODO сделдаем потом
-    }
+//    public static <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow,
+//                                    WatchParams watchParams) throws EtcdException {
+//       //TODO сделдаем потом
+//    }
 
     public static boolean testKey(String etcdKey) {
         try {
@@ -105,7 +106,7 @@ public class ETCD {
         }
     }
 
-    private static List<KeyValue> getKVS (String etcdKey)
+    private static List<KeyValue> getKVS(String etcdKey)
             throws ExecutionException, InterruptedException, TimeoutException {
 
         return client.getKVClient().get(

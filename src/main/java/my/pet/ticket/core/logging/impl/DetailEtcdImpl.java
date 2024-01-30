@@ -5,11 +5,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import my.pet.ticket.core.logging.Detail;
 
 public class DetailEtcdImpl implements Detail {
-    private final ObjectNode data;
+    private final ObjectNode data = new ObjectMapper().createObjectNode();
 
     public DetailEtcdImpl(String key, String value) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        this.data = objectMapper.createObjectNode();
         this.data.put(key, value);
     }
 
