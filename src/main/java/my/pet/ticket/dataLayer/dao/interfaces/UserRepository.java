@@ -12,7 +12,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Методы поиска пользователей
     List<User> findAll();
     Optional<User> findById(Long id);
-    Optional<User> findByLogin(String login);
+    User findByLogin(String login);
 
     // Методы сохранения и удаления пользователей
     User save(User user);

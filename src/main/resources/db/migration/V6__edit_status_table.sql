@@ -1,2 +1,0 @@
-ALTER TABLE status
-  ALTER COLUMN status_name SET NOT NULL;
