@@ -1,0 +1,31 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  full_name VARCHAR(255),
+  email VARCHAR(255) NOT NULL,
+  login VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  created_by VARCHAR(255) DEFAULT current_user NOT NULL,
+  updated_at TIMESTAMP NOT NULL,
+  active BOOLEAN NOT NULL
+);
+
+CREATE TABLE status (
+  id SERIAL PRIMARY KEY,
+  status_name VARCHAR(255) NOT NULL,
+  description VARCHAR(255)
+);
+
+CREATE TABLE tickets (
+  id SERIAL PRIMARY KEY,
+  task_name VARCHAR(255) NOT NULL,
+  description VARCHAR(255),
+  status INTEGER REFERENCES status(id) NOT NULL,
+  author INTEGER REFERENCES users(id) NOT NULL,
+  executor INTEGER REFERENCES users(id) NOT NULL
+);
+
+CREATE TABLE role (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+);
