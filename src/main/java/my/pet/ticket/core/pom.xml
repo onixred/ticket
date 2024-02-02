@@ -15,17 +15,20 @@
 
         <jetcd-core.version>0.7.7</jetcd-core.version>
         <grpc-core.version>1.61.0</grpc-core.version>
+        <spring-boot-starter.version>3.2.2</spring-boot-starter.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring-boot-starter.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-activemq</artifactId>
+            <version>${spring-boot-starter.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
