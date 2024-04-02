@@ -1,0 +1,3 @@
+etcdctl put databaseUrl "jdbc:postgresql://localhost:5432/habrdb"
+etcdctl put databaseUser "habrpguser"
+etcdctl put databasePassword "pgpwd4habr"
