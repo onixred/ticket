@@ -26,7 +26,7 @@ public class PropertiesConfig {
     private static Logger logger = (Logger) LoggerFactory.getLogger(PropertiesConfig.class);
 
     @Bean
-    public AppProperties initProperties(ApplicationContext applicationContext) {
+    public AppProperties initProperties() {
         logger.info("start init properties");
         try {
             //Если закрываем клиента то listener завершают свою работу
@@ -58,6 +58,13 @@ public class PropertiesConfig {
                         setFieldForProperties(field, keyValue, appProperties);
                         appProperties.setDatabaseUser(keyValue.getValue().toString());
                     }
+
+                    //меняются только свойства не связанные с бинами
+                    if (keyValue.getKey().toString().equals("testUrl")) {
+                        logger.info("{}: {}", field.getName(), keyValue.getValue().toString());
+                        setFieldForProperties(field, keyValue, appProperties);
+                        appProperties.setTestUrl(keyValue.getValue().toString());
+                    }
                 });
             }
 
@@ -71,17 +78,19 @@ public class PropertiesConfig {
                         logger.info("info listener {}", response);
                         List<WatchEvent> watchEvents = response.getEvents();
                         watchEvents.forEach(watchEvent -> {
-                            if (watchEvent.getKeyValue().getKey().toString().equals(field.getName())) {
+                            if (watchEvent.getKeyValue().getKey().toString().equals("databaseUrl")) {
                                 appProperties.setDatabaseUrl(watchEvent.getKeyValue().getValue().toString());
                             }
+                            if (watchEvent.getKeyValue().getKey().toString().equals("databaseUser")) {
+                                appProperties.setDatabaseUser(watchEvent.getKeyValue().getValue().toString());
+                            }
+                            if (watchEvent.getKeyValue().getKey().toString().equals("databasePassword")) {
+                                appProperties.setDatabasePassword(watchEvent.getKeyValue().getValue().toString());
+                            }
+                            if (watchEvent.getKeyValue().getKey().toString().equals("testUrl")) {
+                                appProperties.setTestUrl(watchEvent.getKeyValue().getValue().toString());
+                            }
                         });
-
-//                        if (field.getName().equals("databaseUrl") || field.getName().equals("databasePassword") || field.getName().equals("databaseUser")) {
-//                            DefaultSingletonBeanRegistry registry = (DefaultSingletonBeanRegistry) applicationContext.getAutowireCapableBeanFactory();
-//                            registry.destroySingleton("dataSourcePostgresqlGeneral");
-//                            registry.registerSingleton("dataSourcePostgresqlGeneral", getDataSource(appProperties));
-//                            logger.info("destroySingleton");
-//                        }
                     }
 
                     @Override

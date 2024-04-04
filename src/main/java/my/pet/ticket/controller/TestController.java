@@ -29,6 +29,6 @@ public class TestController {
         ticketRepository.save(ticket);
 
         System.out.println(ticketRepository.findAll());
-        System.out.println(appProperties.getDatabaseUrl());
+        System.out.println(appProperties.getTestUrl());
     }
 }

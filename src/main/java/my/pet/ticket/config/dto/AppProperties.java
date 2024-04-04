@@ -7,6 +7,8 @@ public class AppProperties {
 
     private String databasePassword;
 
+    private String testUrl;
+
     public String getDatabaseUrl() {
         return databaseUrl;
     }
@@ -29,5 +31,13 @@ public class AppProperties {
 
     public void setDatabasePassword(String databasePassword) {
         this.databasePassword = databasePassword;
+    }
+
+    public String getTestUrl() {
+        return testUrl;
+    }
+
+    public void setTestUrl(String testUrl) {
+        this.testUrl = testUrl;
     }
 }
