@@ -7,11 +7,15 @@ import io.etcd.jetcd.watch.WatchEvent;
 import io.etcd.jetcd.watch.WatchResponse;
 import my.pet.ticket.config.dto.AppProperties;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
+import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -72,10 +76,12 @@ public class PropertiesConfig {
                             }
                         });
 
-                        if (field.getName().equals("databaseUrl") || field.getName().equals("databasePassword") || field.getName().equals("databaseUser")) {
-                            DefaultSingletonBeanRegistry registry = (DefaultSingletonBeanRegistry) applicationContext.getAutowireCapableBeanFactory();
-                            registry.destroySingleton("dataSourcePostgresqlGeneral");
-                        }
+//                        if (field.getName().equals("databaseUrl") || field.getName().equals("databasePassword") || field.getName().equals("databaseUser")) {
+//                            DefaultSingletonBeanRegistry registry = (DefaultSingletonBeanRegistry) applicationContext.getAutowireCapableBeanFactory();
+//                            registry.destroySingleton("dataSourcePostgresqlGeneral");
+//                            registry.registerSingleton("dataSourcePostgresqlGeneral", getDataSource(appProperties));
+//                            logger.info("destroySingleton");
+//                        }
                     }
 
                     @Override

@@ -7,9 +7,11 @@
 		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet author="sergey.pryan" id="create Ticket">
-        <createTable tableName="Ticket">
+        <createTable tableName="ticket">
             <column name="id" type="BIGINT"/>
             <column name="name" type="CHARACTER(255)"/>
         </createTable>
+        <addAutoIncrement tableName="ticket" columnName="id"/>
+
     </changeSet>
 </databaseChangeLog>
