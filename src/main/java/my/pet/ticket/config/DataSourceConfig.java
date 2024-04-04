@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig extends HikariConfig {
 
-    @Bean
+    @Bean("dataSourcePostgresqlGeneral")
     public DataSource getDataSource(AppProperties appProperties) {
         appProperties.getDatabaseUrl();
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
