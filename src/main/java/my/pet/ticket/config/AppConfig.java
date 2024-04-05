@@ -6,6 +6,7 @@ import io.etcd.jetcd.kv.GetResponse;
 import io.etcd.jetcd.watch.WatchEvent;
 import io.etcd.jetcd.watch.WatchResponse;
 import my.pet.ticket.config.dto.AppProperties;
+import org.modelmapper.ModelMapper;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +16,9 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Configuration
-public class PropertiesConfig {
+public class AppConfig {
 
-    private static Logger logger = (Logger) LoggerFactory.getLogger(PropertiesConfig.class);
+    private static Logger logger = (Logger) LoggerFactory.getLogger(AppConfig.class);
 
     @Bean
     public AppProperties initProperties() {
@@ -52,7 +53,7 @@ public class PropertiesConfig {
                         logger.info("info listener {}", response);
                         List<WatchEvent> watchEvents = response.getEvents();
                         watchEvents.forEach(watchEvent -> {
-                            for (Field fieldTwo : fieldsApp){
+                            for (Field fieldTwo : fieldsApp) {
                                 setFieldForProperties(fieldTwo, watchEvent.getKeyValue().getValue().toString(), appProperties);
                             }
                         });
@@ -89,5 +90,10 @@ public class PropertiesConfig {
             logger.error("setFieldForProperties {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

@@ -1,6 +1,5 @@
 package my.pet.ticket.config;
 
-import com.zaxxer.hikari.HikariConfig;
 import my.pet.ticket.config.dto.AppProperties;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;

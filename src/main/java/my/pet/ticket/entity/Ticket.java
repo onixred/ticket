@@ -15,6 +15,8 @@ public class Ticket {
 
     private String name;
 
+    private Float balance;
+
     public Long getId() {
         return id;
     }
@@ -31,11 +33,20 @@ public class Ticket {
         this.name = name;
     }
 
+    public Float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Float balance) {
+        this.balance = balance;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", balance=" + balance +
                 '}';
     }
 }
