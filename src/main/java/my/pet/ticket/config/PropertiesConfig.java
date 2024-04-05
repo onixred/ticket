@@ -7,15 +7,9 @@ import io.etcd.jetcd.watch.WatchEvent;
 import io.etcd.jetcd.watch.WatchResponse;
 import my.pet.ticket.config.dto.AppProperties;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 
-import javax.sql.DataSource;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -35,40 +29,20 @@ public class PropertiesConfig {
 
             AppProperties appProperties = new AppProperties();
 
-            Field[] fields = appProperties.getClass().getDeclaredFields();
+            Field[] fieldsApp = appProperties.getClass().getDeclaredFields();
 
-            for (Field field : fields) {
+            for (Field field : fieldsApp) {
                 ByteSequence byteSequence = ByteSequence.from(field.getName().getBytes());
                 CompletableFuture<GetResponse> completableFuture = kv.get(byteSequence);
                 GetResponse getResponse = completableFuture.get();
                 List<KeyValue> keyValues = getResponse.getKvs();
                 keyValues.forEach(keyValue -> {
-                    if (keyValue.getKey().toString().equals("databaseUrl")) {
-                        logger.info("{}: {}", field.getName(), keyValue.getValue().toString());
-                        setFieldForProperties(field, keyValue, appProperties);
-                        appProperties.setDatabaseUrl(keyValue.getValue().toString());
-                    }
-                    if (keyValue.getKey().toString().equals("databasePassword")) {
-                        logger.info("{}: {}", field.getName(), keyValue.getValue().toString());
-                        setFieldForProperties(field, keyValue, appProperties);
-                        appProperties.setDatabasePassword(keyValue.getValue().toString());
-                    }
-                    if (keyValue.getKey().toString().equals("databaseUser")) {
-                        logger.info("{}: {}", field.getName(), keyValue.getValue().toString());
-                        setFieldForProperties(field, keyValue, appProperties);
-                        appProperties.setDatabaseUser(keyValue.getValue().toString());
-                    }
-
-                    //меняются только свойства не связанные с бинами
-                    if (keyValue.getKey().toString().equals("testUrl")) {
-                        logger.info("{}: {}", field.getName(), keyValue.getValue().toString());
-                        setFieldForProperties(field, keyValue, appProperties);
-                        appProperties.setTestUrl(keyValue.getValue().toString());
-                    }
+                    logger.info("{}: {}", field.getName(), keyValue.getValue().toString());
+                    setFieldForProperties(field, keyValue.getValue().toString(), appProperties);
                 });
             }
 
-            for (Field field : fields) {
+            for (Field field : fieldsApp) {
                 ByteSequence byteSequence = ByteSequence.from(field.getName().getBytes());
 
                 Watch watch = client.getWatchClient();
@@ -78,24 +52,15 @@ public class PropertiesConfig {
                         logger.info("info listener {}", response);
                         List<WatchEvent> watchEvents = response.getEvents();
                         watchEvents.forEach(watchEvent -> {
-                            if (watchEvent.getKeyValue().getKey().toString().equals("databaseUrl")) {
-                                appProperties.setDatabaseUrl(watchEvent.getKeyValue().getValue().toString());
-                            }
-                            if (watchEvent.getKeyValue().getKey().toString().equals("databaseUser")) {
-                                appProperties.setDatabaseUser(watchEvent.getKeyValue().getValue().toString());
-                            }
-                            if (watchEvent.getKeyValue().getKey().toString().equals("databasePassword")) {
-                                appProperties.setDatabasePassword(watchEvent.getKeyValue().getValue().toString());
-                            }
-                            if (watchEvent.getKeyValue().getKey().toString().equals("testUrl")) {
-                                appProperties.setTestUrl(watchEvent.getKeyValue().getValue().toString());
+                            for (Field fieldTwo : fieldsApp){
+                                setFieldForProperties(fieldTwo, watchEvent.getKeyValue().getValue().toString(), appProperties);
                             }
                         });
                     }
 
                     @Override
                     public void onError(Throwable throwable) {
-                        if(!throwable.getMessage().equals("Network closed for unknown reason")){
+                        if (!throwable.getMessage().equals("Network closed for unknown reason")) {
                             logger.info("field {} onError {}", field.getName(), throwable.toString());
                         }
                     }
@@ -109,19 +74,19 @@ public class PropertiesConfig {
             }
             return appProperties;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("initProperties {}", e.getMessage(), e);
         }
         throw new RuntimeException("настройки не поднялись");
 
     }
 
-    private static void setFieldForProperties(Field field, KeyValue keyValue, AppProperties appProperties) {
+    private static void setFieldForProperties(Field field, String keyValue, AppProperties appProperties) {
         try {
             Field fieldForSet = appProperties.getClass().getDeclaredField(field.getName());
             fieldForSet.setAccessible(true);
-            fieldForSet.set(appProperties, keyValue.getValue().toString());
+            fieldForSet.set(appProperties, keyValue);
         } catch (IllegalAccessException | NoSuchFieldException e) {
-            logger.info("{}", e.getMessage());
+            logger.error("setFieldForProperties {}", e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
