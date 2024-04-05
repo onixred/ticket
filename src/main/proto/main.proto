@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.proto";
+option java_outer_classname = "MainProto";
+option objc_class_prefix = "HLW";
+
+package helloworld;
+
+// The greeting service definition.
+service GreeterService {
+  // Sends a greeting
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  string message = 1;
+}
+
+
+message TicketRequest{
+  repeated int64 ticket_id = 1;
+}
+
+message ResponseTicket{
+  repeated TicketDto list = 1;
+}
+
+message TicketDto{
+  int64 id = 1;
+  string name = 2;
+  float balance = 3;
+}
+
+service TicketService{
+  rpc GetBalanceByTicketId(TicketRequest) returns (ResponseTicket) {
+  }
+}
