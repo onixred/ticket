@@ -42,3 +42,8 @@ service TicketService{
   rpc GetBalanceByTicketId(TicketRequest) returns (ResponseTicket) {
   }
 }
+
+message ErrorMessageGrpc{
+  int32 code = 1;
+  string message = 2;
+}
