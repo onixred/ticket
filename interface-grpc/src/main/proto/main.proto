@@ -5,24 +5,7 @@ option java_package = "io.grpc.examples.proto";
 option java_outer_classname = "MainProto";
 option objc_class_prefix = "HLW";
 
-package helloworld;
-
-// The greeting service definition.
-service GreeterService {
-  // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
-}
-
-// The request message containing the user's name.
-message HelloRequest {
-  string name = 1;
-}
-
-// The response message containing the greetings
-message HelloReply {
-  string message = 1;
-}
-
+package testtickets;
 
 message TicketRequest{
   repeated int64 ticket_id = 1;
