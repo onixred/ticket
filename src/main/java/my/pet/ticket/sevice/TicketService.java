@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static io.grpc.Status.NOT_FOUND;
+import static io.grpc.Status.INVALID_ARGUMENT;
 
 @GrpcService
 public class TicketService extends TicketServiceGrpc.TicketServiceImplBase {
@@ -27,6 +28,12 @@ public class TicketService extends TicketServiceGrpc.TicketServiceImplBase {
     @Override
     public void getBalanceByTicketId(TicketRequest request, StreamObserver<ResponseTicket> responseObserver) {
         super.getBalanceByTicketId(request, responseObserver);
+
+        if (request.getTicketIdList().isEmpty()) {
+            responseObserver.onError(INVALID_ARGUMENT.asException());
+            return;
+        }
+
         List<Ticket> list = ticketRepository.findAllByIdIn(request.getTicketIdList());
 
         if (list.isEmpty()) {

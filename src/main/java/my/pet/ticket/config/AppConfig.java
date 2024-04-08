@@ -8,6 +8,7 @@ import io.etcd.jetcd.watch.WatchResponse;
 import my.pet.ticket.config.dto.AppProperties;
 import org.modelmapper.ModelMapper;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,6 +19,9 @@ import java.util.concurrent.CompletableFuture;
 @Configuration
 public class AppConfig {
 
+    @Value("${etcd.url}")
+    private String etcdUrl;
+
     private static Logger logger = (Logger) LoggerFactory.getLogger(AppConfig.class);
 
     @Bean
@@ -25,7 +29,7 @@ public class AppConfig {
         logger.info("start init properties");
         try {
             //Если закрываем клиента то listener завершают свою работу
-            Client client = Client.builder().endpoints("http://127.0.0.1:2380").build();
+            Client client = Client.builder().endpoints(etcdUrl).build();
             KV kv = client.getKVClient();
 
             AppProperties appProperties = new AppProperties();
