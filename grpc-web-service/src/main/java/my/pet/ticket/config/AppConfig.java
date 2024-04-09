@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Field;
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -26,10 +27,10 @@ public class AppConfig {
 
     @Bean
     public AppProperties initProperties() {
-        logger.info("start init properties");
         try {
             //Если закрываем клиента то listener завершают свою работу
-            Client client = Client.builder().endpoints(etcdUrl).build();
+            //TODO: просто висит здесь если сервер etcd не запущен, поставить таймааут
+            Client client = Client.builder().endpoints(etcdUrl).connectTimeout(Duration.ofSeconds(15)).build();
             KV kv = client.getKVClient();
 
             AppProperties appProperties = new AppProperties();
@@ -77,6 +78,7 @@ public class AppConfig {
                 });
                 watcher.requestProgress();
             }
+            logger.info("success init");
             return appProperties;
         } catch (Exception e) {
             logger.error("initProperties {}", e.getMessage(), e);

@@ -17,6 +17,7 @@
     <modules>
         <module>grpc-web-service</module>
         <module>interface-grpc</module>
+        <module>grpc-client-web</module>
     </modules>
     <properties>
         <java.version>17</java.version>
@@ -27,7 +28,7 @@
         <jetcd-core.version>0.7.7</jetcd-core.version>
         <springdoc-openapi-starter-webmvc-ui.version>2.0.3</springdoc-openapi-starter-webmvc-ui.version>
         <postgresql.version>42.7.3</postgresql.version>
-        <grpc-server-spring-boot-starter.version>3.0.0.RELEASE</grpc-server-spring-boot-starter.version>
+        <grpc-spring-boot-starter.version>3.0.0.RELEASE</grpc-spring-boot-starter.version>
         <modelmapper.version>3.2.0</modelmapper.version>
         <lombok.version>1.18.32</lombok.version>
     </properties>
