@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import my.pet.ticket.logging.EventLog;
+import my.pet.ticket.logging.Log;
 import my.pet.ticket.model.dto.TicketForCreateDto;
 import my.pet.ticket.model.dto.TicketResponseDto;
 import my.pet.ticket.service.TicketService;
@@ -29,24 +31,32 @@ public class TicketController {
     @Operation(summary = "Получение всех имеющихся задач")
     @GetMapping
     public ResponseEntity<List<TicketResponseDto>> findAll() {
+        Log.INFO("Метод controller.findAll()", EventLog.T_FIND);
+
         return new ResponseEntity<>(ticketService.findAll(), HttpStatus.OK);
     }
 
     @Operation(summary = "Получение задачи по id")
     @GetMapping("/{id}")
     public ResponseEntity<TicketResponseDto> findById(@PathVariable("id") Long id) {
+        Log.INFO("Метод controller.findById()", EventLog.T_FIND);
+
         return new ResponseEntity<>(ticketService.findById(id), HttpStatus.OK);
     }
 
     @Operation(summary = "Добавление новой задачи")
     @PostMapping
     public ResponseEntity<TicketResponseDto> create(@Valid @RequestBody TicketForCreateDto ticketForCreateDto) {
+        Log.INFO("Метод controller.create()", EventLog.T_CREATE);
+
         return new ResponseEntity<>(ticketService.create(ticketForCreateDto), HttpStatus.CREATED);
     }
 
     @Operation(summary = "Удаление задачи по id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
+        Log.INFO("Метод controller.delete()", EventLog.T_FIND);
+
         return new ResponseEntity<>(ticketService.delete(id), HttpStatus.OK);
     }
 }

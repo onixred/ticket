@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import my.pet.ticket.acl.TicketMapper;
 import my.pet.ticket.dao.TicketRepository;
 import my.pet.ticket.exception.TicketNotFoundException;
+import my.pet.ticket.logging.EventLog;
+import my.pet.ticket.logging.Log;
 import my.pet.ticket.model.dto.TicketForCreateDto;
 import my.pet.ticket.model.dto.TicketResponseDto;
 import my.pet.ticket.model.entity.Ticket;
@@ -23,6 +25,8 @@ public class TicketServiceImpl implements TicketService {
     @Transactional(readOnly = true)
     @Override
     public List<TicketResponseDto> findAll() {
+        Log.INFO("Метод service.findAll()", EventLog.T_FIND);
+
         List<Ticket> listTickets = ticketRepository.findAll();
 
         return listTickets.stream()
@@ -33,6 +37,7 @@ public class TicketServiceImpl implements TicketService {
     @Transactional(readOnly = true)
     @Override
     public TicketResponseDto findById(Long id) {
+        Log.INFO("Метод service.findById()", EventLog.T_FIND);
 
         return ticketMapper.entityToDto(ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException("Задача  c id " + id  + " не найдена")));
@@ -41,6 +46,8 @@ public class TicketServiceImpl implements TicketService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public TicketResponseDto create(TicketForCreateDto ticketForCreateDto) {
+        Log.INFO("Метод service.create()", EventLog.T_CREATE);
+
         Ticket ticket = ticketRepository.save(ticketMapper.dtoToEntity(ticketForCreateDto));
 
         return ticketMapper.entityToDto(ticket);
@@ -49,6 +56,8 @@ public class TicketServiceImpl implements TicketService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public Boolean delete(Long id) {
+        Log.INFO("Метод service.delete()", EventLog.T_FIND);
+
         ticketRepository.delete(ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException("Задача  c id " + id  + " не найдена")));
 
