@@ -3,25 +3,19 @@ package my.pet.ticket.acl;
 import my.pet.ticket.model.dto.TicketForCreateDto;
 import my.pet.ticket.model.dto.TicketResponseDto;
 import my.pet.ticket.model.entity.Ticket;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Component
-public class TicketMapper {
+/**
+ * TicketMapper интерфейс для преобразования сущности Ticket в dto
+ *
+ * @author <a href="mailto:baranov.alexalex@gmail.com">abaranov</a>
+ */
+@Mapper(componentModel = "spring")
+public interface TicketMapper {
 
-    public TicketResponseDto entityToDto(Ticket ticket) {
+    TicketResponseDto entityToDto(Ticket ticket);
 
-        return TicketResponseDto.builder()
-                .id(ticket.getId())
-                .name(ticket.getName())
-                .description(ticket.getDescription())
-                .build();
-    }
-
-    public Ticket dtoToEntity(TicketForCreateDto ticketForCreateDto) {
-
-        return Ticket.builder()
-                .name(ticketForCreateDto.getName())
-                .description(ticketForCreateDto.getDescription())
-                .build();
-    }
+    @Mapping(target = "id", ignore = true)
+    Ticket dtoToEntity(TicketForCreateDto ticketForCreateDto);
 }
