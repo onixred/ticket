@@ -2,17 +2,21 @@ package my.pet.ticket.service;
 
 import my.pet.ticket.model.dto.TicketForCreateDto;
 import my.pet.ticket.model.dto.TicketResponseDto;
-import my.pet.ticket.model.entity.Ticket;
 
 import java.util.List;
 
+/**
+ * TicketService сервис для работы с бизнес логикой и доступом к репозиторию
+ *
+ * @author <a href="mailto:baranov.alexalex@gmail.com">abaranov</a>
+ */
 public interface TicketService {
 
-    List<TicketResponseDto> findAllTickets();
+    List<TicketResponseDto> findAll();
 
-    TicketResponseDto findTicketById(Long id);
+    TicketResponseDto findById(Long id);
 
-    void createTicket(TicketForCreateDto ticketForCreateDto);
+    TicketResponseDto create(TicketForCreateDto ticketForCreateDto);
 
-    void deleteTicket(Long id);
+    Boolean delete(Long id);
 }

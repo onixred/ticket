@@ -1,4 +1,4 @@
-package my.pet.ticket.service.impl;
+package my.pet.ticket.service;
 
 import lombok.RequiredArgsConstructor;
 import my.pet.ticket.acl.TicketMapper;
@@ -7,10 +7,11 @@ import my.pet.ticket.exception.TicketNotFoundException;
 import my.pet.ticket.model.dto.TicketForCreateDto;
 import my.pet.ticket.model.dto.TicketResponseDto;
 import my.pet.ticket.model.entity.Ticket;
-import my.pet.ticket.service.TicketService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +20,9 @@ public class TicketServiceImpl implements TicketService {
     private final TicketRepository ticketRepository;
     private final TicketMapper ticketMapper;
 
+    @Transactional(readOnly = true)
     @Override
-    public List<TicketResponseDto> findAllTickets() {
+    public List<TicketResponseDto> findAll() {
         List<Ticket> listTickets = ticketRepository.findAll();
 
         return listTickets.stream()
@@ -28,21 +30,28 @@ public class TicketServiceImpl implements TicketService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public TicketResponseDto findTicketById(Long id) {
+    public TicketResponseDto findById(Long id) {
 
         return ticketMapper.entityToDto(ticketRepository.findById(id)
-                .orElseThrow(() -> new TicketNotFoundException("Задача не найдена")));
+                .orElseThrow(() -> new TicketNotFoundException("Задача  c id " + id  + " не найдена")));
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public void createTicket(TicketForCreateDto ticketForCreateDto) {
-        ticketRepository.save(ticketMapper.dtoToEntity(ticketForCreateDto));
+    public TicketResponseDto create(TicketForCreateDto ticketForCreateDto) {
+        Ticket ticket = ticketRepository.save(ticketMapper.dtoToEntity(ticketForCreateDto));
+
+        return ticketMapper.entityToDto(ticket);
     }
 
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public void deleteTicket(Long id) {
+    public Boolean delete(Long id) {
         ticketRepository.delete(ticketRepository.findById(id)
-                .orElseThrow(() -> new TicketNotFoundException("Задача не найдена")));
+                .orElseThrow(() -> new TicketNotFoundException("Задача  c id " + id  + " не найдена")));
+
+        return true;
     }
 }
