@@ -17,7 +17,7 @@ import org.springframework.core.env.Environment;
 @Configuration
 @RequiredArgsConstructor
 public class DbConfiguration {
-    public static final String DATASOURCE_HOST = "/datasource.url";
+    public static final String DATASOURCE_URL = "/datasource.url";
     public static final String DATASOURCE_USERNAME = "/datasource.username";
     public static final String DATASOURCE_PASSWORD = "/datasource.password";
     private final EtcdClient etcdClient;
@@ -25,7 +25,7 @@ public class DbConfiguration {
     @Bean
     public DbProperty dbProperty(Environment environment){
         DbProperty dbProperty = new DbProperty();
-        etcdClient.readEtcd(String.class, DATASOURCE_HOST, null, dbProperty::setHost);
+        etcdClient.readEtcd(String.class, DATASOURCE_URL, null, dbProperty::setUrl);
         etcdClient.readEtcd(String.class, DATASOURCE_USERNAME, null, dbProperty::setUsername);
         etcdClient.readEtcd(String.class, DATASOURCE_PASSWORD, null, dbProperty::setPassword);
         dbProperty.setDriverClassName(environment.getProperty("datasource.driver-class-name"));
@@ -36,7 +36,7 @@ public class DbConfiguration {
     public DataSource dataSource(DbProperty dbProperty){
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName(dbProperty.getDriverClassName());
-        dataSourceBuilder.url(dbProperty.getHost());
+        dataSourceBuilder.url(dbProperty.getUrl());
         dataSourceBuilder.username(dbProperty.getUsername());
         dataSourceBuilder.password(dbProperty.getPassword());
         return dataSourceBuilder.build();

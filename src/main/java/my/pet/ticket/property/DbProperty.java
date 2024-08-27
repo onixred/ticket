@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 public class DbProperty {
-    private String host;
+    private String url;
     private String username;
     private String password;
     private String driverClassName;

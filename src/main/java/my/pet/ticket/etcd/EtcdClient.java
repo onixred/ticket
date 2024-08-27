@@ -26,7 +26,7 @@ public class EtcdClient {
     private final Client client;
 
     public <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter) throws EtcdException {
-                readEtcd(clazz, etcdKey, defaultValue, setter, true);
+        readEtcd(clazz, etcdKey, defaultValue, setter, true);
     }
 
     public <T> void readEtcd(Class<T> clazz, String etcdKey, T defaultValue, Consumer<T> setter, Boolean isShow) throws EtcdException {
@@ -39,11 +39,14 @@ public class EtcdClient {
             Optional<Pair<String, String>> kvOpt = kvs.stream().findFirst().map(k->Pair.of(k.getKey().toString(), k.getValue().toString()) );
 
             if (kvOpt.isEmpty()) {
-                throw new PairNotFoundException("Пары с ключом " + currentKey + " не найдено");
+                if(defaultValue != null) {
+                    setter.accept(defaultValue);
+                } else {
+                    throw new PairNotFoundException("Пары с ключом " + currentKey + " не найдено");
+                }
             }
 
             Pair<String, String> kv = kvOpt.get();
-
             String key = kv.getKey();
             String value = kv.getValue();
 
@@ -51,12 +54,12 @@ public class EtcdClient {
                 value= "***";
             }
 
-            log.debug("ветка " + key + " значение " + value);
+            log.debug("ключ " + key + " значение " + value);
 
             setter.accept(clazz.cast(value));
 
         } catch (InterruptedException | ExecutionException ex) {
-            throw new RuntimeException("Key not found");
+            System.err.println(ex.getMessage());
         }
     }
 }
