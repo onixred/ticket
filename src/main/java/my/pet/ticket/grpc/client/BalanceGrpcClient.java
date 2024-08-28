@@ -3,6 +3,7 @@ package my.pet.ticket.grpc.client;
 import my.pet.ticket.grpc.TicketRequest;
 import my.pet.ticket.grpc.TicketResponse;
 import my.pet.ticket.grpc.TicketServiceGrpc;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,8 +11,8 @@ import org.springframework.stereotype.Service;
  *
  * @author <a href="mailto:baranov.alexalex@gmail.com">abaranov</a>
  */
-@Service
-public class TicketClientGrpc {
+@Component
+public class BalanceGrpcClient {
 
     private TicketServiceGrpc.TicketServiceBlockingStub ticketServiceStub;
 
