@@ -4,14 +4,13 @@ import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
 import my.pet.ticket.etcd.EtcdClient;
 import my.pet.ticket.property.DbProperty;
-import my.pet.ticket.property.GrpcProperty;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 /**
- * DbConfiguration class for
+ * DbConfiguration класс для создания бинов соединения с БД
  *
  * @author <a href="mailto:baranov.alexalex@gmail.com">abaranov</a>
  */
@@ -34,7 +33,7 @@ public class DbConfiguration {
     }
 
     @Bean
-    public DataSource dataSource(DbProperty dbProperty, GrpcProperty grpcProperty){
+    public DataSource dataSource(DbProperty dbProperty){
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName(dbProperty.getDriverClassName());
         dataSourceBuilder.url(dbProperty.getUrl());
