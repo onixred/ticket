@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import my.pet.ticket.kafka.producer.KafkaSender;
 import my.pet.ticket.logging.EventLog;
 import my.pet.ticket.logging.Log;
 import my.pet.ticket.model.dto.TicketForCreateDto;
@@ -28,6 +29,8 @@ public class TicketController {
 
     private final TicketService ticketService;
 
+    private final KafkaSender kafkaSender;
+
     @Operation(summary = "Получение всех имеющихся задач")
     @GetMapping
     public ResponseEntity<List<TicketResponseDto>> findAll() {
@@ -41,6 +44,8 @@ public class TicketController {
     public ResponseEntity<TicketResponseDto> findById(@PathVariable("id") Long id) {
         Log.INFO("Метод controller.findById()", EventLog.T_FIND);
 
+        kafkaSender.sendMessage("id = " + id.toString() + ", " + EventLog.T_FIND.getDescription(), "ticket_topic");
+
         return new ResponseEntity<>(ticketService.findById(id), HttpStatus.OK);
     }
 
@@ -49,13 +54,19 @@ public class TicketController {
     public ResponseEntity<TicketResponseDto> create(@Valid @RequestBody TicketForCreateDto ticketForCreateDto) {
         Log.INFO("Метод controller.create()", EventLog.T_CREATE);
 
-        return new ResponseEntity<>(ticketService.create(ticketForCreateDto), HttpStatus.CREATED);
+        TicketResponseDto ticketResponseDto = ticketService.create(ticketForCreateDto);
+
+        kafkaSender.sendMessage("id = " + ticketResponseDto.getId().toString() + ", " + EventLog.T_CREATE.getDescription(), "ticket_topic");
+
+        return new ResponseEntity<>(ticketResponseDto, HttpStatus.CREATED);
     }
 
     @Operation(summary = "Удаление задачи по id")
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable("id") Long id) {
-        Log.INFO("Метод controller.delete()", EventLog.T_FIND);
+        Log.INFO("Метод controller.delete()", EventLog.T_REMOVE);
+
+        kafkaSender.sendMessage("id = " + id.toString() + ", " + EventLog.T_REMOVE.getDescription(), "ticket_topic");
 
         return new ResponseEntity<>(ticketService.delete(id), HttpStatus.OK);
     }
