@@ -8,14 +8,14 @@ import my.pet.ticket.grpc.TicketResponse;
 import my.pet.ticket.grpc.TicketServiceGrpc;
 import my.pet.ticket.mock.TicketMockService;
 import my.pet.ticket.model.model.BalanceMock;
-import org.lognet.springboot.grpc.GRpcService;
+import org.springframework.stereotype.Service;
 
 /**
  * TicketServiceGrpc класс grpc - вызывает методы и возвращает данные клиенту
  *
  * @author <a href="mailto:baranov.alexalex@gmail.com">abaranov</a>
  */
-@GRpcService
+@Service
 @RequiredArgsConstructor
 public class TicketServiceGrpcImpl extends TicketServiceGrpc.TicketServiceImplBase {
 

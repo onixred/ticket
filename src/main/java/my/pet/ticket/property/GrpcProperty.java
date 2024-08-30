@@ -9,5 +9,5 @@ import lombok.Data;
  */
 @Data
 public class GrpcProperty {
-    private String port;
+    private Integer port;
 }

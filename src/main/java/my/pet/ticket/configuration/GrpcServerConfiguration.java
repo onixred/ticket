@@ -29,13 +29,13 @@ public class GrpcServerConfiguration {
     @Bean
     public GrpcProperty grpcProperty(){
         GrpcProperty grpcProperty = new GrpcProperty();
-        etcdClient.readEtcd(String.class, DATASOURCE_GRPC_PORT, null, grpcProperty::setPort);
+        etcdClient.readEtcd(Integer.class, DATASOURCE_GRPC_PORT, null, grpcProperty::setPort);
         return grpcProperty;
     }
 
     @Bean
     public Server grpcCustomServer(GrpcProperty grpcProperty) throws IOException, InterruptedException {
-        int port = Integer.parseInt(grpcProperty.getPort());
+        int port = grpcProperty.getPort();
         Server server = ServerBuilder.forPort(port)
                 .addService(ticketServiceGrpcImpl)
                 .build();
@@ -43,7 +43,6 @@ public class GrpcServerConfiguration {
         Log.INFO("Server GRPC started, listening on " + port + ":", EventLog.INIT);
 
         server.start();
-        server.awaitTermination();
 
         return server;
     }
