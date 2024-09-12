@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 /**
- * DbConfiguration class for
+ * DbConfiguration класс для создания бинов соединения с БД
  *
  * @author <a href="mailto:baranov.alexalex@gmail.com">abaranov</a>
  */

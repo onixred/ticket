@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package my.pet.ticket.grpc;
+
+option java_multiple_files = true;
+
+import "google/protobuf/timestamp.proto";
+
+service TicketService {
+  rpc getBalanceByTicketId(TicketRequest) returns (TicketResponse);
+}
+
+message TicketRequest {
+  int64 ticketId = 1;
+}
+
+message TicketResponse {
+  int64 ticketId = 1;
+  int32 balance = 2;
+}
