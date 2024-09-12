@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import my.pet.ticket.etcd.exception.PairNotFoundException;
+import my.pet.ticket.etcd.util.TypesConverter;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
@@ -36,7 +37,7 @@ public class EtcdClient {
 
             List<KeyValue> kvs = kvClient.get(currentKey).get().getKvs();
 
-            Optional<Pair<String, String>> kvOpt = kvs.stream().findFirst().map(k->Pair.of(k.getKey().toString(), k.getValue().toString()) );
+            Optional<Pair<String, T>> kvOpt = kvs.stream().findFirst().map(k->Pair.of(k.getKey().toString(), TypesConverter.convert(k.getValue().toString(), clazz)));
 
             if (kvOpt.isEmpty()) {
                 if(defaultValue != null) {
@@ -46,12 +47,12 @@ public class EtcdClient {
                 }
             }
 
-            Pair<String, String> kv = kvOpt.get();
+            Pair<String, T> kv = kvOpt.get();
             String key = kv.getKey();
-            String value = kv.getValue();
+            T value = kv.getValue();
 
-            if(!isShow) {
-                value= "***";
+            if(!isShow && value.getClass().equals(String.class)) {
+                value= (T)"***";
             }
 
             log.debug("ключ " + key + " значение " + value);
