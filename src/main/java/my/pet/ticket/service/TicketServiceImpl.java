@@ -56,7 +56,7 @@ public class TicketServiceImpl implements TicketService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public Boolean delete(Long id) {
-        Log.INFO("Метод service.delete()", EventLog.T_FIND);
+        Log.INFO("Метод service.delete()", EventLog.T_REMOVE);
 
         ticketRepository.delete(ticketRepository.findById(id)
                 .orElseThrow(() -> new TicketNotFoundException("Задача  c id " + id  + " не найдена")));

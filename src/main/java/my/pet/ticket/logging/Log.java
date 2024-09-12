@@ -15,26 +15,26 @@ public class Log {
 
 
     public static void DEBUG(String message, Event event, Detail... details) {
-        logger.debug(message + " " + event.getDescription(), details);
+        logger.debug(message + " : {}", event.getDescription(), details);
     }
 
     public static void INFO(String message, Event event, Detail... details){
-        logger.info(message + " " + event.getDescription(), details);
+        logger.info(message + " : {}", event.getDescription(), details);
     }
 
     public static void WARN(String message, Event event, Detail... details){
-        logger.warn(message + " " + event.getErrorCode(), details);
+        logger.warn(message + " : {}", event.getErrorCode(), details);
     }
 
     public static void WARN(String message, Event event, Throwable causae, Detail... details){
-        logger.warn(message + " " + event.getErrorCode(), causae, details);
+        logger.warn(message + " : {}", event.getErrorCode(), causae, details);
     }
 
     public static void ERROR(String message, Event event, Detail... details){
-        logger.error(message + " " + event.getErrorCode(), details);
+        logger.error(message + " : {}", event.getErrorCode(), details);
     }
 
     public static void ERROR(String message, Event event, Throwable causae, Detail... details){
-        logger.error(message + " " + event.getErrorCode(), causae, details);
+        logger.error(message + " : {}", event.getErrorCode(), causae, details);
     }
 }
