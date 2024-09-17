@@ -17,7 +17,7 @@ public enum Events {
         this.name = name;
     }
 
-    public Event getName() {
+    public Event getEvent() {
         return new DefaultEvent(name);
     }
 }

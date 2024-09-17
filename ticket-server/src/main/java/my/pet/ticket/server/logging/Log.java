@@ -20,7 +20,7 @@ public class Log {
 
     private static final String LOG_PATTERN_MESSAGE_EVENT_DETAIL = "Message: {0} | Event: {1} | Details: {2}";
 
-    private static final String LOG_PATTERN_MESSAGE_EVENT_CAUSE_DETAIL = "Message: {0} | Event: {1} | Cause {2} | Details: {3}";
+    private static final String LOG_PATTERN_MESSAGE_EVENT_CAUSE_DETAIL = "Message: {0} | Event: {1} | Cause: {2} | Details: {3}";
 
     public static void DEBUG(String message, Detail... details) {
         log(Level.DEBUG, message, details);
@@ -50,7 +50,6 @@ public class Log {
         log(Level.WARN, message, event, causae, details);
     }
 
-
     public static void ERROR(String message, Detail... details) {
         log(Level.ERROR, message, details);
     }
@@ -64,30 +63,15 @@ public class Log {
     }
 
     private static void log(Level level, String message, Event event, Throwable cause, Detail... details) {
-        LOGGER.atLevel(level).log(MessageFormat.format(
-                LOG_PATTERN_MESSAGE_EVENT_CAUSE_DETAIL,
-                message,
-                writeEventToString(event),
-                cause.getMessage(),
-                writeDetailsToString(details)
-        ));
+        LOGGER.atLevel(level).log(MessageFormat.format(LOG_PATTERN_MESSAGE_EVENT_CAUSE_DETAIL, message, writeEventToString(event), cause.getMessage(), writeDetailsToString(details)));
     }
 
     private static void log(Level level, String message, Event event, Detail... details) {
-        LOGGER.atLevel(level).log(MessageFormat.format(
-                LOG_PATTERN_MESSAGE_EVENT_DETAIL,
-                message,
-                writeEventToString(event),
-                writeDetailsToString(details)
-        ));
+        LOGGER.atLevel(level).log(MessageFormat.format(LOG_PATTERN_MESSAGE_EVENT_DETAIL, message, writeEventToString(event), writeDetailsToString(details)));
     }
 
     private static void log(Level level, String message, Detail... details) {
-        LOGGER.atLevel(level).log(MessageFormat.format(
-                LOG_PATTERN_MESSAGE_DETAIL,
-                message,
-                writeDetailsToString(details)
-        ));
+        LOGGER.atLevel(level).log(MessageFormat.format(LOG_PATTERN_MESSAGE_DETAIL, message, writeDetailsToString(details)));
     }
 
     private static String writeEventToString(Event event) {
