@@ -14,5 +14,9 @@ spring:
   sql:
     init:
       mode: always
+  etcd:
+    client:
+      endpoints:
+        - http://172.17.0.1:2379
 server:
   port: 8090
