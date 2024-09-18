@@ -1,17 +1,12 @@
 package my.pet.ticket.server.application.domain.service;
 
-import my.pet.ticket.server.adapter.persistence.PhoneNumberAdapter;
 import my.pet.ticket.server.adapter.persistence.entity.*;
 import my.pet.ticket.server.application.domain.model.Client;
 import my.pet.ticket.server.application.domain.model.Filter;
 import my.pet.ticket.server.application.port.persistence.ClientPort;
 import my.pet.ticket.server.application.port.persistence.PhoneNumberPort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClientService {
