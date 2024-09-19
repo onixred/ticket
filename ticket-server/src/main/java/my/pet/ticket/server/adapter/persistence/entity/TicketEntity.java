@@ -1,17 +1,51 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(schema = "pet_project", name = "tickets")
+@SequenceGenerator(
+        name = "tickets_id_pk_seq",
+        schema = "pet_project",
+        sequenceName = "tickets_id_pk_seq",
+        initialValue = 1001,
+        allocationSize = 0
+)
 public class TicketEntity extends AbstractEntity {
+
+    @Builder
+    public TicketEntity(
+            Long ticketId,
+            Long clientId,
+            Long authorId,
+            Long managerId,
+            Long ticketStatusId,
+            String title,
+            String description,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            Boolean deleted
+    ) {
+        this.id = new TicketIdEntity();
+        this.id.setTicketId(ticketId);
+        this.id.setClientId(clientId);
+        this.authorId = authorId;
+        this.managerId = managerId;
+        this.ticketStatusId = ticketStatusId;
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deleted = deleted;
+    }
 
     @EmbeddedId
     private TicketIdEntity id;

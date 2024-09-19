@@ -117,7 +117,7 @@ CREATE TABLE pet_project.roles (
 
 -- create tickets start
 
-CREATE SEQUENCE pet_project.tickets_id_pk_seq START 10000;
+CREATE SEQUENCE pet_project.tickets_id_pk_seq START 10001;
 
 CREATE TABLE pet_project.tickets (
     ticket_id BIGINT NOT NULL DEFAULT nextval('pet_project.tickets_id_pk_seq'),
@@ -151,7 +151,7 @@ CREATE TABLE pet_project.ticket_statuses (
 
 -- create users start
 
-CREATE SEQUENCE pet_project.users_id_pk_seq START 1000;
+CREATE SEQUENCE pet_project.users_id_pk_seq START 1001;
 
 CREATE TABLE pet_project.users (
     user_id BIGINT PRIMARY KEY DEFAULT nextval('pet_project.users_id_pk_seq'),

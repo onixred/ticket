@@ -57,3 +57,27 @@ INSERT INTO pet_project.roles (
 );
 
 -- role insert end
+
+-- ticket insert end
+
+INSERT INTO pet_project.tickets (
+    client_id,
+    author_id,
+    manager_id,
+    ticket_status_id,
+    title,
+    description,
+    created_at,
+    updated_at
+) VALUES (
+    1001,
+    1001,
+    1002,
+    1,
+    'Zakaz 2',
+    'Opisanie zakaza',
+    current_timestamp,
+    current_timestamp
+);
+
+-- ticket insert end

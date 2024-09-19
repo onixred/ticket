@@ -2,6 +2,8 @@ package my.pet.ticket.server.adapter.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.Data;
 
 import java.util.Objects;
@@ -11,6 +13,7 @@ import java.util.Objects;
 public class TicketIdEntity {
 
     @Column(name = "ticket_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tickets_id_pk_seq")
     private Long ticketId;
 
     @Column(name = "client_id")
