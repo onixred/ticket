@@ -13,7 +13,7 @@ import java.util.Objects;
 public class PhoneNumberIdEntity {
 
     @Column(name = "phone_number_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_project.phone_number_id_pk_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_project.phone_numbers_id_pk_seq")
     private Long phoneNumberId;
 
     @Column(name = "client_id")

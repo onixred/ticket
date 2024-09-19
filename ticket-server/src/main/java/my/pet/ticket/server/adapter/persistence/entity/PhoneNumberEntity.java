@@ -13,9 +13,9 @@ import java.util.Objects;
 @Entity
 @Table(schema = "pet_project", name = "phone_numbers")
 @SequenceGenerator(
-        name = "phone_number_id_pk_seq",
+        name = "phone_numbers_id_pk_seq",
         schema = "pet_project",
-        sequenceName = "phone_number_id_pk_seq",
+        sequenceName = "phone_numbers_id_pk_seq",
         initialValue = 1001,
         allocationSize = 0
 )

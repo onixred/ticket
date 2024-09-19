@@ -33,8 +33,7 @@ class PhoneNumberPortTest {
                 .updatedAt(LocalDateTime.now())
                 .deleted(false)
                 .build();
-        PhoneNumberEntity phoneNumber = this.phoneNumberPort.get(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(PhoneNumberEntity_.ID).get(PhoneNumberIdEntity_.PHONE_NUMBER_ID), 1001)))
-                .orElseThrow(() -> new PersistenceAdapterException("Phone number not found"));
+        PhoneNumberEntity phoneNumber = this.phoneNumberPort.create(phoneNumberEntity);
         Assertions.assertNotNull(phoneNumber.getId().getPhoneNumberId());
     }
 
