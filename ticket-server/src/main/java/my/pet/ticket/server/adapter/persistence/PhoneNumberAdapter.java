@@ -31,25 +31,27 @@ public class PhoneNumberAdapter implements PhoneNumberPort {
 
     @Override
     public PhoneNumberEntity create(PhoneNumberEntity entity) {
-        return this.phoneNumberRepository.save(entity);
+        if (entity.getId().getPhoneId() == null) {
+            return this.phoneNumberRepository.save(entity);
+        }
+        throw new RuntimeException(); //TODO: Custom exception
     }
 
     @Override
     public PhoneNumberEntity update(PhoneNumberEntity entity) {
-        if(this.phoneNumberRepository.existsById(entity.getId())) {
+        if (this.phoneNumberRepository.existsById(entity.getId())) {
             return this.phoneNumberRepository.save(entity);
-        } else {
-            throw new RuntimeException(); //TODO: Custom exception
         }
+        throw new RuntimeException(); //TODO: Custom exception
     }
 
     @Override
     public void delete(PhoneNumberEntity entity) {
-        entity.setDeleted(true);
-        if(this.phoneNumberRepository.existsById(entity.getId())) {
+        if (this.phoneNumberRepository.existsById(entity.getId())) {
+            entity.setDeleted(true);
             this.phoneNumberRepository.save(entity);
-        } else {
-            throw new RuntimeException();
+            return;
         }
+        throw new RuntimeException(); //TODO: Custom exception
     }
 }

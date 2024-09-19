@@ -31,25 +31,27 @@ public class TicketAdapter implements TicketPort {
 
     @Override
     public TicketEntity create(TicketEntity entity) {
-        return this.ticketRepository.save(entity);
+        if (entity.getId().getTicketId() == null) {
+            return this.ticketRepository.save(entity);
+        }
+        throw new RuntimeException(); //TODO: Custom exception
     }
 
     @Override
     public TicketEntity update(TicketEntity entity) {
         if (this.ticketRepository.existsById(entity.getId())) {
-            this.ticketRepository.save(entity);
+            return this.ticketRepository.save(entity);
         }
         throw new RuntimeException(); //TODO: Custom exception
     }
 
     @Override
     public void delete(TicketEntity entity) {
-        entity.setDeleted(true);
         if (this.ticketRepository.existsById(entity.getId())) {
+            entity.setDeleted(true);
             this.ticketRepository.save(entity);
-        } else {
-            throw new RuntimeException(); //TODO: Custom exception
         }
+        throw new RuntimeException(); //TODO: Custom exception
     }
 
 }

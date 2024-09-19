@@ -31,24 +31,27 @@ public class UserAdapter implements UserPort {
 
     @Override
     public UserEntity create(UserEntity entity) {
-        return this.userRepository.save(entity);
+        if (entity.getUserId() == null) {
+            return this.userRepository.save(entity);
+        }
+        throw new RuntimeException(); //TODO: Custom exception
     }
 
     @Override
     public UserEntity update(UserEntity entity) {
         if (this.userRepository.existsById(entity.getUserId())) {
-            this.userRepository.save(entity);
+            return this.userRepository.save(entity);
         }
         throw new RuntimeException(); //TODO: Custom exception
     }
 
     @Override
     public void delete(UserEntity entity) {
-        entity.setDeleted(true);
         if (this.userRepository.existsById(entity.getUserId())) {
+            entity.setDeleted(true);
             this.userRepository.save(entity);
-        } else {
-            throw new RuntimeException(); //TODO: Custom exception
+            return;
         }
+        throw new RuntimeException(); //TODO: Custom exception
     }
 }

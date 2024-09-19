@@ -31,25 +31,28 @@ public class ClientAdapter implements ClientPort {
 
     @Override
     public ClientEntity create(ClientEntity entity) {
-        return this.clientRepository.save(entity);
+        if (entity.getClientId() == null) {
+            return this.clientRepository.save(entity);
+        }
+        throw new RuntimeException(); //TODO: Custom exception
     }
 
     @Override
     public ClientEntity update(ClientEntity entity) {
         if (this.clientRepository.existsById(entity.getClientId())) {
-            this.clientRepository.save(entity);
+            return this.clientRepository.save(entity);
         }
         throw new RuntimeException(); //TODO: Custom exception
     }
 
     @Override
     public void delete(ClientEntity entity) {
-        entity.setDeleted(true);
         if (this.clientRepository.existsById(entity.getClientId())) {
+            entity.setDeleted(true);
             this.clientRepository.save(entity);
-        } else {
-            throw new RuntimeException(); //TODO: Custom exception
+            return;
         }
+        throw new RuntimeException(); //TODO: Custom exception
     }
 
 }
