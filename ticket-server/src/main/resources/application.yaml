@@ -2,21 +2,21 @@ spring:
   application:
     name: ticket-server
   datasource:
-    url: jdbc:h2:mem:siberian_sea_battle
-    driver-class-name: org.h2.Driver
-    username: username
-    password: password
+    url: jdbc:postgresql://localhost:5432/ticket
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
   jpa:
     generate-ddl: true
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
   sql:
     init:
       mode: always
   etcd:
     client:
       endpoints:
-        - http://172.17.0.1:2379
+        - http://127.0.0.1:2379
 server:
   port: 8090

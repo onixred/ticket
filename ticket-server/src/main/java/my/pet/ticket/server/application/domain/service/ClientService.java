@@ -24,10 +24,10 @@ public class ClientService {
     public Client getClient(Filter filter) {
         ClientEntity client = this.clientPort.get(((root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get(ClientEntity_.clientId), filter.getClientId()
-                ))).orElseThrow(RuntimeException::new); //TODO: Custom exception
+                ))).orElseThrow(() -> new DomainServiceException("Client not found"));
         PhoneNumberEntity phoneNumber = this.phoneNumberPort.get((root, query, criteriaBuilder) ->
                 criteriaBuilder.equal(root.get(PhoneNumberEntity_.id).get(PhoneNumberIdEntity_.clientId), client.getClientId()))
-                .orElseThrow(RuntimeException::new); //TODO: Custom exception
+                .orElseThrow(() -> new DomainServiceException("Phone number found"));
         return Client.builder()
                 .clientId(client.getClientId())
                 .fullName(client.getFullName())
