@@ -45,13 +45,4 @@ public class TicketAdapter implements TicketPort {
         throw new PersistenceAdapterException("Ticket not exist");
     }
 
-    @Override
-    public void delete(TicketEntity entity) {
-        if (this.ticketRepository.existsById(entity.getId())) {
-            entity.setDeleted(true);
-            this.ticketRepository.save(entity);
-        }
-        throw new PersistenceAdapterException("Ticket not exist");
-    }
-
 }

@@ -45,13 +45,4 @@ public class RoleAdapter implements RolePort {
         throw new PersistenceAdapterException("Role not exist");
     }
 
-    @Override
-    public void delete(RoleEntity entity) {
-        if (this.roleRepository.existsById(entity.getRoleId())) {
-            entity.setDeleted(true);
-            this.roleRepository.save(entity);
-            return;
-        }
-        throw new PersistenceAdapterException("Role not exist");
-    }
 }

@@ -45,13 +45,4 @@ public class UserAdapter implements UserPort {
         throw new PersistenceAdapterException("User not exist");
     }
 
-    @Override
-    public void delete(UserEntity entity) {
-        if (this.userRepository.existsById(entity.getUserId())) {
-            entity.setDeleted(true);
-            this.userRepository.save(entity);
-            return;
-        }
-        throw new PersistenceAdapterException("User not exist");
-    }
 }

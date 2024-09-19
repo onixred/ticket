@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,17 +41,8 @@ public class ClientAdapter implements ClientPort {
     @Override
     public ClientEntity update(ClientEntity entity) {
         if (this.clientRepository.existsById(entity.getClientId())) {
+            entity.setUpdatedAt(LocalDateTime.now());
             return this.clientRepository.save(entity);
-        }
-        throw new PersistenceAdapterException("Client not exist");
-    }
-
-    @Override
-    public void delete(ClientEntity entity) {
-        if (this.clientRepository.existsById(entity.getClientId())) {
-            entity.setDeleted(true);
-            this.clientRepository.save(entity);
-            return;
         }
         throw new PersistenceAdapterException("Client not exist");
     }

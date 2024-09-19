@@ -45,13 +45,4 @@ public class PhoneNumberAdapter implements PhoneNumberPort {
         throw new PersistenceAdapterException("Phone number not exist");
     }
 
-    @Override
-    public void delete(PhoneNumberEntity entity) {
-        if (this.phoneNumberRepository.existsById(entity.getId())) {
-            entity.setDeleted(true);
-            this.phoneNumberRepository.save(entity);
-            return;
-        }
-        throw new PersistenceAdapterException("Phone number not exist");
-    }
 }

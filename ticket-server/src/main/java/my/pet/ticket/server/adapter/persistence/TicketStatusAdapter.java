@@ -45,13 +45,4 @@ public class TicketStatusAdapter implements TicketStatusPort {
         throw new PersistenceAdapterException("Ticket status not exist");
     }
 
-    @Override
-    public void delete(TicketStatusEntity entity) {
-        if (this.ticketStatusRepository.existsById(entity.getTicketStatusId())) {
-            entity.setDeleted(true);
-            this.ticketStatusRepository.save(entity);
-            return;
-        }
-        throw new PersistenceAdapterException("Ticket status not exist");
-    }
 }

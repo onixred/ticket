@@ -19,3 +19,5 @@ CREATE TABLE pet_project.clients (
     updated_at TIMESTAMP NOT NULL,
     deleted BOOLEAN NOT NULL DEFAULT false
 );
+
+CREATE SEQUENCE pet_project.phone_numbers_id_pk_seq START 1001;
