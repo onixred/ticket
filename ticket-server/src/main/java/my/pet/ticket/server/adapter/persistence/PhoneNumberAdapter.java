@@ -34,7 +34,7 @@ public class PhoneNumberAdapter implements PhoneNumberPort {
         if (entity.getId().getPhoneId() == null) {
             return this.phoneNumberRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Phone number shouldn't have id when creating");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PhoneNumberAdapter implements PhoneNumberPort {
         if (this.phoneNumberRepository.existsById(entity.getId())) {
             return this.phoneNumberRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Phone number not exist");
     }
 
     @Override
@@ -52,6 +52,6 @@ public class PhoneNumberAdapter implements PhoneNumberPort {
             this.phoneNumberRepository.save(entity);
             return;
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Phone number not exist");
     }
 }

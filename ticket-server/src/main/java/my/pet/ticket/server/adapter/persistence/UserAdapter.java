@@ -34,7 +34,7 @@ public class UserAdapter implements UserPort {
         if (entity.getUserId() == null) {
             return this.userRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("User shouldn't have id when creating");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class UserAdapter implements UserPort {
         if (this.userRepository.existsById(entity.getUserId())) {
             return this.userRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("User not exist");
     }
 
     @Override
@@ -52,6 +52,6 @@ public class UserAdapter implements UserPort {
             this.userRepository.save(entity);
             return;
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("User not exist");
     }
 }

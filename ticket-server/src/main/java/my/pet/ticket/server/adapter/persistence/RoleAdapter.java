@@ -34,7 +34,7 @@ public class RoleAdapter implements RolePort {
         if (entity.getRoleId() == null) {
             return this.roleRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Role shouldn't have id when creating");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class RoleAdapter implements RolePort {
         if (this.roleRepository.existsById(entity.getRoleId())) {
             return this.roleRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Role not exist");
     }
 
     @Override
@@ -52,6 +52,6 @@ public class RoleAdapter implements RolePort {
             this.roleRepository.save(entity);
             return;
         }
-        throw new RuntimeException(); //TODO: Custom exception;
+        throw new PersistenceAdapterException("Role not exist");
     }
 }

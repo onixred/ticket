@@ -34,7 +34,7 @@ public class ClientAdapter implements ClientPort {
         if (entity.getClientId() == null) {
             return this.clientRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Client shouldn't have id when creating");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ClientAdapter implements ClientPort {
         if (this.clientRepository.existsById(entity.getClientId())) {
             return this.clientRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Client not exist");
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ClientAdapter implements ClientPort {
             this.clientRepository.save(entity);
             return;
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Client not exist");
     }
 
 }

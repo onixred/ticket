@@ -34,7 +34,7 @@ public class TicketStatusAdapter implements TicketStatusPort {
         if (entity.getTicketStatusId() == null) {
             return this.ticketStatusRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Ticket status shouldn't have id when creating");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class TicketStatusAdapter implements TicketStatusPort {
         if (this.ticketStatusRepository.existsById(entity.getTicketStatusId())) {
             return this.ticketStatusRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Ticket status not exist");
     }
 
     @Override
@@ -52,6 +52,6 @@ public class TicketStatusAdapter implements TicketStatusPort {
             this.ticketStatusRepository.save(entity);
             return;
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Ticket status not exist");
     }
 }

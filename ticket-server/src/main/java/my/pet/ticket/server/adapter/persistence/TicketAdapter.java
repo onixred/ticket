@@ -34,7 +34,7 @@ public class TicketAdapter implements TicketPort {
         if (entity.getId().getTicketId() == null) {
             return this.ticketRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Ticket shouldn't have id when creating");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class TicketAdapter implements TicketPort {
         if (this.ticketRepository.existsById(entity.getId())) {
             return this.ticketRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Ticket not exist");
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TicketAdapter implements TicketPort {
             entity.setDeleted(true);
             this.ticketRepository.save(entity);
         }
-        throw new RuntimeException(); //TODO: Custom exception
+        throw new PersistenceAdapterException("Ticket not exist");
     }
 
 }

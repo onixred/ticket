@@ -74,9 +74,9 @@ public class EtcdAdapter implements ConfigurationPort {
                 return defaultValue;
             }
         } catch (ExecutionException e) {
-            throw new RuntimeException(e);
+            throw new EtcdAdapterException("Something went wrong", e);
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new EtcdAdapterException("Thread is interrupted", e);
         }
     }
 
@@ -84,7 +84,7 @@ public class EtcdAdapter implements ConfigurationPort {
         try {
             return this.objectMapper.readValue(value, type);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new EtcdAdapterException("Json processing error", e);
         }
     }
 

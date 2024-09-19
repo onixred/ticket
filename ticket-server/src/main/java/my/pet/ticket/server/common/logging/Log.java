@@ -91,7 +91,7 @@ public class Log {
         try {
             return OBJECT_MAPPER.writeValueAsString(event.toDetails());
         } catch (JsonProcessingException e) {
-            throw new LoggingException(e);
+            throw new LoggingException("Json processing error", e);
         }
     }
 
@@ -100,7 +100,7 @@ public class Log {
         try {
             return OBJECT_MAPPER.writeValueAsString(details);
         } catch (JsonProcessingException e) {
-            throw new LoggingException(e);
+            throw new LoggingException("Json processing error", e);
         }
     }
 
