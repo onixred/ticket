@@ -1,9 +1,6 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Objects;
@@ -11,6 +8,13 @@ import java.util.Objects;
 @Data
 @Entity
 @Table(schema = "pet_project", name = "phone_numbers")
+@SequenceGenerator(
+        name = "phone_number_id_pk_seq",
+        schema = "pet_project",
+        sequenceName = "phone_number_id_pk_seq",
+        initialValue = 1001,
+        allocationSize = 0
+)
 public class PhoneNumberEntity extends AbstractEntity {
 
     @EmbeddedId

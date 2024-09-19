@@ -10,7 +10,11 @@ public enum DefaultEvent implements Event {
 
     BP_IN_PROGRESS("Business process in progress"),
 
-    BP_END("Business process ended");
+    BP_END("Business process end"),
+
+    DBP_START("Database process start"),
+
+    DBP_END("Database process end");
 
     private final String name;
 
