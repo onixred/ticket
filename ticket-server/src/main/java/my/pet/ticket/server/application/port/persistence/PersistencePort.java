@@ -18,4 +18,8 @@ public interface PersistencePort<T> {
 
     void delete(T entity);
 
+    default List<T> getAll(Specification<T> specification) {
+        return getAll(specification, Pageable.unpaged());
+    }
+
 }

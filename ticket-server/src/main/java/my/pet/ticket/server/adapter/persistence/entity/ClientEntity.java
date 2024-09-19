@@ -1,19 +1,29 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(schema = "pet_project", name = "clients")
+@SequenceGenerator(
+        name = "client_id_pk_seq",
+        schema = "pet_project",
+        sequenceName = "client_id_pk_seq",
+        initialValue = 1001,
+        allocationSize = 0
+)
 public class ClientEntity extends AbstractEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_id_pk_seq")
     @Column(name = "client_id")
     private Long clientId;
 
@@ -32,6 +42,19 @@ public class ClientEntity extends AbstractEntity {
     @Column(name = "email")
     private String email;
 
+    @Builder
+    public ClientEntity(Long clientId, String firstName, String lastName, String surName, String fullName, String email, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean deleted) {
+        this.clientId = clientId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.surName = surName;
+        this.fullName = fullName;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deleted = deleted;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,4 +66,5 @@ public class ClientEntity extends AbstractEntity {
     public int hashCode() {
         return Objects.hash(clientId, firstName, lastName, surName, email);
     }
+
 }
