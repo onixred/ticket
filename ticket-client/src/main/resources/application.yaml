@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: ticket-client
+server:
+  port: 8080
