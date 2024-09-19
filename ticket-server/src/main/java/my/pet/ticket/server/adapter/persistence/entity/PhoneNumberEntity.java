@@ -1,11 +1,15 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(schema = "pet_project", name = "phone_numbers")
 @SequenceGenerator(
@@ -16,6 +20,30 @@ import java.util.Objects;
         allocationSize = 0
 )
 public class PhoneNumberEntity extends AbstractEntity {
+
+    @Builder
+    public PhoneNumberEntity(
+            Long phoneNumberId,
+            Long clientId,
+            Integer nationalPrefix,
+            Integer regionCode,
+            Integer number,
+            String fullNumber,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            Boolean deleted
+    ) {
+        this.id = new PhoneNumberIdEntity();
+        this.id.setPhoneNumberId(phoneNumberId);
+        this.id.setClientId(clientId);
+        this.nationalPrefix = nationalPrefix;
+        this.regionCode = regionCode;
+        this.number = number;
+        this.fullNumber = fullNumber;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deleted = deleted;
+    }
 
     @EmbeddedId
     private PhoneNumberIdEntity id;
@@ -30,7 +58,7 @@ public class PhoneNumberEntity extends AbstractEntity {
     private Integer number;
 
     @Column(name = "full_number")
-    private Integer fullNumber;
+    private String fullNumber;
 
     @Override
     public boolean equals(Object o) {

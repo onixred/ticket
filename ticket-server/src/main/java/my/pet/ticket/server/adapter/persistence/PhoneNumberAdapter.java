@@ -31,7 +31,7 @@ public class PhoneNumberAdapter implements PhoneNumberPort {
 
     @Override
     public PhoneNumberEntity create(PhoneNumberEntity entity) {
-        if (entity.getId().getPhoneId() == null) {
+        if (entity.getId().getPhoneNumberId() == null) {
             return this.phoneNumberRepository.save(entity);
         }
         throw new PersistenceAdapterException("Phone number shouldn't have id when creating");

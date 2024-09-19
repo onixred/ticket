@@ -22,6 +22,29 @@ import java.util.Objects;
 )
 public class ClientEntity extends AbstractEntity {
 
+    @Builder
+    public ClientEntity(
+            Long clientId,
+            String firstName,
+            String lastName,
+            String surName,
+            String fullName,
+            String email,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            Boolean deleted
+    ) {
+        this.clientId = clientId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.surName = surName;
+        this.fullName = fullName;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deleted = deleted;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "client_id_pk_seq")
     @Column(name = "client_id")
@@ -41,19 +64,6 @@ public class ClientEntity extends AbstractEntity {
 
     @Column(name = "email")
     private String email;
-
-    @Builder
-    public ClientEntity(Long clientId, String firstName, String lastName, String surName, String fullName, String email, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean deleted) {
-        this.clientId = clientId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.surName = surName;
-        this.fullName = fullName;
-        this.email = email;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deleted = deleted;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -17,6 +17,6 @@ public class Client {
 
     private String email;
 
-    private Integer phoneNumber;
+    private String phoneNumber;
 
 }

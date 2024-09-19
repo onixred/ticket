@@ -2,33 +2,33 @@
 
 -- drop users start
 
-DROP SEQUENCE IF EXISTS pet_project.users_id_pk_seq;
-
 DROP TABLE IF EXISTS pet_project.users;
+
+DROP SEQUENCE IF EXISTS pet_project.users_id_pk_seq;
 
 -- drop users end
 
 -- drop ticket statuses start
 
-DROP SEQUENCE IF EXISTS pet_project.ticket_statuses_id_pk_seq;
-
 DROP TABLE IF EXISTS pet_project.ticket_statuses;
+
+DROP SEQUENCE IF EXISTS pet_project.ticket_statuses_id_pk_seq;
 
 -- drop ticket statuses end
 
 -- drop tickets start
 
-DROP SEQUENCE IF EXISTS pet_project.tickets_id_pk_seq;
-
 DROP TABLE IF EXISTS pet_project.tickets;
+
+DROP SEQUENCE IF EXISTS pet_project.tickets_id_pk_seq;
 
 -- drop tickets end
 
 -- drop roles start
 
-DROP SEQUENCE IF EXISTS pet_project.roles_id_pk_seq;
-
 DROP TABLE IF EXISTS pet_project.roles;
+
+DROP SEQUENCE IF EXISTS pet_project.roles_id_pk_seq;
 
 -- drop roles end
 
@@ -89,7 +89,7 @@ CREATE TABLE pet_project.phone_numbers (
     national_prefix INT NOT NULL,
     region_code INT NOT NULL,
     number INT NOT NULL,
-    full_number INT NOT NULL UNIQUE,
+    full_number VARCHAR(255) NOT NULL UNIQUE,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     deleted BOOLEAN NOT NULL DEFAULT false,
