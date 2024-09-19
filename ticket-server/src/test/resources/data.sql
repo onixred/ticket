@@ -41,3 +41,19 @@ INSERT INTO pet_project.phone_numbers (
 );
 
 -- phone number insert end
+
+-- role insert end
+
+INSERT INTO pet_project.roles (
+    name,
+    active,
+    created_at,
+    updated_at
+) VALUES (
+    'Manager',
+    true,
+    current_timestamp,
+    current_timestamp
+);
+
+-- role insert end

@@ -1,19 +1,38 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(schema = "pet_project", name = "roles")
+@SequenceGenerator(
+        name = "roles_id_pk_seq",
+        schema = "pet_project",
+        sequenceName = "roles_id_pk_seq",
+        initialValue = 1001,
+        allocationSize = 0
+)
 public class RoleEntity extends AbstractEntity {
 
+    @Builder
+    public RoleEntity(Long roleId, String name, Boolean active, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean deleted) {
+        this.roleId = roleId;
+        this.name = name;
+        this.active = active;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deleted = deleted;
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_id_pk_seq")
     @Column(name = "role_id")
     private Long roleId;
 
@@ -21,7 +40,7 @@ public class RoleEntity extends AbstractEntity {
     private String name;
 
     @Column(name = "active")
-    private String active;
+    private Boolean active;
 
     @Override
     public boolean equals(Object o) {
