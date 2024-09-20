@@ -1,12 +1,17 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -34,7 +39,7 @@ public class RoleEntity
     private Boolean active;
 
     @Builder
-    public RoleEntity (
+    public RoleEntity(
             Long roleId,
             String name,
             Boolean active,
@@ -51,16 +56,20 @@ public class RoleEntity
     }
 
     @Override
-    public boolean equals (Object o) {
-        if(this == o) return true;
-        if(! (o instanceof RoleEntity roleDao)) return false;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof RoleEntity roleDao)) {
+            return false;
+        }
         return Objects.equals(roleId, roleDao.roleId) &&
-               Objects.equals(name, roleDao.name) &&
-               Objects.equals(active, roleDao.active);
+                Objects.equals(name, roleDao.name) &&
+                Objects.equals(active, roleDao.active);
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hash(roleId, name, active);
     }
 

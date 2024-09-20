@@ -19,12 +19,12 @@ public enum DefaultEvent
 
     private final String name;
 
-    DefaultEvent (String name) {
+    DefaultEvent(String name) {
         this.name = name;
     }
 
     @Override
-    public ObjectNode toDetails () {
+    public ObjectNode toDetails() {
         ObjectNode objectNode = new ObjectMapper().createObjectNode();
         objectNode.put("name", this.name);
         return objectNode;

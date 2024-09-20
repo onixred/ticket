@@ -4,9 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import lombok.Data;
-
 import java.util.Objects;
+import lombok.Data;
 
 @Data
 @Embeddable
@@ -20,14 +19,18 @@ public class TicketIdEntity {
     private Long clientId;
 
     @Override
-    public boolean equals (Object o) {
-        if(this == o) return true;
-        if(! (o instanceof TicketIdEntity that)) return false;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TicketIdEntity that)) {
+            return false;
+        }
         return Objects.equals(ticketId, that.ticketId) && Objects.equals(clientId, that.clientId);
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hash(ticketId, clientId);
     }
 

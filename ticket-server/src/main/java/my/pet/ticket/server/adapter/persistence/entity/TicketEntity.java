@@ -1,12 +1,15 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -41,7 +44,7 @@ public class TicketEntity
     private String description;
 
     @Builder
-    public TicketEntity (
+    public TicketEntity(
             Long ticketId,
             Long clientId,
             Long authorId,
@@ -67,19 +70,23 @@ public class TicketEntity
     }
 
     @Override
-    public boolean equals (Object o) {
-        if(this == o) return true;
-        if(! (o instanceof TicketEntity ticketDao)) return false;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TicketEntity ticketDao)) {
+            return false;
+        }
         return Objects.equals(id, ticketDao.id) &&
-               Objects.equals(authorId, ticketDao.authorId) &&
-               Objects.equals(managerId, ticketDao.managerId) &&
-               Objects.equals(ticketStatusId, ticketDao.ticketStatusId) &&
-               Objects.equals(title, ticketDao.title) &&
-               Objects.equals(description, ticketDao.description);
+                Objects.equals(authorId, ticketDao.authorId) &&
+                Objects.equals(managerId, ticketDao.managerId) &&
+                Objects.equals(ticketStatusId, ticketDao.ticketStatusId) &&
+                Objects.equals(title, ticketDao.title) &&
+                Objects.equals(description, ticketDao.description);
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hash(id, authorId, managerId, ticketStatusId, title, description);
     }
 

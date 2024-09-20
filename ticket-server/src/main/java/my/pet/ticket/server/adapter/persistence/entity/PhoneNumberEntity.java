@@ -1,12 +1,15 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -38,7 +41,7 @@ public class PhoneNumberEntity
     private String fullNumber;
 
     @Builder
-    public PhoneNumberEntity (
+    public PhoneNumberEntity(
             Long phoneNumberId,
             Long clientId,
             Integer nationalPrefix,
@@ -62,18 +65,22 @@ public class PhoneNumberEntity
     }
 
     @Override
-    public boolean equals (Object o) {
-        if(this == o) return true;
-        if(! (o instanceof PhoneNumberEntity that)) return false;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof PhoneNumberEntity that)) {
+            return false;
+        }
         return Objects.equals(id, that.id) &&
-               Objects.equals(nationalPrefix, that.nationalPrefix) &&
-               Objects.equals(regionCode, that.regionCode) &&
-               Objects.equals(number, that.number) &&
-               Objects.equals(fullNumber, that.fullNumber);
+                Objects.equals(nationalPrefix, that.nationalPrefix) &&
+                Objects.equals(regionCode, that.regionCode) &&
+                Objects.equals(number, that.number) &&
+                Objects.equals(fullNumber, that.fullNumber);
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hash(id, nationalPrefix, regionCode, number, fullNumber);
     }
 

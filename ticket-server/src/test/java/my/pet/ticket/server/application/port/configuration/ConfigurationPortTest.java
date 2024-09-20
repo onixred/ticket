@@ -12,7 +12,7 @@ class ConfigurationPortTest {
     private ConfigurationPort configurationPort;
 
     @Test
-    void getFirst () {
+    void getFirst() {
         TestValue actual = configurationPort.getFirst(TestValue.class, "test", null);
         Assertions.assertEquals(new TestValue("test"), actual);
     }

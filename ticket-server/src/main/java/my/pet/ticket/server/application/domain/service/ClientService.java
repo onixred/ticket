@@ -1,6 +1,10 @@
 package my.pet.ticket.server.application.domain.service;
 
-import my.pet.ticket.server.adapter.persistence.entity.*;
+import my.pet.ticket.server.adapter.persistence.entity.ClientEntity;
+import my.pet.ticket.server.adapter.persistence.entity.ClientEntity_;
+import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity;
+import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity_;
+import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberIdEntity_;
 import my.pet.ticket.server.application.domain.model.Client;
 import my.pet.ticket.server.application.domain.model.Filter;
 import my.pet.ticket.server.application.port.persistence.ClientPort;
@@ -15,29 +19,30 @@ public class ClientService {
 
     private final PhoneNumberPort phoneNumberPort;
 
-    public ClientService (ClientPort clientPort, PhoneNumberPort phoneNumberPort) {
+    public ClientService(ClientPort clientPort, PhoneNumberPort phoneNumberPort) {
         this.clientPort = clientPort;
         this.phoneNumberPort = phoneNumberPort;
     }
 
     @Transactional
-    public Client getClient (Filter filter) {
+    public Client getClient(Filter filter) {
         ClientEntity client = this.clientPort.get((
                 (root, query, criteriaBuilder) -> criteriaBuilder.equal(
                         root.get(ClientEntity_.clientId),
                         filter.getClientId()
                 )
         )).orElseThrow(() -> new DomainServiceException("Client not found"));
-        PhoneNumberEntity phoneNumber = this.phoneNumberPort.get((root, query, criteriaBuilder) -> criteriaBuilder.equal(
-                root.get(PhoneNumberEntity_.id).get(PhoneNumberIdEntity_.clientId),
-                client.getClientId()
+        PhoneNumberEntity phoneNumber = this.phoneNumberPort.get(
+                (root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                        root.get(PhoneNumberEntity_.id).get(PhoneNumberIdEntity_.clientId),
+                        client.getClientId()
         )).orElseThrow(() -> new DomainServiceException("Phone number found"));
         return Client.builder()
-                     .clientId(client.getClientId())
-                     .fullName(client.getFullName())
-                     .email(client.getEmail())
-                     .phoneNumber(phoneNumber.getFullNumber())
-                     .build();
+                .clientId(client.getClientId())
+                .fullName(client.getFullName())
+                .email(client.getEmail())
+                .phoneNumber(phoneNumber.getFullNumber())
+                .build();
     }
 
 }

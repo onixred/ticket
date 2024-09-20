@@ -1,12 +1,17 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -34,7 +39,7 @@ public class TicketStatusEntity
     private Boolean active;
 
     @Builder
-    public TicketStatusEntity (
+    public TicketStatusEntity(
             Long ticketStatusId,
             String name,
             Boolean active,
@@ -51,16 +56,20 @@ public class TicketStatusEntity
     }
 
     @Override
-    public boolean equals (Object o) {
-        if(this == o) return true;
-        if(! (o instanceof TicketStatusEntity that)) return false;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof TicketStatusEntity that)) {
+            return false;
+        }
         return Objects.equals(ticketStatusId, that.ticketStatusId) &&
-               Objects.equals(name, that.name) &&
-               Objects.equals(active, that.active);
+                Objects.equals(name, that.name) &&
+                Objects.equals(active, that.active);
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hash(ticketStatusId, name, active);
     }
 

@@ -1,12 +1,17 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -43,7 +48,7 @@ public class ClientEntity
     private String email;
 
     @Builder
-    public ClientEntity (
+    public ClientEntity(
             Long clientId,
             String firstName,
             String lastName,
@@ -66,18 +71,22 @@ public class ClientEntity
     }
 
     @Override
-    public boolean equals (Object o) {
-        if(this == o) return true;
-        if(! (o instanceof ClientEntity that)) return false;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ClientEntity that)) {
+            return false;
+        }
         return Objects.equals(clientId, that.clientId) &&
-               Objects.equals(firstName, that.firstName) &&
-               Objects.equals(lastName, that.lastName) &&
-               Objects.equals(surName, that.surName) &&
-               Objects.equals(email, that.email);
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName) &&
+                Objects.equals(surName, that.surName) &&
+                Objects.equals(email, that.email);
     }
 
     @Override
-    public int hashCode () {
+    public int hashCode() {
         return Objects.hash(clientId, firstName, lastName, surName, email);
     }
 

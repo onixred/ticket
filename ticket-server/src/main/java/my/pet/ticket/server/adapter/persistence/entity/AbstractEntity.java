@@ -2,9 +2,8 @@ package my.pet.ticket.server.adapter.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
-import lombok.Data;
-
 import java.time.LocalDateTime;
+import lombok.Data;
 
 @Data
 @MappedSuperclass

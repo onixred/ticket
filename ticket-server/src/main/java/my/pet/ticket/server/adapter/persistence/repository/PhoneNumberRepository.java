@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PhoneNumberRepository
-        extends JpaRepository<PhoneNumberEntity, PhoneNumberIdEntity>, JpaSpecificationExecutor<PhoneNumberEntity> {}
+        extends JpaRepository<PhoneNumberEntity, PhoneNumberIdEntity>,
+        JpaSpecificationExecutor<PhoneNumberEntity> {
+
+}
