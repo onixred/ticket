@@ -38,4 +38,11 @@ class UserServiceTest {
     Assertions.assertFalse(users.isEmpty());
   }
 
+  @Test
+  void getAllUsersPageable() {
+    List<User> usersPage1 = this.userService.getAllUsers(0, 1);
+    List<User> usersPage2 = this.userService.getAllUsers(1, 1);
+    Assertions.assertNotEquals(usersPage1.get(0), usersPage2.get(0));
+  }
+
 }

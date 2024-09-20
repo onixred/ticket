@@ -15,6 +15,8 @@ import my.pet.ticket.server.application.port.persistence.RolePort;
 import my.pet.ticket.server.application.port.persistence.UserPort;
 import my.pet.ticket.server.common.utils.NameUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,8 +76,16 @@ public class UserService {
   }
 
   public List<User> getAllUsers() {
+    return getAllUsers(Pageable.unpaged());
+  }
+
+  public List<User> getAllUsers(Integer page, Integer pageSize) {
+    return getAllUsers(PageRequest.of(page, pageSize <= 500 ? pageSize : 500));
+  }
+
+  private List<User> getAllUsers(Pageable pageable) {
     List<UserEntity> userEntities = this.userPort.getAll(
-        ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()));
+        ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()), pageable);
     List<RoleEntity> roleEntities = this.rolePort.getAll(
         ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()));
     return userEntities.stream().map(currentUser -> {
