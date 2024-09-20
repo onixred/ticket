@@ -1,9 +1,6 @@
 package my.pet.ticket.server.adapter.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,10 +12,18 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(schema = "pet_project", name = "users")
+@SequenceGenerator(
+        name = "users_id_pk_seq",
+        schema = "pet_project",
+        sequenceName = "users_id_pk_seq",
+        initialValue = 1001,
+        allocationSize = 0
+)
 public class UserEntity
         extends AbstractEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_pk_seq")
     @Column(name = "user_id")
     private Long userId;
 
@@ -65,7 +70,19 @@ public class UserEntity
             LocalDateTime updatedAt,
             Boolean deleted
     ) {
-
+        this.userId = userId;
+        this.roleId = roleId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.surName = surName;
+        this.fullName = fullName;
+        this.login = login;
+        this.password = password;
+        this.active = active;
+        this.suspended = suspended;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deleted = deleted;
     }
 
     @Override

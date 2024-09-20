@@ -99,3 +99,33 @@ INSERT INTO pet_project.ticket_statuses (
 );
 
 -- ticket status insert end
+
+-- user insert start
+
+INSERT INTO pet_project.users (
+    role_id,
+    first_name,
+    last_name,
+    sur_name,
+    full_name,
+    login,
+    password,
+    active,
+    suspended,
+    created_at,
+    updated_at
+) VALUES (
+    1,
+    'Anton',
+    'Kastrov',
+    'Konstantinovych',
+    'Kastrov Anton Konstantinovych',
+    'tetlogin-kastrov',
+    'passwordhash',
+    true,
+    false,
+    current_timestamp,
+    current_timestamp
+);
+
+-- user insert end
