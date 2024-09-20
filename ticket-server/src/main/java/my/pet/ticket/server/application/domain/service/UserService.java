@@ -1,6 +1,7 @@
 package my.pet.ticket.server.application.domain.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.adapter.persistence.entity.RoleEntity;
 import my.pet.ticket.server.adapter.persistence.entity.RoleEntity_;
@@ -72,6 +73,19 @@ public class UserService {
     return convertUserEntityToUser(userEntity, roleEntity);
   }
 
+  public List<User> getAllUsers() {
+    List<UserEntity> userEntities = this.userPort.getAll(
+        ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()));
+    List<RoleEntity> roleEntities = this.rolePort.getAll(
+        ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()));
+    return userEntities.stream().map(currentUser -> {
+      RoleEntity roleEntity = roleEntities.stream()
+          .filter(currentRole -> currentRole.getRoleId().equals(currentUser.getRoleId()))
+          .findFirst().orElseThrow(() -> new PersistenceAdapterException("Role not found"));
+      return convertUserEntityToUser(currentUser, roleEntity);
+    }).toList();
+  }
+
   private User convertUserEntityToUser(UserEntity userEntity, RoleEntity roleEntity) {
     return User.builder()
         .userId(userEntity.getUserId())
@@ -82,5 +96,6 @@ public class UserService {
         .suspended(userEntity.getSuspended())
         .build();
   }
+
 
 }

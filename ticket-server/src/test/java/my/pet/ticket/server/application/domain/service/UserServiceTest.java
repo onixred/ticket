@@ -1,5 +1,6 @@
 package my.pet.ticket.server.application.domain.service;
 
+import java.util.List;
 import my.pet.ticket.server.application.domain.model.User;
 import my.pet.ticket.server.application.domain.model.payload.request.RegisterUserRequest;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +19,7 @@ class UserServiceTest {
   @Test
   void registerUser() {
     User user = this.userService.registerUser(RegisterUserRequest.builder()
-        .login("testlogin")
+        .login("testlogin1")
         .password("passwordhash")
         .fullName("Eryomin Egor Konstantinovich")
         .build());
@@ -29,6 +30,12 @@ class UserServiceTest {
   void activateUser() {
     User user = this.userService.activateUser(1001L);
     Assertions.assertTrue(user.getActive());
+  }
+
+  @Test
+  void getAllUsers() {
+    List<User> users = this.userService.getAllUsers();
+    Assertions.assertFalse(users.isEmpty());
   }
 
 }
