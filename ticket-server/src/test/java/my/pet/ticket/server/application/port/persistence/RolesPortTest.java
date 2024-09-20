@@ -16,7 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("dev")
-class RolePortTest {
+class RolesPortTest {
 
     @Autowired
     RolePort rolePort;
