@@ -60,11 +60,12 @@ public class UserService {
     return convertUserEntityToUser(userEntity, roleEntity);
   }
 
+  @Transactional
   public User activateUser(Long userId) {
     UserEntity userEntity = this.userPort.get(
             (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(
                 UserEntity_.USER_ID), userId))
-        .orElseThrow(() -> new PersistenceAdapterException("USer not found"));
+        .orElseThrow(() -> new PersistenceAdapterException("User not found"));
     RoleEntity roleEntity = this.rolePort.get(
             (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(
                 RoleEntity_.ROLE_ID), Roles.MANAGER.getRoleId()))
@@ -75,12 +76,54 @@ public class UserService {
     return convertUserEntityToUser(userEntity, roleEntity);
   }
 
+  @Transactional
+  public User getUser(Long userId) {
+    UserEntity userEntity = this.userPort.get(
+            ((root, query, criteriaBuilder) -> criteriaBuilder.and(
+                criteriaBuilder.equal(root.get(UserEntity_.USER_ID), userId),
+                criteriaBuilder.equal(root.get(UserEntity_.DELETED), false))))
+        .orElseThrow(() -> new PersistenceAdapterException("User not found"));
+    Long roleId = userEntity.getRoleId();
+    RoleEntity roleEntity = this.rolePort.get(
+            (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(
+                RoleEntity_.ROLE_ID), roleId))
+        .orElseThrow(() -> new PersistenceAdapterException("Role not found"));
+    return convertUserEntityToUser(userEntity, roleEntity);
+  }
+
+  @Transactional
   public List<User> getAllUsers() {
     return getAllUsers(Pageable.unpaged());
   }
 
+  @Transactional
   public List<User> getAllUsers(Integer page, Integer pageSize) {
     return getAllUsers(PageRequest.of(page, pageSize <= 500 ? pageSize : 500));
+  }
+
+  @Transactional
+  public User suspendUser(Long userId) {
+    UserEntity userEntity = this.userPort.get(
+            ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
+                userId)))
+        .orElseThrow(() -> new PersistenceAdapterException("User not found"));
+    Long roleId = userEntity.getRoleId();
+    RoleEntity roleEntity = this.rolePort.get(
+            (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(
+                RoleEntity_.ROLE_ID), roleId))
+        .orElseThrow(() -> new PersistenceAdapterException("Role not found"));
+    userEntity.setSuspended(true);
+    userEntity = this.userPort.update(userEntity);
+    return convertUserEntityToUser(userEntity, roleEntity);
+  }
+
+  @Transactional
+  public void deleteUser(Long userId) {
+    UserEntity userEntity = this.userPort.get(
+            ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
+                userId)))
+        .orElseThrow(() -> new PersistenceAdapterException("User not found"));
+    this.userPort.delete(userEntity);
   }
 
   private List<User> getAllUsers(Pageable pageable) {
@@ -106,6 +149,5 @@ public class UserService {
         .suspended(userEntity.getSuspended())
         .build();
   }
-
 
 }
