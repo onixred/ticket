@@ -25,4 +25,10 @@ class UserServiceTest {
     Assertions.assertNotNull(user.getUserId());
   }
 
+  @Test
+  void activateUser() {
+    User user = this.userService.activateUser(1001L);
+    Assertions.assertTrue(user.getActive());
+  }
+
 }

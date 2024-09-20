@@ -50,6 +50,19 @@ INSERT INTO pet_project.roles (
     created_at,
     updated_at
 ) VALUES (
+    'Manager2',
+    true,
+    current_timestamp,
+    current_timestamp
+);
+
+
+INSERT INTO pet_project.roles (
+    name,
+    active,
+    created_at,
+    updated_at
+) VALUES (
     'Manager',
     true,
     current_timestamp,
