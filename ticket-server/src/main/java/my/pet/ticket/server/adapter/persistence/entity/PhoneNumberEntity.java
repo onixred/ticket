@@ -19,10 +19,26 @@ import java.util.Objects;
         initialValue = 1001,
         allocationSize = 0
 )
-public class PhoneNumberEntity extends AbstractEntity {
+public class PhoneNumberEntity
+        extends AbstractEntity {
+
+    @EmbeddedId
+    private PhoneNumberIdEntity id;
+
+    @Column(name = "national_prefix")
+    private Integer nationalPrefix;
+
+    @Column(name = "region_code")
+    private Integer regionCode;
+
+    @Column(name = "number")
+    private Integer number;
+
+    @Column(name = "full_number")
+    private String fullNumber;
 
     @Builder
-    public PhoneNumberEntity(
+    public PhoneNumberEntity (
             Long phoneNumberId,
             Long clientId,
             Integer nationalPrefix,
@@ -45,30 +61,20 @@ public class PhoneNumberEntity extends AbstractEntity {
         this.deleted = deleted;
     }
 
-    @EmbeddedId
-    private PhoneNumberIdEntity id;
-
-    @Column(name = "national_prefix")
-    private Integer nationalPrefix;
-
-    @Column(name = "region_code")
-    private Integer regionCode;
-
-    @Column(name = "number")
-    private Integer number;
-
-    @Column(name = "full_number")
-    private String fullNumber;
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PhoneNumberEntity that)) return false;
-        return Objects.equals(id, that.id) && Objects.equals(nationalPrefix, that.nationalPrefix) && Objects.equals(regionCode, that.regionCode) && Objects.equals(number, that.number) && Objects.equals(fullNumber, that.fullNumber);
+    public boolean equals (Object o) {
+        if(this == o) return true;
+        if(! (o instanceof PhoneNumberEntity that)) return false;
+        return Objects.equals(id, that.id) &&
+               Objects.equals(nationalPrefix, that.nationalPrefix) &&
+               Objects.equals(regionCode, that.regionCode) &&
+               Objects.equals(number, that.number) &&
+               Objects.equals(fullNumber, that.fullNumber);
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         return Objects.hash(id, nationalPrefix, regionCode, number, fullNumber);
     }
+
 }

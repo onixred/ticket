@@ -81,3 +81,21 @@ INSERT INTO pet_project.tickets (
 );
 
 -- ticket insert end
+
+-- ticket status insert start
+
+INSERT INTO pet_project.ticket_statuses (
+    name,
+    active,
+    created_at,
+    updated_at,
+    deleted
+) VALUES (
+    'Ticket created',
+    true,
+    current_timestamp,
+    current_timestamp,
+    false
+);
+
+-- ticket status insert end

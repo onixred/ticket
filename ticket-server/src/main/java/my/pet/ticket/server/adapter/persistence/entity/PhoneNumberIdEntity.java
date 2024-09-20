@@ -20,14 +20,15 @@ public class PhoneNumberIdEntity {
     private Long clientId;
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PhoneNumberIdEntity that)) return false;
+    public boolean equals (Object o) {
+        if(this == o) return true;
+        if(! (o instanceof PhoneNumberIdEntity that)) return false;
         return Objects.equals(phoneNumberId, that.phoneNumberId) && Objects.equals(clientId, that.clientId);
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode () {
         return Objects.hash(phoneNumberId, clientId);
     }
+
 }

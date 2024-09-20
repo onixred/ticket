@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PhoneNumberRepository extends JpaRepository<PhoneNumberEntity, PhoneNumberIdEntity>, JpaSpecificationExecutor<PhoneNumberEntity> {
-}
+public interface PhoneNumberRepository
+        extends JpaRepository<PhoneNumberEntity, PhoneNumberIdEntity>, JpaSpecificationExecutor<PhoneNumberEntity> {}

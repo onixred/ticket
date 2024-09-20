@@ -15,7 +15,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
 @Component
-public class EtcdAdapter implements ConfigurationPort {
+public class EtcdAdapter
+        implements ConfigurationPort {
 
     private final ObjectMapper objectMapper;
 
@@ -37,7 +38,7 @@ public class EtcdAdapter implements ConfigurationPort {
 
     private final Election electionClient;
 
-    public EtcdAdapter(ObjectMapper objectMapper, Client client) {
+    public EtcdAdapter (ObjectMapper objectMapper, Client client) {
         this.objectMapper = objectMapper;
         this.etcdClient = client;
         this.authClient = client.getAuthClient();
@@ -51,39 +52,39 @@ public class EtcdAdapter implements ConfigurationPort {
     }
 
     @PreDestroy
-    public void preDestroy() {
+    public void preDestroy () {
         this.etcdClient.close();
     }
 
     @Override
-    public <T> T put(Class<T> type, String key, T value, Consumer<T> consumer) {
+    public <T> T put (Class<T> type, String key, T value, Consumer<T> consumer) {
         return null;
     }
 
     @Override
-    public <T> T getFirst(Class<T> type, String key, T defaultValue, Consumer<T> consumer) {
+    public <T> T getFirst (Class<T> type, String key, T defaultValue, Consumer<T> consumer) {
         ByteSequence keyBs = ByteSequence.from(key.getBytes(StandardCharsets.UTF_8));
         CompletableFuture<GetResponse> completableFuture = this.keyValueClient.get(keyBs);
         try {
             GetResponse getResponse = completableFuture.get();
             List<KeyValue> keyValues = getResponse.getKvs();
-            if (!keyValues.isEmpty()) {
+            if(! keyValues.isEmpty()) {
                 KeyValue keyValue = getResponse.getKvs().get(0);
                 return convertJsonToObject(type, keyValue.getValue().toString());
             } else {
                 return defaultValue;
             }
-        } catch (ExecutionException e) {
+        } catch(ExecutionException e) {
             throw new EtcdAdapterException("Something went wrong", e);
-        } catch (InterruptedException e) {
+        } catch(InterruptedException e) {
             throw new EtcdAdapterException("Thread is interrupted", e);
         }
     }
 
-    private <T> T convertJsonToObject(Class<T> type, String value) {
+    private <T> T convertJsonToObject (Class<T> type, String value) {
         try {
             return this.objectMapper.readValue(value, type);
-        } catch (JsonProcessingException e) {
+        } catch(JsonProcessingException e) {
             throw new EtcdAdapterException("Json processing error", e);
         }
     }

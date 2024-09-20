@@ -11,35 +11,36 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class RoleAdapter implements RolePort {
+public class RoleAdapter
+        implements RolePort {
 
     private final RoleRepository roleRepository;
 
-    public RoleAdapter(RoleRepository roleRepository) {
+    public RoleAdapter (RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
     }
 
     @Override
-    public Optional<RoleEntity> get(Specification<RoleEntity> specification) {
+    public Optional<RoleEntity> get (Specification<RoleEntity> specification) {
         return this.roleRepository.findOne(specification);
     }
 
     @Override
-    public List<RoleEntity> getAll(Specification<RoleEntity> specification, Pageable pageable) {
+    public List<RoleEntity> getAll (Specification<RoleEntity> specification, Pageable pageable) {
         return this.roleRepository.findAll(specification, pageable).stream().toList();
     }
 
     @Override
-    public RoleEntity create(RoleEntity entity) {
-        if (entity.getRoleId() == null) {
+    public RoleEntity create (RoleEntity entity) {
+        if(entity.getRoleId() == null) {
             return this.roleRepository.save(entity);
         }
         throw new PersistenceAdapterException("Role shouldn't have id when creating");
     }
 
     @Override
-    public RoleEntity update(RoleEntity entity) {
-        if (this.roleRepository.existsById(entity.getRoleId())) {
+    public RoleEntity update (RoleEntity entity) {
+        if(this.roleRepository.existsById(entity.getRoleId())) {
             return this.roleRepository.save(entity);
         }
         throw new PersistenceAdapterException("Role not exist");

@@ -19,17 +19,8 @@ import java.util.Objects;
         initialValue = 1001,
         allocationSize = 0
 )
-public class RoleEntity extends AbstractEntity {
-
-    @Builder
-    public RoleEntity(Long roleId, String name, Boolean active, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean deleted) {
-        this.roleId = roleId;
-        this.name = name;
-        this.active = active;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.deleted = deleted;
-    }
+public class RoleEntity
+        extends AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_id_pk_seq")
@@ -42,15 +33,35 @@ public class RoleEntity extends AbstractEntity {
     @Column(name = "active")
     private Boolean active;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RoleEntity roleDao)) return false;
-        return Objects.equals(roleId, roleDao.roleId) && Objects.equals(name, roleDao.name) && Objects.equals(active, roleDao.active);
+    @Builder
+    public RoleEntity (
+            Long roleId,
+            String name,
+            Boolean active,
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt,
+            Boolean deleted
+    ) {
+        this.roleId = roleId;
+        this.name = name;
+        this.active = active;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.deleted = deleted;
     }
 
     @Override
-    public int hashCode() {
+    public boolean equals (Object o) {
+        if(this == o) return true;
+        if(! (o instanceof RoleEntity roleDao)) return false;
+        return Objects.equals(roleId, roleDao.roleId) &&
+               Objects.equals(name, roleDao.name) &&
+               Objects.equals(active, roleDao.active);
+    }
+
+    @Override
+    public int hashCode () {
         return Objects.hash(roleId, name, active);
     }
+
 }

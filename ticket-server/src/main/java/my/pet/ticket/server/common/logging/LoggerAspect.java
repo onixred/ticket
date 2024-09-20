@@ -13,10 +13,10 @@ import java.util.UUID;
 public class LoggerAspect {
 
     @Pointcut("execution(public * my.pet.ticket.server.adapter.persistence..*(..))")
-    public void persistenceLayer() {}
+    public void persistenceLayer () {}
 
     @Around("persistenceLayer()")
-    public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    public Object around (ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String logId = UUID.randomUUID().toString();
         Log.INFO(logId, DefaultEvent.DBP_START);
         Object result = proceedingJoinPoint.proceed();

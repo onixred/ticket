@@ -15,25 +15,29 @@ public class ClientService {
 
     private final PhoneNumberPort phoneNumberPort;
 
-    public ClientService(ClientPort clientPort, PhoneNumberPort phoneNumberPort) {
+    public ClientService (ClientPort clientPort, PhoneNumberPort phoneNumberPort) {
         this.clientPort = clientPort;
         this.phoneNumberPort = phoneNumberPort;
     }
 
     @Transactional
-    public Client getClient(Filter filter) {
-        ClientEntity client = this.clientPort.get(((root, query, criteriaBuilder) ->
-                criteriaBuilder.equal(root.get(ClientEntity_.clientId), filter.getClientId()
-                ))).orElseThrow(() -> new DomainServiceException("Client not found"));
-        PhoneNumberEntity phoneNumber = this.phoneNumberPort.get((root, query, criteriaBuilder) ->
-                criteriaBuilder.equal(root.get(PhoneNumberEntity_.id).get(PhoneNumberIdEntity_.clientId), client.getClientId()))
-                .orElseThrow(() -> new DomainServiceException("Phone number found"));
+    public Client getClient (Filter filter) {
+        ClientEntity client = this.clientPort.get((
+                (root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                        root.get(ClientEntity_.clientId),
+                        filter.getClientId()
+                )
+        )).orElseThrow(() -> new DomainServiceException("Client not found"));
+        PhoneNumberEntity phoneNumber = this.phoneNumberPort.get((root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                root.get(PhoneNumberEntity_.id).get(PhoneNumberIdEntity_.clientId),
+                client.getClientId()
+        )).orElseThrow(() -> new DomainServiceException("Phone number found"));
         return Client.builder()
-                .clientId(client.getClientId())
-                .fullName(client.getFullName())
-                .email(client.getEmail())
-                .phoneNumber(phoneNumber.getFullNumber())
-                .build();
+                     .clientId(client.getClientId())
+                     .fullName(client.getFullName())
+                     .email(client.getEmail())
+                     .phoneNumber(phoneNumber.getFullNumber())
+                     .build();
     }
 
 }

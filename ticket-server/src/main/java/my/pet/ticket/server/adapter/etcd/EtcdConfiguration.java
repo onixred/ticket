@@ -9,12 +9,12 @@ public class EtcdConfiguration {
 
     private final EtcdConfigurationProperties configurationProperties;
 
-    public EtcdConfiguration(EtcdConfigurationProperties configurationProperties) {
+    public EtcdConfiguration (EtcdConfigurationProperties configurationProperties) {
         this.configurationProperties = configurationProperties;
     }
 
     @Bean
-    public Client etcdClient() {
+    public Client etcdClient () {
         return Client.builder().endpoints(this.configurationProperties.getClient().getEndpoints()).build();
     }
 
