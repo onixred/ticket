@@ -3,8 +3,10 @@ package my.pet.ticket.server.common.logging;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
+@ActiveProfiles("dev")
 public class LogTest {
 
     private static final String MESSAGE = "Test Message";

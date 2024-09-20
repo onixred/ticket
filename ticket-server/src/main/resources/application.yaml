@@ -1,11 +1,6 @@
 spring:
   application:
     name: ticket-server
-  datasource:
-    url: jdbc:postgresql://localhost:5432/ticket
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: postgres
   jpa:
     generate-ddl: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect

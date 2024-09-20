@@ -1,7 +1,5 @@
 package my.pet.ticket.server.adapter.etcd;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.etcd.jetcd.Auth;
 import io.etcd.jetcd.ByteSequence;
 import io.etcd.jetcd.Client;
@@ -14,20 +12,18 @@ import io.etcd.jetcd.Lock;
 import io.etcd.jetcd.Maintenance;
 import io.etcd.jetcd.Watch;
 import io.etcd.jetcd.kv.GetResponse;
+import io.etcd.jetcd.options.GetOption;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 import javax.annotation.PreDestroy;
 import my.pet.ticket.server.application.port.configuration.ConfigurationPort;
-import org.springframework.stereotype.Component;
 
-@Component
 public class EtcdAdapter
         implements ConfigurationPort {
-
-    private final ObjectMapper objectMapper;
 
     private final Client etcdClient;
 
@@ -47,8 +43,7 @@ public class EtcdAdapter
 
     private final Election electionClient;
 
-    public EtcdAdapter(ObjectMapper objectMapper, Client client) {
-        this.objectMapper = objectMapper;
+    public EtcdAdapter(Client client) {
         this.etcdClient = client;
         this.authClient = client.getAuthClient();
         this.keyValueClient = client.getKVClient();
@@ -66,12 +61,12 @@ public class EtcdAdapter
     }
 
     @Override
-    public <T> T put(Class<T> type, String key, T value, Consumer<T> consumer) {
-        return null;
+    public String put(String key, String value) {
+        return "";
     }
 
     @Override
-    public <T> T getFirst(Class<T> type, String key, T defaultValue, Consumer<T> consumer) {
+    public String getFirst(String key) {
         ByteSequence keyBs = ByteSequence.from(key.getBytes(StandardCharsets.UTF_8));
         CompletableFuture<GetResponse> completableFuture = this.keyValueClient.get(keyBs);
         try {
@@ -79,10 +74,9 @@ public class EtcdAdapter
             List<KeyValue> keyValues = getResponse.getKvs();
             if (!keyValues.isEmpty()) {
                 KeyValue keyValue = getResponse.getKvs().get(0);
-                return convertJsonToObject(type, keyValue.getValue().toString());
-            } else {
-                return defaultValue;
+                return keyValue.getValue().toString();
             }
+            return "";
         } catch (ExecutionException e) {
             throw new EtcdAdapterException("Something went wrong", e);
         } catch (InterruptedException e) {
@@ -90,12 +84,32 @@ public class EtcdAdapter
         }
     }
 
-    private <T> T convertJsonToObject(Class<T> type, String value) {
+    @Override
+    public Map<String, String> getAll(String key) {
+        ByteSequence keyBs = ByteSequence.from(key.getBytes(StandardCharsets.UTF_8));
+        CompletableFuture<GetResponse> completableFuture = this.keyValueClient.get(keyBs,
+            GetOption.builder().isPrefix(true).build());
         try {
-            return this.objectMapper.readValue(value, type);
-        } catch (JsonProcessingException e) {
-            throw new EtcdAdapterException("Json processing error", e);
+            GetResponse getResponse = completableFuture.get();
+            List<KeyValue> keyValues = getResponse.getKvs();
+            Map<String, String> keyValuesMap = new HashMap<>();
+            if (!keyValues.isEmpty()) {
+                for (KeyValue keyValue : keyValues) {
+                    keyValuesMap.put(keyValue.getKey().toString().replace(key, ""),
+                        keyValue.getValue().toString());
+                }
+            }
+            return keyValuesMap;
+        } catch (ExecutionException e) {
+            throw new EtcdAdapterException("Something went wrong", e);
+        } catch (InterruptedException e) {
+            throw new EtcdAdapterException("Thread is interrupted", e);
         }
+    }
+
+    @Override
+    public Map<String, String> getAllByProfile(String profile) {
+        return getAll("configs." + profile + ".data.");
     }
 
 }
