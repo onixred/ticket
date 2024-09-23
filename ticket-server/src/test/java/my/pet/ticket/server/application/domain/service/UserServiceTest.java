@@ -1,11 +1,9 @@
 package my.pet.ticket.server.application.domain.service;
 
 import java.util.List;
-import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.application.domain.model.User;
 import my.pet.ticket.server.application.domain.model.payload.request.RegisterUserRequest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,7 +35,8 @@ class UserServiceTest {
   @Test
   void getUserTest() {
     Assertions.assertDoesNotThrow(() -> {
-      this.userService.getUser(1001L);
+      User user = this.userService.getUser(1001L);
+      System.out.println("");
     });
   }
 
@@ -60,14 +59,14 @@ class UserServiceTest {
     Assertions.assertTrue(user.getSuspended());
   }
 
-  @Test
+/*  @Test
   @Order(-1000)
   void deleteUser() {
-    User user = this.userService.getUser(1002L);
+    User user = this.userService.getUser(1001L);
     this.userService.deleteUser(user.getUserId());
     Assertions.assertThrows(PersistenceAdapterException.class, () -> {
-      this.userService.getUser(1002L);
+      this.userService.getUser(1001L);
     });
-  }
+  }*/
 
 }

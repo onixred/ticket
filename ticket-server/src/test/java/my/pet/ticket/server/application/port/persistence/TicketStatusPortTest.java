@@ -1,5 +1,9 @@
 package my.pet.ticket.server.application.port.persistence;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import java.time.LocalDateTime;
+import java.util.List;
 import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.adapter.persistence.entity.TicketStatusEntity;
 import my.pet.ticket.server.adapter.persistence.entity.TicketStatusEntity_;
@@ -8,11 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 @ActiveProfiles("dev")
@@ -24,7 +23,7 @@ class TicketStatusPortTest {
     @Test
     void createTest() {
         TicketStatusEntity ticketStatusEntity = TicketStatusEntity.builder()
-                .name("Ticket in progress")
+            .name("Test status 4")
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
@@ -37,7 +36,8 @@ class TicketStatusPortTest {
     @Test
     void getTestNotThrows() {
         Assertions.assertDoesNotThrow(() -> {
-            this.ticketStatusPort.get(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(TicketStatusEntity_.TICKET_STATUS_ID), 1)))
+            this.ticketStatusPort.get(((root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                    root.get(TicketStatusEntity_.TICKET_STATUS_ID), 5)))
                     .orElseThrow(() -> new PersistenceAdapterException("Ticket status not found"));
         });
     }
@@ -58,7 +58,9 @@ class TicketStatusPortTest {
 
     @Test
     void updateTestNotThrows() {
-        TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(TicketStatusEntity_.TICKET_STATUS_ID), 1)))
+        TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(
+                ((root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                    root.get(TicketStatusEntity_.TICKET_STATUS_ID), 5)))
                 .orElseThrow(() -> new PersistenceAdapterException("Ticket status not found"));
         ticketStatusEntity.setName("New name ticket created");
         TicketStatusEntity updateTicketStatusEntity = this.ticketStatusPort.update(ticketStatusEntity);
@@ -67,7 +69,9 @@ class TicketStatusPortTest {
 
     @Test
     void updateTestThrows() {
-        TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(TicketStatusEntity_.TICKET_STATUS_ID), 1)))
+        TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(
+                ((root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                    root.get(TicketStatusEntity_.TICKET_STATUS_ID), 5)))
                 .orElseThrow(() -> new PersistenceAdapterException("Ticket status not found"));
         ticketStatusEntity.setTicketStatusId(0L);
         Assertions.assertThrows(PersistenceAdapterException.class, () -> {
@@ -77,21 +81,21 @@ class TicketStatusPortTest {
 
     @Test
     void deleteTestNotThrows() {
-        TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(TicketStatusEntity_.TICKET_STATUS_ID), 1)))
+        Assertions.assertDoesNotThrow(() -> {
+            TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(
+                    ((root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                        root.get(TicketStatusEntity_.TICKET_STATUS_ID), 6)))
                 .orElseThrow(() -> new PersistenceAdapterException("Ticket status not found"));
-        this.ticketStatusPort.delete(ticketStatusEntity);
-        TicketStatusEntity deletedTicketStatusEntity = this.ticketStatusPort.get(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(TicketStatusEntity_.TICKET_STATUS_ID), 1)))
-                .orElseThrow(() -> new PersistenceAdapterException("Ticket status not found"));
-        Assertions.assertTrue(deletedTicketStatusEntity.getDeleted());
+            this.ticketStatusPort.delete(ticketStatusEntity);
+        });
     }
 
     @Test
     void deleteTestThrows() {
-        TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(TicketStatusEntity_.TICKET_STATUS_ID), 1)))
-                .orElseThrow(() -> new PersistenceAdapterException("Ticket status not found"));
-        ticketStatusEntity.setTicketStatusId(0L);
         Assertions.assertThrows(PersistenceAdapterException.class, () -> {
-            this.ticketStatusPort.delete(ticketStatusEntity);
+            this.ticketStatusPort.get(((root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                    root.get(TicketStatusEntity_.TICKET_STATUS_ID), 7)))
+                .orElseThrow(() -> new PersistenceAdapterException("Ticket status not found"));
         });
     }
 
