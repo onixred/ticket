@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RoleService {
 
+  private static final DomainServiceException ROLE_NOT_FOUND = new DomainServiceException(
+      "Role not found");
+
   private final RolePort rolePort;
 
   private final ModelMapper modelMapper;
@@ -45,7 +48,7 @@ public class RoleService {
     return this.rolePort.get(((root, query, criteriaBuilder) -> criteriaBuilder.and(
             criteriaBuilder.equal(root.get(RoleEntity_.ROLE_ID), roleId),
             criteriaBuilder.equal(root.get(RoleEntity_.ACTIVE), true))))
-        .orElseThrow(() -> new DomainServiceException("Role not found"));
+        .orElseThrow(() -> ROLE_NOT_FOUND);
   }
 
 }

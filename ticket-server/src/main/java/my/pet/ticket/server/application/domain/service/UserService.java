@@ -2,7 +2,6 @@ package my.pet.ticket.server.application.domain.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.adapter.persistence.entity.Roles;
 import my.pet.ticket.server.adapter.persistence.entity.UserEntity;
 import my.pet.ticket.server.adapter.persistence.entity.UserEntity_;
@@ -19,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
+
+  private static final DomainServiceException USER_NOT_FOUND = new DomainServiceException(
+      "User not found");
 
   private final UserPort userPort;
 
@@ -48,7 +50,7 @@ public class UserService {
   public User activateUser(Long userId) {
     UserEntity userEntity = this.userPort.get(
         (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
-            userId)).orElseThrow(() -> new PersistenceAdapterException("User not found"));
+            userId)).orElseThrow(() -> USER_NOT_FOUND);
     Role role = this.roleService.getRole(Roles.MANAGER.getRoleId());
     userEntity.setActive(true);
     userEntity.setRoleId(role.getRoleId());
@@ -60,7 +62,7 @@ public class UserService {
   public User getUser(Long userId) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
-            userId))).orElseThrow(() -> new PersistenceAdapterException("User not found"));
+            userId))).orElseThrow(() -> USER_NOT_FOUND);
     Long roleId = userEntity.getRoleId();
     Role role = this.roleService.getRole(roleId);
     return convertUserEntityToUser(userEntity, role);
@@ -80,7 +82,7 @@ public class UserService {
   public User suspendUser(Long userId) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
-            userId))).orElseThrow(() -> new PersistenceAdapterException("User not found"));
+            userId))).orElseThrow(() -> USER_NOT_FOUND);
     Long roleId = userEntity.getRoleId();
     Role role = this.roleService.getRole(roleId);
     userEntity.setSuspended(true);
@@ -92,7 +94,7 @@ public class UserService {
   public void deleteUser(Long userId) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
-            userId))).orElseThrow(() -> new PersistenceAdapterException("User not found"));
+            userId))).orElseThrow(() -> USER_NOT_FOUND);
     this.userPort.delete(userEntity);
   }
 
@@ -103,7 +105,7 @@ public class UserService {
     return userEntities.stream().map(currentUser -> {
       Role role = roles.stream()
           .filter(currentRole -> currentRole.getRoleId().equals(currentUser.getRoleId()))
-          .findFirst().orElseThrow(() -> new PersistenceAdapterException("Role not found"));
+          .findFirst().orElseThrow(() -> USER_NOT_FOUND);
       return convertUserEntityToUser(currentUser, role);
     }).toList();
   }
