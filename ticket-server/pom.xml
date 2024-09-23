@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://maven.apache.org/POM/4.0.0"
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <artifactId>ticket-server</artifactId>
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>ticket-server</artifactId>
 
-    <build>
+  <build>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -17,94 +17,94 @@
     </plugins>
   </build>
   <dependencies>
-        <dependency>
-            <artifactId>spring-boot-actuator</artifactId>
-            <groupId>org.springframework.boot</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <groupId>org.springframework.boot</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <groupId>org.springframework.boot</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <groupId>org.springframework.boot</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <groupId>org.springframework.boot</groupId>
-        </dependency>
-      <dependency>
-        <artifactId>grpc-server-spring-boot-starter</artifactId>
-        <groupId>net.devh</groupId>
-        <version>3.1.0.RELEASE</version>
-      </dependency>
+    <dependency>
+      <artifactId>spring-boot-actuator</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>spring-boot-starter-security</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <groupId>org.springframework.boot</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>grpc-server-spring-boot-starter</artifactId>
+      <groupId>net.devh</groupId>
+      <version>3.1.0.RELEASE</version>
+    </dependency>
 
-        <dependency>
-            <artifactId>postgresql</artifactId>
-            <groupId>org.postgresql</groupId>
-        </dependency>
-        <dependency>
-            <artifactId>hibernate-jpamodelgen</artifactId>
-            <groupId>org.hibernate</groupId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <artifactId>jetcd-core</artifactId>
-            <groupId>io.etcd</groupId>
-          <version>0.8.0</version>
-        </dependency>
-        <dependency>
-            <artifactId>modelmapper</artifactId>
-            <groupId>org.modelmapper</groupId>
-            <version>3.0.0</version>
-        </dependency>
-      <dependency>
-        <artifactId>ticket-proto</artifactId>
-        <groupId>my.pet</groupId>
-        <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <artifactId>lombok</artifactId>
-            <groupId>org.projectlombok</groupId>
-            <optional>true</optional>
-        </dependency>
+    <dependency>
+      <artifactId>postgresql</artifactId>
+      <groupId>org.postgresql</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>hibernate-jpamodelgen</artifactId>
+      <groupId>org.hibernate</groupId>
+      <version>${hibernate.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>jetcd-core</artifactId>
+      <groupId>io.etcd</groupId>
+      <version>0.8.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>modelmapper</artifactId>
+      <groupId>org.modelmapper</groupId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>ticket-proto</artifactId>
+      <groupId>my.pet</groupId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <optional>true</optional>
+    </dependency>
 
-        <dependency>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <groupId>org.springframework.boot</groupId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <artifactId>spring-security-test</artifactId>
-            <groupId>org.springframework.security</groupId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <artifactId>jetcd-test</artifactId>
-            <groupId>io.etcd</groupId>
-            <scope>test</scope>
-          <version>0.8.0</version>
-        </dependency>
-    </dependencies>
+    <dependency>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <artifactId>spring-security-test</artifactId>
+      <groupId>org.springframework.security</groupId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <artifactId>jetcd-test</artifactId>
+      <groupId>io.etcd</groupId>
+      <scope>test</scope>
+      <version>0.8.0</version>
+    </dependency>
+  </dependencies>
 
   <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <groupId>org.springframework.boot</groupId>
-        <relativePath/>
-        <version>3.3.3</version> <!-- lookup parent from repository -->
-    </parent>
+  <parent>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <groupId>org.springframework.boot</groupId>
+    <relativePath/>
+    <version>3.3.3</version> <!-- lookup parent from repository -->
+  </parent>
 
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+  <properties>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
 
-    <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
 
 </project>

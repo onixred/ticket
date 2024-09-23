@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Client {
 
-    private Long clientId;
+  private Long clientId;
 
-    private String fullName;
+  private String fullName;
 
-    private String email;
+  private String email;
 
-    private String phoneNumber;
+  private String phoneNumber;
 
 }

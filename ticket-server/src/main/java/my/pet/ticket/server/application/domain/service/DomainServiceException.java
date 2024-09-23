@@ -3,7 +3,7 @@ package my.pet.ticket.server.application.domain.service;
 import my.pet.ticket.server.common.exception.AbstractRuntimeException;
 
 public class DomainServiceException
-        extends AbstractRuntimeException {
+    extends AbstractRuntimeException {
 
     public DomainServiceException(String message) {
         super(message);

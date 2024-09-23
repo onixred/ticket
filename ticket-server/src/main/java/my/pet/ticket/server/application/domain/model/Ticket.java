@@ -5,18 +5,18 @@ import lombok.Data;
 @Data
 public class Ticket {
 
-    private Long ticketId;
+  private Long ticketId;
 
-    private Client clientId;
+  private Client clientId;
 
-    private User authorId;
+  private User authorId;
 
-    private User managerId;
+  private User managerId;
 
-    private String ticketStatus;
+  private String ticketStatus;
 
-    private String title;
+  private String title;
 
-    private String description;
+  private String description;
 
 }

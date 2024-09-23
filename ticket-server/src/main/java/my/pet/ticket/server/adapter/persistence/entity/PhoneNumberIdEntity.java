@@ -11,28 +11,28 @@ import lombok.Data;
 @Embeddable
 public class PhoneNumberIdEntity {
 
-    @Column(name = "phone_number_id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_project.phone_numbers_id_pk_seq")
-    private Long phoneNumberId;
+  @Column(name = "phone_number_id")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pet_project.phone_numbers_id_pk_seq")
+  private Long phoneNumberId;
 
-    @Column(name = "client_id")
-    private Long clientId;
+  @Column(name = "client_id")
+  private Long clientId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof PhoneNumberIdEntity that)) {
-            return false;
-        }
-        return Objects.equals(phoneNumberId, that.phoneNumberId) && Objects.equals(clientId,
-                that.clientId);
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(phoneNumberId, clientId);
+    if (!(o instanceof PhoneNumberIdEntity that)) {
+      return false;
     }
+    return Objects.equals(phoneNumberId, that.phoneNumberId) && Objects.equals(clientId,
+        that.clientId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(phoneNumberId, clientId);
+  }
 
 }

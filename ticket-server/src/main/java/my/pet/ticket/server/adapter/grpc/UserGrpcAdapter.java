@@ -21,6 +21,9 @@ import net.devh.boot.grpc.server.service.GrpcService;
 @GrpcService
 public class UserGrpcAdapter extends UserServiceImplBase {
 
+  private static final DomainServiceException NULL_FILTER_OR_EMPTY_FIELD = new DomainServiceException(
+      "Filter and they field user id shouldn't be empty");
+
   private final UserService userService;
 
   public UserGrpcAdapter(UserService userService) {
@@ -46,9 +49,9 @@ public class UserGrpcAdapter extends UserServiceImplBase {
       UserResponse userResponse = convertUserToUserResponse(user);
       responseObserver.onNext(userResponse);
       responseObserver.onCompleted();
-    } else {
-      throw new DomainServiceException("Filter and they field user id shouldn't be empty");
+      return;
     }
+    throw NULL_FILTER_OR_EMPTY_FIELD;
   }
 
   @Override
@@ -58,9 +61,9 @@ public class UserGrpcAdapter extends UserServiceImplBase {
       UserResponse userResponse = convertUserToUserResponse(user);
       responseObserver.onNext(userResponse);
       responseObserver.onCompleted();
-    } else {
-      throw new DomainServiceException("Filter and they field user id shouldn't be empty");
+      return;
     }
+    throw NULL_FILTER_OR_EMPTY_FIELD;
   }
 
   @Override
@@ -84,9 +87,9 @@ public class UserGrpcAdapter extends UserServiceImplBase {
       UserResponse userResponse = convertUserToUserResponse(user);
       responseObserver.onNext(userResponse);
       responseObserver.onCompleted();
-    } else {
-      throw new DomainServiceException("Filter and they field user id shouldn't be empty");
+      return;
     }
+    throw NULL_FILTER_OR_EMPTY_FIELD;
   }
 
   @Override
@@ -95,9 +98,9 @@ public class UserGrpcAdapter extends UserServiceImplBase {
       this.userService.deleteUser(request.getFilter().getUserId().getValue());
       responseObserver.onNext(Empty.getDefaultInstance());
       responseObserver.onCompleted();
-    } else {
-      throw new DomainServiceException("Filter and they field user id shouldn't be empty");
+      return;
     }
+    throw NULL_FILTER_OR_EMPTY_FIELD;
   }
 
   private UserResponse convertUserToUserResponse(User user) {

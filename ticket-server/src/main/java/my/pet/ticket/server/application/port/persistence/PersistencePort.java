@@ -8,21 +8,21 @@ import org.springframework.data.jpa.domain.Specification;
 
 public interface PersistencePort<T extends AbstractEntity> {
 
-    Optional<T> get(Specification<T> specification);
+  Optional<T> get(Specification<T> specification);
 
-    List<T> getAll(Specification<T> specification, Pageable pageable);
+  List<T> getAll(Specification<T> specification, Pageable pageable);
 
-    T create(T entity);
+  T create(T entity);
 
-    T update(T entity);
+  T update(T entity);
 
-    default void delete(T entity) {
-        entity.setDeleted(true);
-        update(entity);
-    }
+  default void delete(T entity) {
+    entity.setDeleted(true);
+    update(entity);
+  }
 
-    default List<T> getAll(Specification<T> specification) {
-        return getAll(specification, Pageable.unpaged());
-    }
+  default List<T> getAll(Specification<T> specification) {
+    return getAll(specification, Pageable.unpaged());
+  }
 
 }

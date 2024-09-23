@@ -10,13 +10,13 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("dev")
 class ConfigurationPortTest {
 
-    @Autowired
-    private ConfigurationPort configurationPort;
+  @Autowired
+  private ConfigurationPort configurationPort;
 
-    @Test
-    void getFirst() {
-      String actual = configurationPort.getFirst("test.value");
-      Assertions.assertEquals("value", actual);
-    }
+  @Test
+  void getFirst() {
+    String actual = configurationPort.getFirst("test.value");
+    Assertions.assertEquals("value", actual);
+  }
 
 }

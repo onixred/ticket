@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
 
 package my.pet.protobuf;
 
@@ -11,6 +12,14 @@ message Filter {
   google.protobuf.Int64Value client_id = 1;
   google.protobuf.Int64Value user_id = 2;
   google.protobuf.Int64Value ticket_id = 3;
-  google.protobuf.Int32Value page = 4;
-  google.protobuf.Int32Value pageSize = 5;
+  google.protobuf.Int64Value role_id = 4;
+  google.protobuf.Int32Value page = 5;
+  google.protobuf.Int32Value pageSize = 6;
+}
+
+message FilterRequest {
+  oneof request {
+    Filter filter = 1;
+    google.protobuf.Empty empty = 2;
+  }
 }

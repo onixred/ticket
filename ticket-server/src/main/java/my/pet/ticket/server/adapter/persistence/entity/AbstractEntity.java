@@ -9,13 +9,13 @@ import lombok.Data;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
-    @Column(name = "created_at", nullable = false)
-    protected LocalDateTime createdAt;
+  @Column(name = "created_at", nullable = false)
+  protected LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
-    protected LocalDateTime updatedAt;
+  @Column(name = "updated_at", nullable = false)
+  protected LocalDateTime updatedAt;
 
-    @Column(name = "deleted", nullable = false)
-    protected Boolean deleted;
+  @Column(name = "deleted", nullable = false)
+  protected Boolean deleted;
 
 }
