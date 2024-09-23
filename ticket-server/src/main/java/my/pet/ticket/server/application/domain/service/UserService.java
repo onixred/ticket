@@ -79,7 +79,8 @@ public class UserService {
 
   @Transactional
   public List<User> getAllUsers(Integer page, Integer pageSize) {
-    return getAllUsers(PageRequest.of(page, pageSize <= 500 ? pageSize : 500));
+    return getAllUsers(PageRequest.of(page != null ? page : 0,
+        pageSize != null && pageSize <= 500 ? pageSize : 500));
   }
 
   @Transactional

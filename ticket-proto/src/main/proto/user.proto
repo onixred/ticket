@@ -1,6 +1,9 @@
 syntax = "proto3";
 
 import "google/protobuf/wrappers.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+import "filter.proto";
 
 package my.pet.protobuf;
 
@@ -16,6 +19,10 @@ message UserResponse {
   google.protobuf.BoolValue suspended = 6;
 }
 
+message UserResponses {
+  repeated UserResponse users = 1;
+}
+
 message RoleResponse {
   google.protobuf.Int64Value role_id = 1;
   google.protobuf.StringValue name = 2;
@@ -27,6 +34,18 @@ message RegisterUserRequest {
   google.protobuf.StringValue password = 3;
 }
 
+message FilterRequest {
+  oneof request {
+    Filter filter = 1;
+    google.protobuf.Empty empty = 2;
+  }
+}
+
 service UserService {
   rpc registerUser(RegisterUserRequest) returns (UserResponse) {};
+  rpc activeUser(FilterRequest) returns (UserResponse) {};
+  rpc getUser(FilterRequest) returns (UserResponse) {};
+  rpc getAllUsers(FilterRequest) returns (UserResponses) {};
+  rpc suspendUser(FilterRequest) returns (UserResponse) {};
+  rpc deleteUser(FilterRequest) returns (google.protobuf.Empty) {};
 }
