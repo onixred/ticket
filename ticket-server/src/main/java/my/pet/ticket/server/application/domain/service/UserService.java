@@ -2,6 +2,7 @@ package my.pet.ticket.server.application.domain.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.function.Function;
 import my.pet.ticket.server.adapter.persistence.entity.Roles;
 import my.pet.ticket.server.adapter.persistence.entity.UserEntity;
 import my.pet.ticket.server.adapter.persistence.entity.UserEntity_;
@@ -35,13 +36,16 @@ public class UserService {
   }
 
   @Transactional
-  public User registerUser(RegisterUserRequest request) {
+  public User registerUser(
+      Function<RegisterUserRequest.RegisterUserRequestBuilder, RegisterUserRequest> requestFunction) {
+    RegisterUserRequest request = requestFunction.apply(RegisterUserRequest.builder());
     String[] names = NameUtils.parseFullName(request.getFullName());
     Role role = this.roleService.getRole(Roles.GUEST.getRoleId());
     UserEntity userEntity = UserEntity.builder().roleId(role.getRoleId()).firstName(names[1])
         .lastName(names[0]).surName(names[2]).fullName(request.getFullName())
-        .login(request.getLogin()).password(request.getPassword()).active(false).suspended(false)
-        .createdAt(LocalDateTime.now()).updatedAt(LocalDateTime.now()).deleted(false).build();
+        .login(request.getLogin()).password(request.getPassword())
+        .active(false).suspended(false).createdAt(LocalDateTime.now())
+        .updatedAt(LocalDateTime.now()).deleted(false).build();
     userEntity = this.userPort.create(userEntity);
     return convertUserEntityToUser(userEntity, role);
   }

@@ -9,6 +9,7 @@
   <modules>
     <module>ticket-server</module>
     <module>ticket-client</module>
+    <module>ticket-proto</module>
   </modules>
   <packaging>pom</packaging>
 

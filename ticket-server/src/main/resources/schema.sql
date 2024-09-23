@@ -1,5 +1,13 @@
 -- DROP SECTION
 
+-- drop tickets start
+
+DROP TABLE IF EXISTS pet_project.tickets;
+
+DROP SEQUENCE IF EXISTS pet_project.tickets_id_pk_seq;
+
+-- drop tickets end
+
 -- drop users start
 
 DROP TABLE IF EXISTS pet_project.users;
@@ -15,14 +23,6 @@ DROP TABLE IF EXISTS pet_project.ticket_statuses;
 DROP SEQUENCE IF EXISTS pet_project.ticket_statuses_id_pk_seq;
 
 -- drop ticket statuses end
-
--- drop tickets start
-
-DROP TABLE IF EXISTS pet_project.tickets;
-
-DROP SEQUENCE IF EXISTS pet_project.tickets_id_pk_seq;
-
--- drop tickets end
 
 -- drop roles start
 
@@ -85,7 +85,7 @@ CREATE SEQUENCE pet_project.phone_numbers_id_pk_seq START 1001;
 
 CREATE TABLE pet_project.phone_numbers (
     phone_number_id BIGINT NOT NULL DEFAULT nextval('pet_project.phone_numbers_id_pk_seq'),
-    client_id BIGINT NOT NULL,
+    client_id BIGINT REFERENCES pet_project.clients(client_id),
     national_prefix INT NOT NULL,
     region_code INT NOT NULL,
     number INT NOT NULL,
@@ -115,25 +115,6 @@ CREATE TABLE pet_project.roles (
 
 -- create roles end
 
--- create tickets start
-
-CREATE SEQUENCE pet_project.tickets_id_pk_seq START 10001;
-
-CREATE TABLE pet_project.tickets (
-    ticket_id BIGINT NOT NULL DEFAULT nextval('pet_project.tickets_id_pk_seq'),
-    client_id BIGINT NOT NULL,
-    author_id BIGINT NOT NULL,
-    manager_id BIGINT,
-    ticket_status_id INT NOT NULL,
-    title VARCHAR(255) NOT NULL,
-    description VARCHAR,
-    created_at TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP NOT NULL,
-    deleted BOOLEAN NOT NULL DEFAULT false
-);
-
--- create tickets end
-
 -- create tickets statuses start
 
 CREATE SEQUENCE pet_project.ticket_statuses_id_pk_seq START 1;
@@ -155,7 +136,7 @@ CREATE SEQUENCE pet_project.users_id_pk_seq START 1001;
 
 CREATE TABLE pet_project.users (
     user_id BIGINT PRIMARY KEY DEFAULT nextval('pet_project.users_id_pk_seq'),
-    role_id INT NOT NULL,
+    role_id INT REFERENCES pet_project.roles(role_id),
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     sur_name VARCHAR(255) NOT NULL,
@@ -167,6 +148,25 @@ CREATE TABLE pet_project.users (
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     deleted BOOLEAN NOT NULL DEFAULT false
-)
+);
 
 -- create users end
+
+-- create tickets start
+
+CREATE SEQUENCE pet_project.tickets_id_pk_seq START 10001;
+
+CREATE TABLE pet_project.tickets (
+    ticket_id BIGINT NOT NULL DEFAULT nextval('pet_project.tickets_id_pk_seq'),
+    client_id BIGINT REFERENCES pet_project.clients(client_id),
+    author_id BIGINT REFERENCES pet_project.users(user_id),
+    manager_id BIGINT REFERENCES pet_project.users(user_id),
+    ticket_status_id INT REFERENCES pet_project.ticket_statuses(ticket_status_id),
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    deleted BOOLEAN NOT NULL DEFAULT false
+);
+
+-- create tickets end

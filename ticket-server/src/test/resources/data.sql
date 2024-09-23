@@ -196,72 +196,6 @@ INSERT INTO pet_project.roles (
 
 -- role insert end
 
--- ticket insert end
-
-INSERT INTO pet_project.tickets (
-    client_id,
-    author_id,
-    manager_id,
-    ticket_status_id,
-    title,
-    description,
-    created_at,
-    updated_at
-) VALUES (
-    1001,
-    1001,
-    1001,
-    1,
-    'Test ticket 1',
-    'Ticket description',
-    current_timestamp,
-    current_timestamp
-);
-
-INSERT INTO pet_project.tickets (
-    client_id,
-    author_id,
-    manager_id,
-    ticket_status_id,
-    title,
-    description,
-    created_at,
-    updated_at
-) VALUES (
-    1002,
-    1002,
-    1002,
-    1,
-    'Test ticket 2',
-    'Ticket description',
-    current_timestamp,
-    current_timestamp
-);
-
-INSERT INTO pet_project.tickets (
-    client_id,
-    author_id,
-    manager_id,
-    ticket_status_id,
-    title,
-    description,
-    created_at,
-    updated_at,
-    deleted
-) VALUES (
-    1003,
-    1003,
-    1003,
-    1,
-    'Test ticket 3',
-    'Ticket description',
-    current_timestamp,
-    current_timestamp,
-    true
-);
-
--- ticket insert end
-
 -- ticket status insert start
 
 INSERT INTO pet_project.ticket_statuses (
@@ -435,3 +369,69 @@ INSERT INTO pet_project.users (
 );
 
 -- user insert end
+
+-- ticket insert end
+
+INSERT INTO pet_project.tickets (
+    client_id,
+    author_id,
+    manager_id,
+    ticket_status_id,
+    title,
+    description,
+    created_at,
+    updated_at
+) VALUES (
+    1001,
+    1001,
+    1001,
+    1,
+    'Test ticket 1',
+    'Ticket description',
+    current_timestamp,
+    current_timestamp
+);
+
+INSERT INTO pet_project.tickets (
+    client_id,
+    author_id,
+    manager_id,
+    ticket_status_id,
+    title,
+    description,
+    created_at,
+    updated_at
+) VALUES (
+    1002,
+    1002,
+    1002,
+    1,
+    'Test ticket 2',
+    'Ticket description',
+    current_timestamp,
+    current_timestamp
+);
+
+INSERT INTO pet_project.tickets (
+    client_id,
+    author_id,
+    manager_id,
+    ticket_status_id,
+    title,
+    description,
+    created_at,
+    updated_at,
+    deleted
+) VALUES (
+    1003,
+    1003,
+    1003,
+    1,
+    'Test ticket 3',
+    'Ticket description',
+    current_timestamp,
+    current_timestamp,
+    true
+);
+
+-- ticket insert end
