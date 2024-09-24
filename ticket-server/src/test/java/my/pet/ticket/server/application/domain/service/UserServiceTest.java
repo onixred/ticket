@@ -17,12 +17,10 @@ class UserServiceTest {
 
   @Test
   void registerUserTest() {
-    /*User user = this.userService.registerUser(RegisterUserRequest.builder()
-        .login("testlogin1")
-        .password("passwordhash")
-        .fullName("Eryomin Egor Konstantinovich")
-        .build());
-    Assertions.assertNotNull(user.getUserId());*/
+    User user = this.userService.register(
+        builder -> builder.login("testlogin1").password("passwordhash")
+            .fullName("Eryomin Egor Konstantinovich").build());
+    Assertions.assertNotNull(user.getUserId());
   }
 
   @Test
@@ -34,27 +32,26 @@ class UserServiceTest {
   @Test
   void getUserTest() {
     Assertions.assertDoesNotThrow(() -> {
-      User user = this.userService.getUser(1001L);
-      System.out.println("");
+      this.userService.get(1001L);
     });
   }
 
   @Test
   void getAllUsersTest() {
-    List<User> users = this.userService.getAllUsers();
+    List<User> users = this.userService.getAll();
     Assertions.assertFalse(users.isEmpty());
   }
 
   @Test
   void getAllUsersPageableTest() {
-    List<User> usersPage1 = this.userService.getAllUsers(0, 1);
-    List<User> usersPage2 = this.userService.getAllUsers(1, 1);
+    List<User> usersPage1 = this.userService.getAll(0, 1);
+    List<User> usersPage2 = this.userService.getAll(1, 1);
     Assertions.assertNotEquals(usersPage1.get(0), usersPage2.get(0));
   }
 
   @Test
   void suspendUserTest() {
-    User user = this.userService.suspendUser(1001L);
+    User user = this.userService.suspend(1001L);
     Assertions.assertTrue(user.getSuspended());
   }
 

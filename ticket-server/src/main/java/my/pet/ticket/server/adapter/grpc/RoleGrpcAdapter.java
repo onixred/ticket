@@ -30,7 +30,7 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
   @Override
   public void getRole(FilterRequest request, StreamObserver<RoleResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasRoleId()) {
-      Role role = this.roleService.getRole(request.getFilter().getRoleId().getValue());
+      Role role = this.roleService.get(request.getFilter().getRoleId().getValue());
       RoleResponse response = convertRoleToRoleResponse(role);
       responseObserver.onNext(response);
       responseObserver.onCompleted();
@@ -42,10 +42,10 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
   public void getAllRoles(FilterRequest request, StreamObserver<RoleResponses> responseObserver) {
     List<Role> users = new ArrayList<>();
     if (request.hasFilter()) {
-      //users.addAll(this.roleService.getAllRoles(request.getFilter().getPage().getValue(),
-      //    request.getFilter().getPageSize().getValue()));
+      users.addAll(this.roleService.getAll(request.getFilter().getPage().getValue(),
+          request.getFilter().getPageSize().getValue()));
     } else {
-      users.addAll(this.roleService.getAllRoles());
+      users.addAll(this.roleService.getAll());
     }
     List<RoleResponse> roleResponses = users.stream().map(this::convertRoleToRoleResponse).toList();
     responseObserver.onNext(RoleResponses.newBuilder().addAllRoles(roleResponses).build());
@@ -55,7 +55,7 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
   @Override
   public void deleteRole(FilterRequest request, StreamObserver<Empty> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasRoleId()) {
-      this.roleService.deleteRole(request.getFilter().getRoleId().getValue());
+      this.roleService.delete(request.getFilter().getRoleId().getValue());
       responseObserver.onNext(Empty.getDefaultInstance());
       responseObserver.onCompleted();
     }

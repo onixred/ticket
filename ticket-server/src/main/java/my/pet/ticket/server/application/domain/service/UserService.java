@@ -12,13 +12,12 @@ import my.pet.ticket.server.application.domain.model.payload.request.RegisterUse
 import my.pet.ticket.server.application.port.persistence.UserPort;
 import my.pet.ticket.server.common.utils.NameUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService {
+public class UserService implements DomainService<User, UserEntity> {
 
   private static final DomainServiceException USER_NOT_FOUND = new DomainServiceException(
       "User not found");
@@ -36,18 +35,20 @@ public class UserService {
   }
 
   @Transactional
-  public User registerUser(
+  public User register(
       Function<RegisterUserRequest.RegisterUserRequestBuilder, RegisterUserRequest> requestFunction) {
     RegisterUserRequest request = requestFunction.apply(RegisterUserRequest.builder());
     String[] names = NameUtils.parseFullName(request.getFullName());
-    Role role = this.roleService.getRole(Roles.GUEST.getRoleId());
+    Role role = this.roleService.get(Roles.GUEST.getRoleId());
     UserEntity userEntity = UserEntity.builder().roleId(role.getRoleId()).firstName(names[1])
         .lastName(names[0]).surName(names[2]).fullName(request.getFullName())
         .login(request.getLogin()).password(request.getPassword())
         .active(false).suspended(false).createdAt(LocalDateTime.now())
         .updatedAt(LocalDateTime.now()).deleted(false).build();
     userEntity = this.userPort.create(userEntity);
-    return convertUserEntityToUser(userEntity, role);
+    User user = convertEntityToModel(userEntity);
+    user.setRole(role);
+    return user;
   }
 
   @Transactional
@@ -55,70 +56,67 @@ public class UserService {
     UserEntity userEntity = this.userPort.get(
         (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
             userId)).orElseThrow(() -> USER_NOT_FOUND);
-    Role role = this.roleService.getRole(Roles.MANAGER.getRoleId());
+    Role role = this.roleService.get(Roles.MANAGER.getRoleId());
     userEntity.setActive(true);
     userEntity.setRoleId(role.getRoleId());
     userEntity = this.userPort.update(userEntity);
-    return convertUserEntityToUser(userEntity, role);
+    User user = convertEntityToModel(userEntity);
+    user.setRole(role);
+    return user;
   }
 
   @Transactional
-  public User getUser(Long userId) {
+  public User suspend(Long userId) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
             userId))).orElseThrow(() -> USER_NOT_FOUND);
     Long roleId = userEntity.getRoleId();
-    Role role = this.roleService.getRole(roleId);
-    return convertUserEntityToUser(userEntity, role);
-  }
-
-  @Transactional
-  public List<User> getAllUsers() {
-    return getAllUsers(Pageable.unpaged());
-  }
-
-  @Transactional
-  public List<User> getAllUsers(Integer page, Integer pageSize) {
-    return getAllUsers(PageRequest.of(page != null ? page : 0,
-        pageSize != null && pageSize <= 500 ? pageSize : 500));
-  }
-
-  @Transactional
-  public User suspendUser(Long userId) {
-    UserEntity userEntity = this.userPort.get(
-        ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
-            userId))).orElseThrow(() -> USER_NOT_FOUND);
-    Long roleId = userEntity.getRoleId();
-    Role role = this.roleService.getRole(roleId);
+    Role role = this.roleService.get(roleId);
     userEntity.setSuspended(true);
     userEntity = this.userPort.update(userEntity);
-    return convertUserEntityToUser(userEntity, role);
+    User user = convertEntityToModel(userEntity);
+    user.setRole(role);
+    return user;
   }
 
-  @Transactional
-  public void deleteUser(Long userId) {
+  @Override
+  public User get(Long id) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
-            userId))).orElseThrow(() -> USER_NOT_FOUND);
+            id))).orElseThrow(() -> USER_NOT_FOUND);
+    Long roleId = userEntity.getRoleId();
+    Role role = this.roleService.get(roleId);
+    User user = convertEntityToModel(userEntity);
+    user.setRole(role);
+    return user;
+  }
+
+  @Override
+  public void delete(Long id) {
+    UserEntity userEntity = this.userPort.get(
+        ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
+            id))).orElseThrow(() -> USER_NOT_FOUND);
     this.userPort.delete(userEntity);
   }
 
-  private List<User> getAllUsers(Pageable pageable) {
+  @Override
+  public List<User> getAll(Pageable pageable) {
     List<UserEntity> userEntities = this.userPort.getAll(
         ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()), pageable);
-    List<Role> roles = this.roleService.getAllRoles();
+    List<Role> roles = this.roleService.getAll();
     return userEntities.stream().map(currentUser -> {
       Role role = roles.stream()
           .filter(currentRole -> currentRole.getRoleId().equals(currentUser.getRoleId()))
           .findFirst().orElseThrow(() -> USER_NOT_FOUND);
-      return convertUserEntityToUser(currentUser, role);
+      User user = convertEntityToModel(currentUser);
+      user.setRole(role);
+      return user;
     }).toList();
   }
 
-  private User convertUserEntityToUser(UserEntity userEntity, Role role) {
-    User user = this.modelMapper.map(userEntity, User.class);
-    user.setRole(role);
-    return user;
+  @Override
+  public User convertEntityToModel(UserEntity entity) {
+    return this.modelMapper.map(entity, User.class);
   }
 
 }

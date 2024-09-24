@@ -1,4 +1,4 @@
-package my.pet.ticket.server.application.domain.model.payload.request;
+package my.pet.ticket.server.application.domain.model;
 
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -10,26 +10,26 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginRequest {
+public class TicketStatus {
 
-  private String login;
+  private Long ticketStatusId;
 
-  private String password;
+  private String name;
 
   @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof LoginRequest that)) {
+    if (!(o instanceof TicketStatus that)) {
       return false;
     }
-    return Objects.equals(login, that.login) && Objects.equals(password,
-        that.password);
+    return Objects.equals(ticketStatusId, that.ticketStatusId) && Objects.equals(
+        name, that.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(login, password);
+    return Objects.hash(ticketStatusId, name);
   }
 }

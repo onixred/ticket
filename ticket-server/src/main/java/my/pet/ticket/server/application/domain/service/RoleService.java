@@ -6,11 +6,11 @@ import my.pet.ticket.server.adapter.persistence.entity.RoleEntity_;
 import my.pet.ticket.server.application.domain.model.Role;
 import my.pet.ticket.server.application.port.persistence.RolePort;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class RoleService {
+public class RoleService implements DomainService<Role, RoleEntity> {
 
   private static final DomainServiceException ROLE_NOT_FOUND = new DomainServiceException(
       "Role not found");
@@ -24,31 +24,37 @@ public class RoleService {
     this.modelMapper = modelMapper;
   }
 
-  @Transactional
-  public Role getRole(Long roleId) {
-    RoleEntity roleEntity = getRoleEntity(roleId);
-    return this.modelMapper.map(roleEntity, Role.class);
+  @Override
+  public Role get(Long id) {
+    RoleEntity roleEntity = this.rolePort.get(
+            ((root, query, criteriaBuilder) -> criteriaBuilder.and(
+                criteriaBuilder.equal(root.get(RoleEntity_.ROLE_ID), id),
+                criteriaBuilder.equal(root.get(RoleEntity_.ACTIVE), true))))
+        .orElseThrow(() -> ROLE_NOT_FOUND);
+    return convertEntityToModel(roleEntity);
   }
 
-  @Transactional
-  public List<Role> getAllRoles() {
-    return this.rolePort.getAll(
-            ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(RoleEntity_.ACTIVE),
-                true))).stream().map(roleEntity -> this.modelMapper.map(roleEntity, Role.class))
-        .toList();
-  }
-
-  @Transactional
-  public void deleteRole(Long roleId) {
-    RoleEntity roleEntity = getRoleEntity(roleId);
+  @Override
+  public void delete(Long id) {
+    RoleEntity roleEntity = this.rolePort.get(
+            ((root, query, criteriaBuilder) -> criteriaBuilder.and(
+                criteriaBuilder.equal(root.get(RoleEntity_.ROLE_ID), id),
+                criteriaBuilder.equal(root.get(RoleEntity_.ACTIVE), true))))
+        .orElseThrow(() -> ROLE_NOT_FOUND);
     this.rolePort.delete(roleEntity);
   }
 
-  private RoleEntity getRoleEntity(Long roleId) {
-    return this.rolePort.get(((root, query, criteriaBuilder) -> criteriaBuilder.and(
-            criteriaBuilder.equal(root.get(RoleEntity_.ROLE_ID), roleId),
-            criteriaBuilder.equal(root.get(RoleEntity_.ACTIVE), true))))
-        .orElseThrow(() -> ROLE_NOT_FOUND);
+  @Override
+  public List<Role> getAll(Pageable pageable) {
+    return this.rolePort.getAll(
+            ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(RoleEntity_.ACTIVE),
+                true)), pageable).stream()
+        .map(this::convertEntityToModel).toList();
+  }
+
+  @Override
+  public Role convertEntityToModel(RoleEntity entity) {
+    return this.modelMapper.map(entity, Role.class);
   }
 
 }

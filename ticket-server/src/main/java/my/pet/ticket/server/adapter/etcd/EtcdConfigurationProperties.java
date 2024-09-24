@@ -9,13 +9,13 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "spring.etcd")
 public class EtcdConfigurationProperties {
 
-    private Client client;
+  private Client client;
 
-    @Data
-    public static class Client {
+  @Data
+  public static class Client {
 
-        private String[] endpoints;
+    private String[] endpoints;
 
-    }
+  }
 
 }

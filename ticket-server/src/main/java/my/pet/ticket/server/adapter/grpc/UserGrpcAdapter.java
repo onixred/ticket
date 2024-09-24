@@ -33,7 +33,7 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   @Override
   public void registerUser(RegisterUserRequest request,
       StreamObserver<UserResponse> responseObserver) {
-    User user = this.userService.registerUser(
+    User user = this.userService.register(
         builder -> builder.fullName(request.getFullName().getValue())
             .login(request.getLogin().getValue()).password(request.getPassword().getValue())
             .build());
@@ -57,7 +57,7 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   @Override
   public void getUser(FilterRequest request, StreamObserver<UserResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasUserId()) {
-      User user = this.userService.getUser(request.getFilter().getUserId().getValue());
+      User user = this.userService.get(request.getFilter().getUserId().getValue());
       UserResponse userResponse = convertUserToUserResponse(user);
       responseObserver.onNext(userResponse);
       responseObserver.onCompleted();
@@ -70,10 +70,10 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   public void getAllUsers(FilterRequest request, StreamObserver<UserResponses> responseObserver) {
     List<User> users = new ArrayList<>();
     if (request.hasFilter()) {
-      users.addAll(this.userService.getAllUsers(request.getFilter().getPage().getValue(),
+      users.addAll(this.userService.getAll(request.getFilter().getPage().getValue(),
           request.getFilter().getPageSize().getValue()));
     } else {
-      users.addAll(this.userService.getAllUsers());
+      users.addAll(this.userService.getAll());
     }
     List<UserResponse> userResponses = users.stream().map(this::convertUserToUserResponse).toList();
     responseObserver.onNext(UserResponses.newBuilder().addAllUsers(userResponses).build());
@@ -83,7 +83,7 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   @Override
   public void suspendUser(FilterRequest request, StreamObserver<UserResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasUserId()) {
-      User user = this.userService.suspendUser(request.getFilter().getUserId().getValue());
+      User user = this.userService.suspend(request.getFilter().getUserId().getValue());
       UserResponse userResponse = convertUserToUserResponse(user);
       responseObserver.onNext(userResponse);
       responseObserver.onCompleted();
@@ -95,7 +95,7 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   @Override
   public void deleteUser(FilterRequest request, StreamObserver<Empty> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasUserId()) {
-      this.userService.deleteUser(request.getFilter().getUserId().getValue());
+      this.userService.delete(request.getFilter().getUserId().getValue());
       responseObserver.onNext(Empty.getDefaultInstance());
       responseObserver.onCompleted();
       return;
