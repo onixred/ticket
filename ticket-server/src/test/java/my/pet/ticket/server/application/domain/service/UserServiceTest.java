@@ -49,18 +49,17 @@ class UserServiceTest extends ApplicationTest {
 
   @Test
   void suspendUserTest() {
-    User user = this.userService.suspend(1001L);
+    User user = this.userService.suspend(1002L);
     Assertions.assertTrue(user.getSuspended());
   }
 
-/*  @Test
-  @Order(-1000)
+  @Test
   void deleteUser() {
-    User user = this.userService.getUser(1001L);
-    this.userService.deleteUser(user.getUserId());
-    Assertions.assertThrows(PersistenceAdapterException.class, () -> {
-      this.userService.getUser(1001L);
+    User user = this.userService.get(1002L);
+    this.userService.delete(user.getUserId());
+    Assertions.assertThrows(DomainServiceException.class, () -> {
+      this.userService.get(1002L);
     });
-  }*/
+  }
 
 }
