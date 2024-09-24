@@ -8,6 +8,7 @@ import my.pet.ticket.server.application.port.persistence.RolePort;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RoleService implements DomainService<Role, RoleEntity> {
@@ -25,6 +26,7 @@ public class RoleService implements DomainService<Role, RoleEntity> {
   }
 
   @Override
+  @Transactional
   public Role get(Long id) {
     RoleEntity roleEntity = this.rolePort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.and(
@@ -35,6 +37,19 @@ public class RoleService implements DomainService<Role, RoleEntity> {
   }
 
   @Override
+  @Transactional
+  public List<Role> getAll() {
+    return DomainService.super.getAll();
+  }
+
+  @Override
+  @Transactional
+  public List<Role> getAll(Integer page, Integer pageSize) {
+    return DomainService.super.getAll(page, pageSize);
+  }
+
+  @Override
+  @Transactional
   public void delete(Long id) {
     RoleEntity roleEntity = this.rolePort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.and(
@@ -45,6 +60,7 @@ public class RoleService implements DomainService<Role, RoleEntity> {
   }
 
   @Override
+  @Transactional
   public List<Role> getAll(Pageable pageable) {
     return this.rolePort.getAll(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(RoleEntity_.ACTIVE),
@@ -53,6 +69,7 @@ public class RoleService implements DomainService<Role, RoleEntity> {
   }
 
   @Override
+  @Transactional
   public Role convertEntityToModel(RoleEntity entity) {
     return this.modelMapper.map(entity, Role.class);
   }

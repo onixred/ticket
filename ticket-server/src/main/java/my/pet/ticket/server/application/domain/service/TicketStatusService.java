@@ -8,6 +8,7 @@ import my.pet.ticket.server.application.port.persistence.TicketStatusPort;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TicketStatusService implements DomainService<TicketStatus, TicketStatusEntity> {
@@ -25,6 +26,7 @@ public class TicketStatusService implements DomainService<TicketStatus, TicketSt
   }
 
   @Override
+  @Transactional
   public TicketStatus get(Long id) {
     TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(
@@ -34,6 +36,19 @@ public class TicketStatusService implements DomainService<TicketStatus, TicketSt
   }
 
   @Override
+  @Transactional
+  public List<TicketStatus> getAll() {
+    return DomainService.super.getAll();
+  }
+
+  @Override
+  @Transactional
+  public List<TicketStatus> getAll(Integer page, Integer pageSize) {
+    return DomainService.super.getAll(page, pageSize);
+  }
+
+  @Override
+  @Transactional
   public void delete(Long id) {
     TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(
@@ -43,6 +58,7 @@ public class TicketStatusService implements DomainService<TicketStatus, TicketSt
   }
 
   @Override
+  @Transactional
   public List<TicketStatus> getAll(Pageable pageable) {
     return this.ticketStatusPort.getAll(((root, query, criteriaBuilder) -> criteriaBuilder.equal(
             root.get(TicketStatusEntity_.ACTIVE), true)), pageable)

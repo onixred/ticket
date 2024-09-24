@@ -80,6 +80,7 @@ public class UserService implements DomainService<User, UserEntity> {
   }
 
   @Override
+  @Transactional
   public User get(Long id) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
@@ -92,6 +93,19 @@ public class UserService implements DomainService<User, UserEntity> {
   }
 
   @Override
+  @Transactional
+  public List<User> getAll() {
+    return DomainService.super.getAll();
+  }
+
+  @Override
+  @Transactional
+  public List<User> getAll(Integer page, Integer pageSize) {
+    return DomainService.super.getAll(page, pageSize);
+  }
+
+  @Override
+  @Transactional
   public void delete(Long id) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
@@ -100,6 +114,7 @@ public class UserService implements DomainService<User, UserEntity> {
   }
 
   @Override
+  @Transactional
   public List<User> getAll(Pageable pageable) {
     List<UserEntity> userEntities = this.userPort.getAll(
         ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()), pageable);

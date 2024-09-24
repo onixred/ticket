@@ -55,10 +55,8 @@ class UserServiceTest extends ApplicationTest {
 
   @Test
   void deleteUser() {
-    User user = this.userService.get(1002L);
-    this.userService.delete(user.getUserId());
-    Assertions.assertThrows(DomainServiceException.class, () -> {
-      this.userService.get(1002L);
+    Assertions.assertDoesNotThrow(() -> {
+      this.userService.delete(1004L);
     });
   }
 

@@ -8,6 +8,7 @@ import my.pet.ticket.server.application.port.persistence.ClientPort;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ClientService implements DomainService<Client, ClientEntity> {
@@ -29,6 +30,7 @@ public class ClientService implements DomainService<Client, ClientEntity> {
   }
 
   @Override
+  @Transactional
   public Client get(Long id) {
     ClientEntity clientEntity = this.clientPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(ClientEntity_.CLIENT_ID),
@@ -40,6 +42,19 @@ public class ClientService implements DomainService<Client, ClientEntity> {
   }
 
   @Override
+  @Transactional
+  public List<Client> getAll() {
+    return DomainService.super.getAll();
+  }
+
+  @Override
+  @Transactional
+  public List<Client> getAll(Integer page, Integer pageSize) {
+    return DomainService.super.getAll(page, pageSize);
+  }
+
+  @Override
+  @Transactional
   public void delete(Long id) {
     ClientEntity client = this.clientPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(ClientEntity_.CLIENT_ID),
@@ -50,6 +65,7 @@ public class ClientService implements DomainService<Client, ClientEntity> {
   }
 
   @Override
+  @Transactional
   public List<Client> getAll(Pageable pageable) {
     return this.clientPort.getAll(((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()),
             pageable)

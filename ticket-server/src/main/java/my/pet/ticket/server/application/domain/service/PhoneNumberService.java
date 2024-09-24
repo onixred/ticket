@@ -22,12 +22,25 @@ public class PhoneNumberService implements DomainService<String, PhoneNumberEnti
   }
 
   @Override
+  @Transactional
   public String get(Long id) {
     PhoneNumberEntity phoneNumberEntity = this.phoneNumberPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(
                 root.get(PhoneNumberEntity_.ID).get(PhoneNumberIdEntity_.PHONE_NUMBER_ID), id)))
         .orElseThrow(() -> PHONE_NUMBER_NOT_FOUND);
     return convertEntityToModel(phoneNumberEntity);
+  }
+
+  @Override
+  @Transactional
+  public List<String> getAll() {
+    return DomainService.super.getAll();
+  }
+
+  @Override
+  @Transactional
+  public List<String> getAll(Integer page, Integer pageSize) {
+    return DomainService.super.getAll(page, pageSize);
   }
 
   @Transactional
@@ -40,6 +53,7 @@ public class PhoneNumberService implements DomainService<String, PhoneNumberEnti
   }
 
   @Override
+  @Transactional
   public void delete(Long id) {
     PhoneNumberEntity phoneNumberEntity = this.phoneNumberPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(
@@ -58,6 +72,7 @@ public class PhoneNumberService implements DomainService<String, PhoneNumberEnti
   }
 
   @Override
+  @Transactional
   public List<String> getAll(Pageable pageable) {
     return this.phoneNumberPort.getAll(
             ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()), pageable)
