@@ -2,11 +2,7 @@ package my.pet.ticket.server.common.logging;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("dev")
 public class LogTest {
 
   private static final String MESSAGE = "Test Message";
@@ -15,9 +11,8 @@ public class LogTest {
 
   private static final Throwable CAUSE = new NullPointerException("Test cause message");
 
-  private static final Detail[] DETAILS = new Detail[]{
-      new DefaultDetail("100", "Test description"), new DefaultDetail("101")
-  };
+  private static final Detail[] DETAILS = new Detail[]{new DefaultDetail("100", "Test description"),
+      new DefaultDetail("101")};
 
   @Test
   void testDebugMessageDetail() {

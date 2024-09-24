@@ -1,16 +1,14 @@
 package my.pet.ticket.server.application.domain.service;
 
 import java.util.List;
+import my.pet.ticket.server.ApplicationTest;
 import my.pet.ticket.server.application.domain.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("dev")
-class UserServiceTest {
+
+class UserServiceTest extends ApplicationTest {
 
   @Autowired
   UserService userService;

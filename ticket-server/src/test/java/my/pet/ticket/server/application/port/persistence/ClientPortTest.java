@@ -5,19 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import my.pet.ticket.server.ApplicationTest;
 import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.adapter.persistence.entity.ClientEntity;
 import my.pet.ticket.server.adapter.persistence.entity.ClientEntity_;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("dev")
-class ClientPortTest {
+
+class ClientPortTest extends ApplicationTest {
 
   @Autowired
   ClientPort clientPort;

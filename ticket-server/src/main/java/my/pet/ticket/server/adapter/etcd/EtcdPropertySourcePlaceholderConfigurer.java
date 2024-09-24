@@ -41,7 +41,7 @@ public class EtcdPropertySourcePlaceholderConfigurer extends PropertySourcesPlac
     this.beanFactory = beanFactory;
   }
 
-  private void addCustomPropertySource(PropertySource<?> environmentPropertySource,
+  protected void addCustomPropertySource(PropertySource<?> environmentPropertySource,
       ConfigurableEnvironment configurableEnvironment) {
     EtcdAdapter etcdAdapter = registerEtcdAdapter(environmentPropertySource);
     Map<String, Object> properties = new HashMap<>();
@@ -52,14 +52,14 @@ public class EtcdPropertySourcePlaceholderConfigurer extends PropertySourcesPlac
         .addFirst(new MapPropertySource("customPropertySource", properties));
   }
 
-  private EtcdAdapter registerEtcdAdapter(PropertySource<?> environmentPropertySource) {
+  protected EtcdAdapter registerEtcdAdapter(PropertySource<?> environmentPropertySource) {
     List<String> etcdEndpoints = getListOfProperty(environmentPropertySource,
         CONFIGURATION_SERVER_HOST_PROPERTY);
     Client etcdClient = createEtcdClient(etcdEndpoints);
     return createEtcdAdapter(etcdClient);
   }
 
-  private List<String> getListOfProperty(PropertySource<?> environmentPropertySource,
+  protected List<String> getListOfProperty(PropertySource<?> environmentPropertySource,
       String property) {
     List<String> list = new ArrayList<>();
     if (!property.isEmpty()) {
@@ -73,14 +73,14 @@ public class EtcdPropertySourcePlaceholderConfigurer extends PropertySourcesPlac
     return list;
   }
 
-  private Client createEtcdClient(List<String> endpoints) {
+  protected Client createEtcdClient(List<String> endpoints) {
     Client etcdClient = Client.builder().endpoints(endpoints.toArray(new String[]{}))
         .build();
     this.beanFactory.registerSingleton("etcdClient", etcdClient);
     return etcdClient;
   }
 
-  private EtcdAdapter createEtcdAdapter(Client client) {
+  protected EtcdAdapter createEtcdAdapter(Client client) {
     EtcdAdapter etcdAdapter = new EtcdAdapter(client);
     this.beanFactory.registerSingleton("etcdAdapter", etcdAdapter);
     return etcdAdapter;

@@ -84,10 +84,34 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <scope>test</scope>
+      <version>5.10.3</version>
+    </dependency>
+    <dependency>
       <artifactId>jetcd-test</artifactId>
       <groupId>io.etcd</groupId>
       <scope>test</scope>
       <version>0.8.0</version>
+    </dependency>
+    <dependency>
+      <artifactId>testcontainers</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+      <version>1.19.6</version>
+    </dependency>
+    <dependency>
+      <artifactId>junit-jupiter</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+      <version>1.19.6</version>
+    </dependency>
+    <dependency>
+      <artifactId>postgresql</artifactId>
+      <groupId>org.testcontainers</groupId>
+      <scope>test</scope>
+      <version>1.19.6</version>
     </dependency>
   </dependencies>
 

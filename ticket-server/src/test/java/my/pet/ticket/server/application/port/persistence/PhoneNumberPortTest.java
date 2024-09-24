@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import my.pet.ticket.server.ApplicationTest;
 import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity;
 import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity_;
@@ -11,12 +12,8 @@ import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberIdEntity_;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("dev")
-class PhoneNumberPortTest {
+class PhoneNumberPortTest extends ApplicationTest {
 
   @Autowired
   PhoneNumberPort phoneNumberPort;
@@ -24,7 +21,7 @@ class PhoneNumberPortTest {
   @Test
   void createTest() {
     PhoneNumberEntity phoneNumberEntity = PhoneNumberEntity.builder()
-        .clientId(1004L)
+        .clientId(1003L)
         .nationalPrefix(8)
         .regionCode(888)
         .number(4444444)

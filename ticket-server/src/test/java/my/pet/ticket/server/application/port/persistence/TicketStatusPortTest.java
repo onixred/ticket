@@ -4,18 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import my.pet.ticket.server.ApplicationTest;
 import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.adapter.persistence.entity.TicketStatusEntity;
 import my.pet.ticket.server.adapter.persistence.entity.TicketStatusEntity_;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
-@ActiveProfiles("dev")
-class TicketStatusPortTest {
+
+class TicketStatusPortTest extends ApplicationTest {
 
   @Autowired
   TicketStatusPort ticketStatusPort;

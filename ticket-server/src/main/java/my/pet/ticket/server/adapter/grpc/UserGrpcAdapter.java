@@ -55,6 +55,18 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   }
 
   @Override
+  public void suspendUser(FilterRequest request, StreamObserver<UserResponse> responseObserver) {
+    if (request.hasFilter() && request.getFilter().hasUserId()) {
+      User user = this.userService.suspend(request.getFilter().getUserId().getValue());
+      UserResponse userResponse = convertUserToUserResponse(user);
+      responseObserver.onNext(userResponse);
+      responseObserver.onCompleted();
+      return;
+    }
+    throw NULL_FILTER_OR_EMPTY_FIELD;
+  }
+
+  @Override
   public void getUser(FilterRequest request, StreamObserver<UserResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasUserId()) {
       User user = this.userService.get(request.getFilter().getUserId().getValue());
@@ -78,18 +90,6 @@ public class UserGrpcAdapter extends UserServiceImplBase {
     List<UserResponse> userResponses = users.stream().map(this::convertUserToUserResponse).toList();
     responseObserver.onNext(UserResponses.newBuilder().addAllUsers(userResponses).build());
     responseObserver.onCompleted();
-  }
-
-  @Override
-  public void suspendUser(FilterRequest request, StreamObserver<UserResponse> responseObserver) {
-    if (request.hasFilter() && request.getFilter().hasUserId()) {
-      User user = this.userService.suspend(request.getFilter().getUserId().getValue());
-      UserResponse userResponse = convertUserToUserResponse(user);
-      responseObserver.onNext(userResponse);
-      responseObserver.onCompleted();
-      return;
-    }
-    throw NULL_FILTER_OR_EMPTY_FIELD;
   }
 
   @Override
