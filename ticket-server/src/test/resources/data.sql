@@ -74,6 +74,24 @@ INSERT INTO pet_project.clients (
     current_timestamp
 );
 
+INSERT INTO pet_project.clients (
+    first_name,
+    last_name,
+    sur_name,
+    full_name,
+    email,
+    created_at,
+    updated_at
+) VALUES (
+    'Test6',
+    'Test6',
+    'Test6',
+    'Test6 Test6 Test6',
+    'test6@test.ru',
+    current_timestamp,
+    current_timestamp
+);
+
 -- client insert end
 
 -- phone number insert start
@@ -148,6 +166,24 @@ INSERT INTO pet_project.phone_numbers (
     888,
     5555555,
     '88885555555',
+    current_timestamp,
+    current_timestamp
+);
+
+INSERT INTO pet_project.phone_numbers (
+    client_id,
+    national_prefix,
+    region_code,
+    number,
+    full_number,
+    created_at,
+    updated_at
+) VALUES (
+    1005,
+    8,
+    888,
+    6666666,
+    '88886666666',
     current_timestamp,
     current_timestamp
 );
@@ -455,6 +491,32 @@ INSERT INTO pet_project.users (
     current_timestamp
 );
 
+INSERT INTO pet_project.users (
+    role_id,
+    first_name,
+    last_name,
+    sur_name,
+    full_name,
+    login,
+    password,
+    active,
+    suspended,
+    created_at,
+    updated_at
+) VALUES (
+    1,
+    'Test6',
+    'Test6',
+    'Test6',
+    'Test6 Test6 Test6',
+    'test6-login',
+    'passwordhash',
+    true,
+    false,
+    current_timestamp,
+    current_timestamp
+);
+
 -- user insert end
 
 -- ticket insert end
@@ -536,6 +598,26 @@ INSERT INTO pet_project.tickets (
     1004,
     1,
     'Test ticket 5',
+    'Ticket description',
+    current_timestamp,
+    current_timestamp
+);
+
+INSERT INTO pet_project.tickets (
+    client_id,
+    author_id,
+    manager_id,
+    ticket_status_id,
+    title,
+    description,
+    created_at,
+    updated_at
+) VALUES (
+    1005,
+    1005,
+    1005,
+    1,
+    'Test ticket 6',
     'Ticket description',
     current_timestamp,
     current_timestamp

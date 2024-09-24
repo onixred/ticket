@@ -20,6 +20,13 @@ class TicketServiceTest extends ApplicationTest {
   }
 
   @Test
+  void getTicketByClientIdTest() {
+    Assertions.assertDoesNotThrow(() -> {
+      this.ticketService.getByClientId(1005L);
+    });
+  }
+
+  @Test
   void getAllTicketsTest() {
     List<Ticket> tickets = this.ticketService.getAll();
     Assertions.assertFalse(tickets.isEmpty());
@@ -36,6 +43,13 @@ class TicketServiceTest extends ApplicationTest {
   void deleteTicketTest() {
     Assertions.assertDoesNotThrow(() -> {
       this.ticketService.delete(10004L);
+    });
+  }
+
+  @Test
+  void deleteTicketByClientIdTest() {
+    Assertions.assertDoesNotThrow(() -> {
+      this.ticketService.deleteByClientId(1002L);
     });
   }
 
