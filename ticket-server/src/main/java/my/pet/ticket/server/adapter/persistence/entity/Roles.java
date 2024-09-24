@@ -9,7 +9,7 @@ public enum Roles {
 
   MANAGER(2L),
 
-  ADMING(3L);
+  ADMIN(3L);
 
   private final Long roleId;
 

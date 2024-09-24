@@ -19,7 +19,7 @@ import net.devh.boot.grpc.server.service.GrpcService;
 public class RoleGrpcAdapter extends RoleServiceImplBase {
 
   private static final DomainServiceException NULL_FILTER_OR_EMPTY_FIELD = new DomainServiceException(
-      "Filter and they field user id shouldn't be empty");
+      "Filter and they field role id shouldn't be empty");
 
   private final RoleService roleService;
 
@@ -34,6 +34,7 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
       RoleResponse response = convertRoleToRoleResponse(role);
       responseObserver.onNext(response);
       responseObserver.onCompleted();
+      return;
     }
     throw NULL_FILTER_OR_EMPTY_FIELD;
   }
@@ -58,6 +59,7 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
       this.roleService.delete(request.getFilter().getRoleId().getValue());
       responseObserver.onNext(Empty.getDefaultInstance());
       responseObserver.onCompleted();
+      return;
     }
     throw NULL_FILTER_OR_EMPTY_FIELD;
   }

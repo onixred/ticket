@@ -18,7 +18,7 @@ public interface DomainService<T, S> {
 
   default List<T> getAll(Integer page, Integer pageSize) {
     return getAll(PageRequest.of(page != null ? page : 0,
-        pageSize != null && pageSize <= 500 ? pageSize : 500));
+        pageSize != null && pageSize <= 500 && pageSize > 0 ? pageSize : 500));
   }
 
   void delete(Long id);

@@ -7,58 +7,58 @@ import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import my.pet.ticket.grpc.Filter;
 import my.pet.ticket.grpc.FilterRequest;
-import my.pet.ticket.grpc.RoleResponse;
-import my.pet.ticket.grpc.RoleResponses;
+import my.pet.ticket.grpc.UserResponse;
+import my.pet.ticket.grpc.UserResponses;
 import my.pet.ticket.server.ApplicationTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-class RoleGrpcAdapterTest extends ApplicationTest {
+class UserGrpcAdapterTest extends ApplicationTest {
 
   @Autowired
-  RoleGrpcAdapter roleGrpcAdapter;
+  UserGrpcAdapter userGrpcAdapter;
 
   @Test
   @SneakyThrows
-  void getRoleTest() {
-    StreamRecorder<RoleResponse> responseObserver = StreamRecorder.create();
-    this.roleGrpcAdapter.getRole(FilterRequest.newBuilder()
-            .setFilter(Filter.newBuilder().setRoleId(Int64Value.of(1)).build()).build(),
+  void getUserTest() {
+    StreamRecorder<UserResponse> responseObserver = StreamRecorder.create();
+    this.userGrpcAdapter.getUser(FilterRequest.newBuilder()
+            .setFilter(Filter.newBuilder().setUserId(Int64Value.of(1001)).build()).build(),
         responseObserver);
     if (!responseObserver.awaitCompletion(5, TimeUnit.SECONDS)) {
       Assertions.fail("The call did not terminate in time");
     }
     Assertions.assertNull(responseObserver.getError());
-    RoleResponse response = responseObserver.getValues().get(0);
-    Assertions.assertEquals(response.getRoleId().getValue(), 1L);
+    UserResponse response = responseObserver.getValues().get(0);
+    Assertions.assertEquals(response.getUserId().getValue(), 1001L);
   }
 
   @Test
   @SneakyThrows
-  void getAllRolesTest() {
-    StreamRecorder<RoleResponses> responseObserver = StreamRecorder.create();
-    this.roleGrpcAdapter.getAllRoles(FilterRequest.newBuilder().build(),
+  void getAllUsersTest() {
+    StreamRecorder<UserResponses> responseObserver = StreamRecorder.create();
+    this.userGrpcAdapter.getAllUsers(FilterRequest.newBuilder()
+            .setFilter(Filter.newBuilder().build()).build(),
         responseObserver);
     if (!responseObserver.awaitCompletion(5, TimeUnit.SECONDS)) {
       Assertions.fail("The call did not terminate in time");
     }
     Assertions.assertNull(responseObserver.getError());
-    RoleResponses response = responseObserver.getValues().get(0);
-    Assertions.assertFalse(response.getRolesList().isEmpty());
+    UserResponses response = responseObserver.getValues().get(0);
+    Assertions.assertFalse(response.getUsersList().isEmpty());
   }
 
   @Test
   @SneakyThrows
-  void deleteRoleTest() {
+  void deleteUserTest() {
     StreamRecorder<Empty> responseObserver = StreamRecorder.create();
-    this.roleGrpcAdapter.deleteRole(FilterRequest.newBuilder()
-            .setFilter(Filter.newBuilder().setRoleId(Int64Value.of(8)).build()).build(),
+    this.userGrpcAdapter.deleteUser(FilterRequest.newBuilder()
+            .setFilter(Filter.newBuilder().setUserId(Int64Value.of(1006)).build()).build(),
         responseObserver);
     if (!responseObserver.awaitCompletion(5, TimeUnit.SECONDS)) {
       Assertions.fail("The call did not terminate in time");
     }
     Assertions.assertNull(responseObserver.getError());
   }
-
 }

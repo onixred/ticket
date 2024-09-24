@@ -278,6 +278,18 @@ INSERT INTO pet_project.roles (
     current_timestamp
 );
 
+INSERT INTO pet_project.roles (
+    name,
+    active,
+    created_at,
+    updated_at
+) VALUES (
+    'Test role 6',
+    true,
+    current_timestamp,
+    current_timestamp
+);
+
 -- role insert end
 
 -- ticket status insert start
@@ -510,6 +522,32 @@ INSERT INTO pet_project.users (
     'Test6',
     'Test6 Test6 Test6',
     'test6-login',
+    'passwordhash',
+    true,
+    false,
+    current_timestamp,
+    current_timestamp
+);
+
+INSERT INTO pet_project.users (
+    role_id,
+    first_name,
+    last_name,
+    sur_name,
+    full_name,
+    login,
+    password,
+    active,
+    suspended,
+    created_at,
+    updated_at
+) VALUES (
+    1,
+    'Test7',
+    'Test7',
+    'Test7',
+    'Test7 Test7 Test7',
+    'test7-login',
     'passwordhash',
     true,
     false,
