@@ -1,21 +1,20 @@
 package my.pet.ticket.server.adapter.grpc;
 
-import com.google.protobuf.BoolValue;
+import static my.pet.ticket.server.common.utils.GrpcMessageUtils.convertUserToUserResponse;
+
 import com.google.protobuf.Empty;
-import com.google.protobuf.Int64Value;
-import com.google.protobuf.StringValue;
 import io.grpc.stub.StreamObserver;
 import java.util.ArrayList;
 import java.util.List;
 import my.pet.ticket.grpc.FilterRequest;
 import my.pet.ticket.grpc.RegisterUserRequest;
-import my.pet.ticket.grpc.RoleResponse;
 import my.pet.ticket.grpc.UserResponse;
 import my.pet.ticket.grpc.UserResponses;
 import my.pet.ticket.grpc.UserServiceGrpc.UserServiceImplBase;
 import my.pet.ticket.server.application.domain.model.User;
 import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.application.domain.service.UserService;
+import my.pet.ticket.server.common.utils.GrpcMessageUtils;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
@@ -87,7 +86,8 @@ public class UserGrpcAdapter extends UserServiceImplBase {
     } else {
       users.addAll(this.userService.getAll());
     }
-    List<UserResponse> userResponses = users.stream().map(this::convertUserToUserResponse).toList();
+    List<UserResponse> userResponses = users.stream().map(
+        GrpcMessageUtils::convertUserToUserResponse).toList();
     responseObserver.onNext(UserResponses.newBuilder().addAllUsers(userResponses).build());
     responseObserver.onCompleted();
   }
@@ -101,15 +101,6 @@ public class UserGrpcAdapter extends UserServiceImplBase {
       return;
     }
     throw NULL_FILTER_OR_EMPTY_FIELD;
-  }
-
-  private UserResponse convertUserToUserResponse(User user) {
-    return UserResponse.newBuilder().setUserId(Int64Value.of(user.getUserId())).setRole(
-            RoleResponse.newBuilder().setRoleId(Int64Value.of(user.getRole().getRoleId()))
-                .setName(StringValue.of(user.getRole().getName())).build())
-        .setFullName(StringValue.of(user.getFullName())).setLogin(StringValue.of(user.getLogin()))
-        .setActive(BoolValue.of(user.getActive())).setSuspended(BoolValue.of(user.getSuspended()))
-        .build();
   }
 
 }

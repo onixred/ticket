@@ -6,6 +6,7 @@ import my.pet.ticket.server.adapter.persistence.entity.ClientEntity_;
 import my.pet.ticket.server.application.domain.model.Client;
 import my.pet.ticket.server.application.port.persistence.ClientPort;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +32,7 @@ public class ClientService implements DomainService<Client, ClientEntity> {
 
   @Override
   @Transactional
+  @Cacheable(cacheNames = "client", key = "#id")
   public Client get(Long id) {
     ClientEntity clientEntity = this.clientPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(ClientEntity_.CLIENT_ID),
@@ -70,7 +72,12 @@ public class ClientService implements DomainService<Client, ClientEntity> {
     return this.clientPort.getAll(((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()),
             pageable)
         .stream()
-        .map(this::convertEntityToModel)
+        .map(clientEntity -> {
+          Client client = convertEntityToModel(clientEntity);
+          String phoneNumber = this.phoneNumberService.getByClientId(clientEntity.getClientId());
+          client.setPhoneNumber(phoneNumber);
+          return client;
+        })
         .toList();
   }
 

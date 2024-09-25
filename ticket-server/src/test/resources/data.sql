@@ -549,7 +549,7 @@ INSERT INTO pet_project.users (
     'Test7 Test7 Test7',
     'test7-login',
     'passwordhash',
-    true,
+    false,
     false,
     current_timestamp,
     current_timestamp

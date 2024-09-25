@@ -6,6 +6,7 @@ import my.pet.ticket.server.adapter.persistence.entity.RoleEntity_;
 import my.pet.ticket.server.application.domain.model.Role;
 import my.pet.ticket.server.application.port.persistence.RolePort;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,7 @@ public class RoleService implements DomainService<Role, RoleEntity> {
 
   @Override
   @Transactional
+  @Cacheable(cacheNames = "role", key = "#id")
   public Role get(Long id) {
     RoleEntity roleEntity = this.rolePort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.and(
@@ -38,6 +40,7 @@ public class RoleService implements DomainService<Role, RoleEntity> {
 
   @Override
   @Transactional
+  @Cacheable(cacheNames = "roles")
   public List<Role> getAll() {
     return DomainService.super.getAll();
   }
@@ -69,7 +72,6 @@ public class RoleService implements DomainService<Role, RoleEntity> {
   }
 
   @Override
-  @Transactional
   public Role convertEntityToModel(RoleEntity entity) {
     return this.modelMapper.map(entity, Role.class);
   }

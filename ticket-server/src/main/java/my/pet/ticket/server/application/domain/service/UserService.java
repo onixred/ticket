@@ -12,6 +12,8 @@ import my.pet.ticket.server.application.domain.model.payload.request.RegisterUse
 import my.pet.ticket.server.application.port.persistence.UserPort;
 import my.pet.ticket.server.common.utils.NameUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +39,12 @@ public class UserService implements DomainService<User, UserEntity> {
   @Transactional
   public User register(
       Function<RegisterUserRequest.RegisterUserRequestBuilder, RegisterUserRequest> requestFunction) {
-    RegisterUserRequest request = requestFunction.apply(RegisterUserRequest.builder());
+    return register(requestFunction.apply(RegisterUserRequest.builder()));
+  }
+
+  @Transactional
+  @CacheEvict(cacheNames = "user")
+  public User register(RegisterUserRequest request) {
     String[] names = NameUtils.parseFullName(request.getFullName());
     Role role = this.roleService.get(Roles.GUEST.getRoleId());
     UserEntity userEntity = UserEntity.builder().roleId(role.getRoleId()).firstName(names[1])
@@ -81,6 +88,7 @@ public class UserService implements DomainService<User, UserEntity> {
 
   @Override
   @Transactional
+  @Cacheable(cacheNames = "user", key = "#id")
   public User get(Long id) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
@@ -106,6 +114,7 @@ public class UserService implements DomainService<User, UserEntity> {
 
   @Override
   @Transactional
+  @CacheEvict(cacheNames = "user", key = "#id")
   public void delete(Long id) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),

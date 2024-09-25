@@ -1,8 +1,8 @@
 package my.pet.ticket.server.adapter.grpc;
 
+import static my.pet.ticket.server.common.utils.GrpcMessageUtils.convertRoleToRoleResponse;
+
 import com.google.protobuf.Empty;
-import com.google.protobuf.Int64Value;
-import com.google.protobuf.StringValue;
 import io.grpc.stub.StreamObserver;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import my.pet.ticket.grpc.RoleServiceGrpc.RoleServiceImplBase;
 import my.pet.ticket.server.application.domain.model.Role;
 import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.application.domain.service.RoleService;
+import my.pet.ticket.server.common.utils.GrpcMessageUtils;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
@@ -48,7 +49,8 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
     } else {
       users.addAll(this.roleService.getAll());
     }
-    List<RoleResponse> roleResponses = users.stream().map(this::convertRoleToRoleResponse).toList();
+    List<RoleResponse> roleResponses = users.stream()
+        .map(GrpcMessageUtils::convertRoleToRoleResponse).toList();
     responseObserver.onNext(RoleResponses.newBuilder().addAllRoles(roleResponses).build());
     responseObserver.onCompleted();
   }
@@ -62,13 +64,6 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
       return;
     }
     throw NULL_FILTER_OR_EMPTY_FIELD;
-  }
-
-  private RoleResponse convertRoleToRoleResponse(Role role) {
-    return RoleResponse.newBuilder()
-        .setRoleId(Int64Value.of(role.getRoleId()))
-        .setName(StringValue.of(role.getName()))
-        .build();
   }
 
 }

@@ -6,6 +6,8 @@ import my.pet.ticket.server.adapter.persistence.entity.TicketStatusEntity_;
 import my.pet.ticket.server.application.domain.model.TicketStatus;
 import my.pet.ticket.server.application.port.persistence.TicketStatusPort;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,7 @@ public class TicketStatusService implements DomainService<TicketStatus, TicketSt
 
   @Override
   @Transactional
+  @Cacheable(cacheNames = "ticket_status", key = "#id")
   public TicketStatus get(Long id) {
     TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(
@@ -37,6 +40,7 @@ public class TicketStatusService implements DomainService<TicketStatus, TicketSt
 
   @Override
   @Transactional
+  @Cacheable(cacheNames = "ticket_statuses")
   public List<TicketStatus> getAll() {
     return DomainService.super.getAll();
   }
@@ -49,6 +53,7 @@ public class TicketStatusService implements DomainService<TicketStatus, TicketSt
 
   @Override
   @Transactional
+  @CacheEvict(cacheNames = "ticket_status", key = "#id")
   public void delete(Long id) {
     TicketStatusEntity ticketStatusEntity = this.ticketStatusPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(

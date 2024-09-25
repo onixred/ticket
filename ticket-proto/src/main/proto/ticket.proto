@@ -23,11 +23,11 @@ message TicketResponse {
 }
 
 message TicketResponses {
-  repeated TicketStatusResponse tickets = 1;
+  repeated TicketResponse tickets = 1;
 }
 
 service TicketService {
-  rpc getTicket(FilterRequest) returns (TicketStatusResponse) {};
-  rpc getAllTickets(FilterRequest) returns (TicketStatusResponses) {};
+  rpc getTicket(FilterRequest) returns (TicketResponse) {};
+  rpc getAllTickets(FilterRequest) returns (TicketResponses) {};
   rpc deleteTicket(FilterRequest) returns (google.protobuf.Empty) {};
 }

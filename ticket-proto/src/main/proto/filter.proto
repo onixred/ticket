@@ -13,8 +13,9 @@ message Filter {
   google.protobuf.Int64Value user_id = 2;
   google.protobuf.Int64Value ticket_id = 3;
   google.protobuf.Int64Value role_id = 4;
-  google.protobuf.Int32Value page = 5;
-  google.protobuf.Int32Value pageSize = 6;
+  google.protobuf.Int64Value ticket_status_id = 5;
+  google.protobuf.Int32Value page = 6;
+  google.protobuf.Int32Value pageSize = 7;
 }
 
 message FilterRequest {
