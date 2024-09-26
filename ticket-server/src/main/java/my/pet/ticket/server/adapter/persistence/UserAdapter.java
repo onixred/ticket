@@ -48,5 +48,4 @@ public class UserAdapter implements UserPort {
     }
     throw new PersistenceAdapterException("User not exist");
   }
-
 }

@@ -40,7 +40,6 @@ public class TicketStatusService implements DomainService<TicketStatus, TicketSt
 
   @Override
   @Transactional
-  @Cacheable(cacheNames = "ticket_statuses")
   public List<TicketStatus> getAll() {
     return DomainService.super.getAll();
   }

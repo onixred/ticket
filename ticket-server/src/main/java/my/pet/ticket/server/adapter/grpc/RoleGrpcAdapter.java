@@ -15,6 +15,7 @@ import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.application.domain.service.RoleService;
 import my.pet.ticket.server.common.utils.GrpcMessageUtils;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.springframework.security.access.annotation.Secured;
 
 @GrpcService
 public class RoleGrpcAdapter extends RoleServiceImplBase {
@@ -29,6 +30,7 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
   }
 
   @Override
+  @Secured("MANAGER")
   public void getRole(FilterRequest request, StreamObserver<RoleResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasRoleId()) {
       Role role = this.roleService.get(request.getFilter().getRoleId().getValue());

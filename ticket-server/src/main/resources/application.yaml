@@ -1,6 +1,8 @@
 spring:
   application:
     name: ticket-server
+  main:
+    web-application-type: none
   jpa:
     generate-ddl: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
