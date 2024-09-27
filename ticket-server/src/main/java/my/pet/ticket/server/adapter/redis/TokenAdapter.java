@@ -27,8 +27,8 @@ public class TokenAdapter implements TokenPort {
 
   @Override
   public TokenEntity create(Long userId, String token) {
-    return get(userId).orElse(
-        this.tokenRepository.save(TokenEntity.builder().userId(userId).token(token).build()));
+    return get(userId).orElseGet(
+        () -> this.tokenRepository.save(TokenEntity.builder().userId(userId).token(token).build()));
   }
 
   @Override

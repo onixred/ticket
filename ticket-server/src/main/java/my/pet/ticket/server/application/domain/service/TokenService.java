@@ -1,5 +1,6 @@
 package my.pet.ticket.server.application.domain.service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import my.pet.ticket.server.adapter.redis.TokenAdapter;
 import my.pet.ticket.server.adapter.redis.entity.TokenEntity;
@@ -35,7 +36,8 @@ public class TokenService {
 
   public Token createToken(Long userId) {
     TokenEntity tokenEntity = this.tokenAdapter.create(userId,
-        UUID.nameUUIDFromBytes(String.valueOf(userId).getBytes()).toString());
+        UUID.nameUUIDFromBytes(String.valueOf(userId + LocalDateTime.now().toString()).getBytes())
+            .toString());
     return modelMapper.map(tokenEntity, Token.class);
   }
 

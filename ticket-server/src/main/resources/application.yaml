@@ -15,5 +15,13 @@ spring:
     client:
       endpoints:
         - http://127.0.0.1:2379
+  redis:
+    lettuce:
+      pool:
+        enabled: true
+        min-idle: 10
+        max-idle: 90
+        max-wait: 90
+        max-active: 100
 server:
   port: 8090
