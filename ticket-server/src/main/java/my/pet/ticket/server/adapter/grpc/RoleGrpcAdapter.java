@@ -30,7 +30,7 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
   }
 
   @Override
-  @Secured("MANAGER")
+  @Secured({"MANAGER", "ADMIN"})
   public void getRole(FilterRequest request, StreamObserver<RoleResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasRoleId()) {
       Role role = this.roleService.get(request.getFilter().getRoleId().getValue());
@@ -43,6 +43,7 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
   }
 
   @Override
+  @Secured({"MANAGER", "ADMIN"})
   public void getAllRoles(FilterRequest request, StreamObserver<RoleResponses> responseObserver) {
     List<Role> users = new ArrayList<>();
     if (request.hasFilter()) {
@@ -58,6 +59,7 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
   }
 
   @Override
+  @Secured("ADMIN")
   public void deleteRole(FilterRequest request, StreamObserver<Empty> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasRoleId()) {
       this.roleService.delete(request.getFilter().getRoleId().getValue());

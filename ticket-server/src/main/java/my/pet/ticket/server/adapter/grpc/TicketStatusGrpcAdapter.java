@@ -15,6 +15,7 @@ import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.application.domain.service.TicketStatusService;
 import my.pet.ticket.server.common.utils.GrpcMessageUtils;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.springframework.security.access.annotation.Secured;
 
 @GrpcService
 public class TicketStatusGrpcAdapter extends TicketStatusServiceImplBase {
@@ -29,6 +30,7 @@ public class TicketStatusGrpcAdapter extends TicketStatusServiceImplBase {
   }
 
   @Override
+  @Secured({"MANAGER", "ADMIN"})
   public void getTicketStatus(FilterRequest request,
       StreamObserver<TicketStatusResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasTicketStatusId()) {
@@ -44,6 +46,7 @@ public class TicketStatusGrpcAdapter extends TicketStatusServiceImplBase {
   }
 
   @Override
+  @Secured({"MANAGER", "ADMIN"})
   public void getAllTicketStatuses(FilterRequest request,
       StreamObserver<TicketStatusResponses> responseObserver) {
     List<TicketStatus> ticketStatuses = new ArrayList<>();
@@ -64,6 +67,7 @@ public class TicketStatusGrpcAdapter extends TicketStatusServiceImplBase {
   }
 
   @Override
+  @Secured("ADMIN")
   public void deleteTicketStatus(FilterRequest request, StreamObserver<Empty> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasTicketStatusId()) {
       this.ticketStatusService.delete(request.getFilter().getTicketStatusId().getValue());

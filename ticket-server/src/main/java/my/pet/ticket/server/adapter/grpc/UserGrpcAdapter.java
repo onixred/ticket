@@ -16,6 +16,7 @@ import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.application.domain.service.UserService;
 import my.pet.ticket.server.common.utils.GrpcMessageUtils;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.springframework.security.access.annotation.Secured;
 
 @GrpcService
 public class UserGrpcAdapter extends UserServiceImplBase {
@@ -42,6 +43,7 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   }
 
   @Override
+  @Secured("ADMIN")
   public void activeUser(FilterRequest request, StreamObserver<UserResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasUserId()) {
       User user = this.userService.activateUser(request.getFilter().getUserId().getValue());
@@ -54,6 +56,7 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   }
 
   @Override
+  @Secured("ADMIN")
   public void suspendUser(FilterRequest request, StreamObserver<UserResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasUserId()) {
       User user = this.userService.suspend(request.getFilter().getUserId().getValue());
@@ -66,6 +69,7 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   }
 
   @Override
+  @Secured({"MANAGER", "ADMIN"})
   public void getUser(FilterRequest request, StreamObserver<UserResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasUserId()) {
       User user = this.userService.get(request.getFilter().getUserId().getValue());
@@ -78,6 +82,7 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   }
 
   @Override
+  @Secured({"MANAGER", "ADMIN"})
   public void getAllUsers(FilterRequest request, StreamObserver<UserResponses> responseObserver) {
     List<User> users = new ArrayList<>();
     if (request.hasFilter()) {
@@ -93,6 +98,7 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   }
 
   @Override
+  @Secured("ADMIN")
   public void deleteUser(FilterRequest request, StreamObserver<Empty> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasUserId()) {
       this.userService.delete(request.getFilter().getUserId().getValue());

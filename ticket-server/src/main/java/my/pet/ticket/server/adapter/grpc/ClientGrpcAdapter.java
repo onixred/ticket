@@ -15,6 +15,7 @@ import my.pet.ticket.server.application.domain.service.ClientService;
 import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.common.utils.GrpcMessageUtils;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.springframework.security.access.annotation.Secured;
 
 @GrpcService
 public class ClientGrpcAdapter extends ClientServiceImplBase {
@@ -29,6 +30,7 @@ public class ClientGrpcAdapter extends ClientServiceImplBase {
   }
 
   @Override
+  @Secured({"MANAGER", "ADMIN"})
   public void getClient(FilterRequest request, StreamObserver<ClientResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasClientId()) {
       Client client = this.clientService.get(request.getFilter().getClientId().getValue());
@@ -41,6 +43,7 @@ public class ClientGrpcAdapter extends ClientServiceImplBase {
   }
 
   @Override
+  @Secured({"MANAGER", "ADMIN"})
   public void getAllClients(FilterRequest request,
       StreamObserver<ClientResponses> responseObserver) {
     List<Client> clients = new ArrayList<>();
@@ -60,6 +63,7 @@ public class ClientGrpcAdapter extends ClientServiceImplBase {
   }
 
   @Override
+  @Secured("ADMIN")
   public void deleteClient(FilterRequest request, StreamObserver<Empty> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasClientId()) {
       this.clientService.delete(request.getFilter().getClientId().getValue());
