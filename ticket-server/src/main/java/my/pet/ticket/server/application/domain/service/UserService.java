@@ -13,7 +13,9 @@ import my.pet.ticket.server.application.port.persistence.UserPort;
 import my.pet.ticket.server.common.utils.NameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,13 +39,20 @@ public class UserService implements DomainService<User, UserEntity> {
   }
 
   @Transactional
+  @Caching(
+      put = @CachePut(cacheNames = "user", key = "#result.userId"),
+      evict = @CacheEvict(cacheNames = "users", allEntries = true)
+  )
   public User register(
       Function<RegisterUserRequest.RegisterUserRequestBuilder, RegisterUserRequest> requestFunction) {
     return register(requestFunction.apply(RegisterUserRequest.builder()));
   }
 
   @Transactional
-  @CacheEvict(cacheNames = "user")
+  @Caching(
+      put = @CachePut(cacheNames = "user", key = "#result.userId"),
+      evict = @CacheEvict(cacheNames = "users", allEntries = true)
+  )
   public User register(RegisterUserRequest request) {
     String[] names = NameUtils.parseFullName(request.getFullName());
     Role role = this.roleService.get(Roles.GUEST.getRoleId());
@@ -59,6 +68,10 @@ public class UserService implements DomainService<User, UserEntity> {
   }
 
   @Transactional
+  @Caching(
+      put = @CachePut(cacheNames = "user", key = "#result.userId"),
+      evict = @CacheEvict(cacheNames = "users", allEntries = true)
+  )
   public User activateUser(Long userId) {
     UserEntity userEntity = this.userPort.get(
         (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
@@ -73,6 +86,10 @@ public class UserService implements DomainService<User, UserEntity> {
   }
 
   @Transactional
+  @Caching(
+      put = @CachePut(cacheNames = "user", key = "#result.userId"),
+      evict = @CacheEvict(cacheNames = "users", allEntries = true)
+  )
   public User suspend(Long userId) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),
@@ -100,6 +117,20 @@ public class UserService implements DomainService<User, UserEntity> {
     return user;
   }
 
+  @Transactional
+  @Cacheable(cacheNames = "user_login", key = "#login")
+  public User getByLogin(String login) {
+    UserEntity userEntity = this.userPort.get(
+            ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.LOGIN),
+                login)))
+        .orElseThrow(() -> USER_NOT_FOUND);
+    Long roleId = userEntity.getRoleId();
+    Role role = this.roleService.get(roleId);
+    User user = convertEntityToModel(userEntity);
+    user.setRole(role);
+    return user;
+  }
+
   @Override
   @Transactional
   public List<User> getAll() {
@@ -114,7 +145,12 @@ public class UserService implements DomainService<User, UserEntity> {
 
   @Override
   @Transactional
-  @CacheEvict(cacheNames = "user", key = "#id")
+  @Caching(
+      evict = {
+          @CacheEvict(cacheNames = "user", key = "#id"),
+          @CacheEvict(cacheNames = "users", allEntries = true)
+      }
+  )
   public void delete(Long id) {
     UserEntity userEntity = this.userPort.get(
         ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(UserEntity_.USER_ID),

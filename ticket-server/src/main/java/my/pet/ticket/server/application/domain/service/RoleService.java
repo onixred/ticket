@@ -6,6 +6,7 @@ import my.pet.ticket.server.adapter.persistence.entity.RoleEntity_;
 import my.pet.ticket.server.application.domain.model.Role;
 import my.pet.ticket.server.application.port.persistence.RolePort;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -40,7 +41,6 @@ public class RoleService implements DomainService<Role, RoleEntity> {
 
   @Override
   @Transactional
-  @Cacheable(cacheNames = "roles")
   public List<Role> getAll() {
     return DomainService.super.getAll();
   }
@@ -53,6 +53,7 @@ public class RoleService implements DomainService<Role, RoleEntity> {
 
   @Override
   @Transactional
+  @CacheEvict(cacheNames = "role", key = "#id")
   public void delete(Long id) {
     RoleEntity roleEntity = this.rolePort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.and(

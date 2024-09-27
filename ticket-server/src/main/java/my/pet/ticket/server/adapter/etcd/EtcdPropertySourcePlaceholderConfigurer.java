@@ -55,6 +55,9 @@ public class EtcdPropertySourcePlaceholderConfigurer extends PropertySourcesPlac
   protected EtcdAdapter registerEtcdAdapter(PropertySource<?> environmentPropertySource) {
     List<String> etcdEndpoints = getListOfProperty(environmentPropertySource,
         CONFIGURATION_SERVER_HOST_PROPERTY);
+    if (etcdEndpoints.isEmpty()) {
+      throw new EtcdAdapterException("Etcd endpoints is not presented");
+    }
     Client etcdClient = createEtcdClient(etcdEndpoints);
     return createEtcdAdapter(etcdClient);
   }

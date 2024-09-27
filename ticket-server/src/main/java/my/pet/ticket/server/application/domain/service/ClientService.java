@@ -6,6 +6,7 @@ import my.pet.ticket.server.adapter.persistence.entity.ClientEntity_;
 import my.pet.ticket.server.application.domain.model.Client;
 import my.pet.ticket.server.application.port.persistence.ClientPort;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -57,6 +58,7 @@ public class ClientService implements DomainService<Client, ClientEntity> {
 
   @Override
   @Transactional
+  @CacheEvict(cacheNames = "client", key = "#id")
   public void delete(Long id) {
     ClientEntity client = this.clientPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(ClientEntity_.CLIENT_ID),

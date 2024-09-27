@@ -47,7 +47,7 @@ public class PhoneNumberService implements DomainService<String, PhoneNumberEnti
   }
 
   @Transactional
-  @Cacheable(cacheNames = "phone_number_client_id", key = "#id")
+  @Cacheable(cacheNames = "phone_number_by_client_id", key = "#id")
   public String getByClientId(Long id) {
     PhoneNumberEntity phoneNumberEntity = this.phoneNumberPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(
@@ -68,7 +68,7 @@ public class PhoneNumberService implements DomainService<String, PhoneNumberEnti
   }
 
   @Transactional
-  @CacheEvict(cacheNames = "phone_number_client_id", key = "#id")
+  @CacheEvict(cacheNames = "phone_number_by_client_id", key = "#id")
   public void deleteByClientId(Long id) {
     PhoneNumberEntity phoneNumberEntity = this.phoneNumberPort.get(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(
