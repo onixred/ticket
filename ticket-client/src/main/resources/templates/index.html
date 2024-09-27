@@ -8,6 +8,7 @@
   <h1>Main</h1>
   <div th:case="Manager">
     <div th:insert="~{fragments/header.html}"></div>
+    <script th:replace="~{fragments/check.html}"></script>
   </div>
   <div th:case="*">
     <div>

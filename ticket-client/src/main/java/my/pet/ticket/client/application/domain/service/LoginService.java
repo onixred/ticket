@@ -1,35 +1,40 @@
 package my.pet.ticket.client.application.domain.service;
 
-import com.google.protobuf.StringValue;
-import io.grpc.StatusRuntimeException;
-import my.pet.ticket.client.adapter.http.exception.LoginAdapterException;
 import my.pet.ticket.client.application.domain.model.Token;
+import my.pet.ticket.client.application.domain.model.User;
 import my.pet.ticket.client.application.domain.model.payload.request.LoginRequest;
-import my.pet.ticket.grpc.LoginResponse;
-import my.pet.ticket.grpc.LoginServiceGrpc.LoginServiceBlockingStub;
-import net.devh.boot.grpc.client.inject.GrpcClient;
+import my.pet.ticket.client.application.port.api.LoginGrpcPort;
+import my.pet.ticket.client.application.port.api.UserGrpcPort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 @Service
 public class LoginService {
 
-  @GrpcClient("globalClient")
-  private LoginServiceBlockingStub loginGrpcClient;
+  private final LoginGrpcPort loginGrpcPort;
 
-  public Token login(LoginRequest request) {
-    try {
-      LoginResponse loginResponse = loginGrpcClient.login(
-          (my.pet.ticket.grpc.LoginRequest.newBuilder()
-              .setLogin(StringValue.of(request.getLogin()))
-              .setPassword(StringValue.of(request.getPassword()))
-              .build()));
-      return Token.builder()
-          .userId(loginResponse.getUserId().getValue())
-          .token(loginResponse.getToken().getValue())
-          .build();
-    } catch (StatusRuntimeException exception) {
-      throw new LoginAdapterException(exception);
-    }
+  private final UserGrpcPort userGrpcPort;
+
+  public LoginService(LoginGrpcPort loginGrpcPort, UserGrpcPort userGrpcPort) {
+    this.loginGrpcPort = loginGrpcPort;
+    this.userGrpcPort = userGrpcPort;
+  }
+
+  public String login(Model model, Boolean failure, Boolean logout) {
+    model.addAttribute("error", failure);
+    return "login.html";
+  }
+
+  public ResponseEntity<String> loginRequest(LoginRequest request) {
+    Token token = this.loginGrpcPort.login(request);
+    User user = this.userGrpcPort.getUser(token.getUserId(), token.getToken());
+    return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "/cabinet")
+        .header(HttpHeaders.SET_COOKIE, "Authorization=" + token.getToken() + ";max-age=3600")
+        .header(HttpHeaders.SET_COOKIE, "UserId=" + token.getUserId() + ";max-age=3600")
+        .header(HttpHeaders.SET_COOKIE, "Role=" + user.getRole().getName() + ";max-age=3600")
+        .build();
   }
 
 }
