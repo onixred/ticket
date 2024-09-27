@@ -1,13 +1,22 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Test</title>
+  <title>Main</title>
 </head>
 <body>
-<div>
-  <form>
-    <input class="btn btn-primary mt-4" th:value="#{test}" type="submit"/>
-  </form>
+<div th:switch="${role}">
+  <h1>Main</h1>
+  <div th:case="Manager">
+    <div th:insert="~{fragments/header.html}"></div>
+  </div>
+  <div th:case="*">
+    <div>
+      <a href="login.html">Login</a>
+    </div>
+    <div>
+      <a href="register.html">Register</a>
+    </div>
+  </div>
 </div>
 </body>
 </html>
