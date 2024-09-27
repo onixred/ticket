@@ -1,7 +1,6 @@
 package my.pet.ticket.client.adapter.http;
 
-import my.pet.ticket.client.application.domain.model.User;
-import my.pet.ticket.client.application.domain.service.UserService;
+import my.pet.ticket.client.application.domain.service.CabinetService;
 import my.pet.ticket.client.application.port.entrypoint.CabinetPort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,18 +8,16 @@ import org.springframework.ui.Model;
 @Controller
 public class CabinetAdapter implements CabinetPort {
 
-  private final UserService userService;
+  private final CabinetService cabinetService;
 
-  public CabinetAdapter(UserService userService) {
-    this.userService = userService;
+  public CabinetAdapter(CabinetService cabinetService) {
+    this.cabinetService = cabinetService;
   }
 
   @Override
   public String cabinet(Model model, String token, Long userId, String role) {
-    model.addAttribute("role", role);
-    User user = this.userService.getUser(userId, token);
-    model.addAttribute("user", user);
-    return "cabinet.html";
+    return this.cabinetService.cabinet(model, token, userId, role);
+
   }
 
 }
