@@ -30,7 +30,7 @@ public class LoginService {
   public ResponseEntity<String> loginRequest(LoginRequest request) {
     Token token = this.loginGrpcPort.login(request);
     User user = this.userGrpcPort.getUser(token.getUserId(), token.getToken());
-    return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "/cabinet")
+    return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "/personal-account")
         .header(HttpHeaders.SET_COOKIE, "Authorization=" + token.getToken() + ";max-age=3600")
         .header(HttpHeaders.SET_COOKIE, "UserId=" + token.getUserId() + ";max-age=3600")
         .header(HttpHeaders.SET_COOKIE, "Role=" + user.getRole().getName() + ";max-age=3600")

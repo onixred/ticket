@@ -1,5 +1,7 @@
 package my.pet.ticket.client.adapter.http;
 
+import io.grpc.StatusRuntimeException;
+import my.pet.ticket.client.adapter.http.exception.LoginAdapterException;
 import my.pet.ticket.client.application.domain.model.payload.request.LoginRequest;
 import my.pet.ticket.client.application.domain.service.LoginService;
 import my.pet.ticket.client.application.port.entrypoint.LoginPort;
@@ -18,12 +20,20 @@ public class LoginAdapter implements LoginPort {
 
   @Override
   public String login(Model model, Boolean failure, Boolean logout) {
-    return this.loginService.login(model, failure, logout);
+    try {
+      return this.loginService.login(model, failure, logout);
+    } catch (StatusRuntimeException e) {
+      throw new LoginAdapterException(e);
+    }
   }
 
   @Override
   public ResponseEntity<String> loginRequest(LoginRequest loginRequest) {
-    return this.loginService.loginRequest(loginRequest);
+    try {
+      return this.loginService.loginRequest(loginRequest);
+    } catch (StatusRuntimeException e) {
+      throw new LoginAdapterException(e);
+    }
   }
 
 }

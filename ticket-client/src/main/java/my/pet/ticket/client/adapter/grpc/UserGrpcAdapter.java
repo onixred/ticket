@@ -25,6 +25,17 @@ public class UserGrpcAdapter implements UserGrpcPort {
     UserResponse userResponse = this.userGrpcClient.withCallCredentials(
         CallCredentialsHelper.authorizationHeader(token)).getUser(FilterRequest.newBuilder()
         .setFilter(Filter.newBuilder().setUserId(Int64Value.of(userId)).build()).build());
+    return convertUserResponseToUser(userResponse);
+  }
+
+  @Override
+  public List<User> getAllUsers(FilterRequest filterRequest, String token) {
+    return this.userGrpcClient.withCallCredentials(
+            CallCredentialsHelper.authorizationHeader(token)).getAllUsers(filterRequest).getUsersList()
+        .stream().map(this::convertUserResponseToUser).toList();
+  }
+
+  private User convertUserResponseToUser(UserResponse userResponse) {
     RoleResponse roleResponse = userResponse.getRole();
     return User.builder().userId(userResponse.getUserId().getValue()).role(
             Role.builder().roleId(roleResponse.getRoleId().getValue())
@@ -32,11 +43,6 @@ public class UserGrpcAdapter implements UserGrpcPort {
         .login(userResponse.getLogin().getValue()).fullName(userResponse.getFullName().getValue())
         .active(userResponse.getActive().getValue())
         .suspended(userResponse.getSuspended().getValue()).build();
-  }
-
-  @Override
-  public List<User> getAllUsers(FilterRequest filterRequest, String token) {
-    return List.of();
   }
 
 }

@@ -15,7 +15,7 @@ public class SecurityConfiguration {
     }).logout(httpSecurityLogoutConfigurer -> {
       httpSecurityLogoutConfigurer.logoutSuccessUrl("/login?logout=true");
     }).authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
-      authorizationManagerRequestMatcherRegistry.requestMatchers("*").permitAll();
+      authorizationManagerRequestMatcherRegistry.requestMatchers("**").permitAll();
     }).build();
   }
 }

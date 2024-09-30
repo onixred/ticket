@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet-Project - Personal Account</title>
+  <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+  <link href="../static/styles/main.css" rel="stylesheet"/>
+  <script src="http://localhost:35729/livereload.js"></script>
+</head>
+<body>
+<div class="wrapper d-flex f-d-col jc-top ai-center">
+  <div th:replace="~{fragments/header.html}"></div>
+  <div class="content w-100 h-100 d-flex f-d-row jc-top">
+    <div class="left-block w-25 d-flex f-d-col">
+      <div class="personal-info d-flex f-d-col margin-1">
+        <div class="title h2">
+          Personal Info
+        </div>
+        <div class="full-name d-flex f-d-row jc-between gap-1">
+          <div class="name b">Full Name:</div>
+          <div class="text" th:text="${user.fullName}"></div>
+        </div>
+        <div class="role d-flex f-d-row jc-between gap-1">
+          <div class="name b">Role:</div>
+          <div class="text" th:text="${user.role.name}">Manager</div>
+        </div>
+        <div class="login d-flex f-d-row jc-between gap-1">
+          <div class="name b">Login:</div>
+          <div class="text" th:text="${user.login}">testlogin</div>
+        </div>
+        <div class="active d-flex f-d-row jc-between gap-1">
+          <div class="name b">Active:</div>
+          <div class="text" th:text="${user.active}">True</div>
+        </div>
+        <div class="suspended d-flex f-d-row jc-between gap-1">
+          <div class="name b">Suspended</div>
+          <div class="text" th:text="${user.suspended}">False</div>
+        </div>
+      </div>
+      <div class="security d-flex f-d-col margin-1">
+        <div class="title h2">
+          Security
+        </div>
+        <div class="change-password d-flex f-d-col gap-1">
+          <div class="title b">
+            Change password
+          </div>
+          <div class="input c3 w-100">
+            <input id="current-password" name="current-password" placeholder="Current password"
+                   type="password">
+          </div>
+          <div class="password d-flex gap-1">
+            <div class="input c3 w-100">
+              <input id="password" name="password" placeholder="Password" type="password">
+            </div>
+            <div class="input c3 w-100">
+              <input id="re-password" name="re-password" placeholder="Re-password" type="password">
+            </div>
+          </div>
+          <div class="submit-button c3">
+            <input type="submit" value="Change">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="active-tickets w-75 d-flex f-d-col margin-2">
+      <div class="title h2 padding-1">
+        Active Tickets
+      </div>
+      <div class="users w-100 table d-flex f-d-col margin-1">
+        <div class="table-header d-flex f-d-row jc-between padding-1 gap-2">
+          <div>Full Name</div>
+          <div>Role</div>
+          <div>Login</div>
+          <div>Active</div>
+          <div>Suspended</div>
+        </div>
+        <div class="table-item d-flex f-d-row jc-between padding-1 gap-2">
+          <div>Test Testovik Testovich</div>
+          <div>Manager</div>
+          <div>testlogin</div>
+          <div>True</div>
+          <div>False</div>
+        </div>
+        <div class="table-item d-flex f-d-row jc-between padding-1 gap-2">
+          <div>Test Testovik Testovich</div>
+          <div>Manager</div>
+          <div>testlogin</div>
+          <div>True</div>
+          <div>False</div>
+        </div>
+        <div class="table-item d-flex f-d-row jc-between padding-1 gap-2">
+          <div>Test Testovik Testovich</div>
+          <div>Manager</div>
+          <div>testlogin</div>
+          <div>True</div>
+          <div>False</div>
+        </div>
+        <div class="table-item d-flex f-d-row jc-between padding-1 gap-2">
+          <div>Test Testovik Testovich</div>
+          <div>Manager</div>
+          <div>testlogin</div>
+          <div>True</div>
+          <div>False</div>
+        </div>
+        <div class="table-item d-flex f-d-row jc-between padding-1 gap-2">
+          <div>Test Testovik Testovich</div>
+          <div>Manager</div>
+          <div>testlogin</div>
+          <div>True</div>
+          <div>False</div>
+        </div>
+        <div class="table-item last d-flex f-d-row jc-between padding-1 gap-2">
+          <div>Test Testovik Testovich</div>
+          <div>Manager</div>
+          <div>testlogin</div>
+          <div>True</div>
+          <div>False</div>
+        </div>
+        <div class="pageable d-flex jc-center gap-1 margin-1">
+          <div class="prev disabled page b"><</div>
+          <div class="page current b">0</div>
+          <div class="page b">1</div>
+          <div class="page b">2</div>
+          <div class="next page b">></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div th:replace="~{fragments/footer.html}"></div>
+</div>
+</body>
+</html>

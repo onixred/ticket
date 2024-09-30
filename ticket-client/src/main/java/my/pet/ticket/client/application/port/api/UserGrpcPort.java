@@ -11,7 +11,7 @@ public interface UserGrpcPort {
 
   User getUser(Long userId, String token);
 
-  default List<User> getAllUsers(Long userId, String token) {
+  default List<User> getAllUsers(String token) {
     return getAllUsers(FilterRequest.newBuilder().setEmpty(Empty.getDefaultInstance()).build(),
         token);
   }

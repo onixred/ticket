@@ -4,15 +4,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-public interface RegisterPort {
+public interface RegistrationPort {
 
-  @RequestMapping("/register")
+  @RequestMapping("/registration")
   String register(Model model,
       @RequestParam(name = "failure", required = false, defaultValue = "false") Boolean failure);
 
-  @RequestMapping("/register.html")
+  @RequestMapping("/registration.html")
   default String register() {
-    return "redirect:/register";
+    return "redirect:/registration";
   }
 
 }
