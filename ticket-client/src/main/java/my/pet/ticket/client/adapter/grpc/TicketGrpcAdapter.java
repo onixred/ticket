@@ -3,6 +3,7 @@ package my.pet.ticket.client.adapter.grpc;
 import com.google.protobuf.Empty;
 import java.util.List;
 import my.pet.ticket.application.domain.model.Ticket;
+import my.pet.ticket.client.application.port.api.TicketGrpcPort;
 import my.pet.ticket.grpc.FilterRequest;
 import my.pet.ticket.grpc.TicketServiceGrpc.TicketServiceBlockingStub;
 import my.pet.utils.GrpcMessageUtils;
@@ -11,7 +12,7 @@ import net.devh.boot.grpc.client.security.CallCredentialsHelper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TicketGrpcAdapter {
+public class TicketGrpcAdapter implements TicketGrpcPort {
 
   @GrpcClient("globalClient")
   private TicketServiceBlockingStub ticketServiceBlockingStub;
