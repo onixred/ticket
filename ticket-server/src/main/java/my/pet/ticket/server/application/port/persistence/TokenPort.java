@@ -11,6 +11,8 @@ public interface TokenPort {
 
   TokenEntity create(Long userId, String token);
 
+  Boolean isExist(String token);
+
   void delete(Long userId);
 
 }

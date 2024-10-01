@@ -15,9 +15,13 @@ public class UserService {
     this.userGrpcPort = userGrpcPort;
   }
 
-  public String user(Model model, String token, Long userId, String role) {
+  public String user(Model model, String token, Long userId, String role, Long requestUserId) {
     List<User> users = this.userGrpcPort.getAllUsers(token);
     model.addAttribute("users", users);
+    if (requestUserId != null) {
+      User requestUser = this.userGrpcPort.getUser(requestUserId, token);
+      model.addAttribute("requestUser", requestUser);
+    }
     return "users.html";
   }
 

@@ -32,6 +32,11 @@ public class TokenAdapter implements TokenPort {
   }
 
   @Override
+  public Boolean isExist(String token) {
+    return this.tokenRepository.existsByToken(token);
+  }
+
+  @Override
   public void delete(Long userId) {
     this.tokenRepository.deleteById(userId);
   }

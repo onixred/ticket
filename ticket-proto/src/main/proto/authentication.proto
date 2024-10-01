@@ -19,4 +19,5 @@ message LoginResponse {
 
 service LoginService {
   rpc login(LoginRequest) returns (LoginResponse) {};
+  rpc isExpired(google.protobuf.StringValue) returns (google.protobuf.BoolValue) {};
 }

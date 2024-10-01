@@ -346,3 +346,19 @@ a {
   padding: 1rem;
   border-radius: 0.75rem;
 }
+
+.stub {
+  background-color: #333333;
+  border-radius: 0 0 0.75rem 0.75rem;
+}
+
+.error {
+  .text {
+    color: #c40000;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 50%;
+}

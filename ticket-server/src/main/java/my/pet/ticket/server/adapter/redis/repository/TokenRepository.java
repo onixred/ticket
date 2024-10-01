@@ -10,4 +10,6 @@ public interface TokenRepository extends KeyValueRepository<TokenEntity, Long> {
 
   Optional<TokenEntity> findByToken(String token);
 
+  Boolean existsByToken(String token);
+
 }

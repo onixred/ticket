@@ -17,9 +17,9 @@ public class UsersAdapter implements UsersPort {
   }
 
   @Override
-  public String index(Model model, String token, Long userId, String role) {
+  public String index(Model model, String token, Long userId, String role, Long requestUserId) {
     try {
-      return this.userService.user(model, token, userId, role);
+      return this.userService.user(model, token, userId, role, requestUserId);
     } catch (StatusRuntimeException e) {
       throw new UserAdapterException(e);
     }

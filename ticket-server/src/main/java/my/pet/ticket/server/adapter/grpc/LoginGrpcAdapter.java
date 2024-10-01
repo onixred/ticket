@@ -1,5 +1,6 @@
 package my.pet.ticket.server.adapter.grpc;
 
+import com.google.protobuf.BoolValue;
 import com.google.protobuf.Int64Value;
 import com.google.protobuf.StringValue;
 import io.grpc.stub.StreamObserver;
@@ -9,6 +10,7 @@ import my.pet.ticket.grpc.LoginServiceGrpc.LoginServiceImplBase;
 import my.pet.ticket.server.application.domain.model.Token;
 import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.application.domain.service.LoginService;
+import my.pet.ticket.server.application.domain.service.TokenService;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 @GrpcService
@@ -19,8 +21,11 @@ public class LoginGrpcAdapter extends LoginServiceImplBase {
 
   private final LoginService loginService;
 
-  public LoginGrpcAdapter(LoginService loginService) {
+  private final TokenService tokenService;
+
+  public LoginGrpcAdapter(LoginService loginService, TokenService tokenService) {
     this.loginService = loginService;
+    this.tokenService = tokenService;
   }
 
   @Override
@@ -40,4 +45,10 @@ public class LoginGrpcAdapter extends LoginServiceImplBase {
     throw LOGIN_OR_PASSWORD_IS_NOT_PRESENT;
   }
 
+  @Override
+  public void isExpired(StringValue request, StreamObserver<BoolValue> responseObserver) {
+    Boolean isExist = this.tokenService.isTokenExist(request.getValue());
+    responseObserver.onNext(BoolValue.of(isExist));
+    responseObserver.onCompleted();
+  }
 }

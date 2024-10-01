@@ -28,4 +28,9 @@ public class LoginGrpcAdapter implements LoginGrpcPort {
         .build();
   }
 
+  public Boolean isTokenExpired(String token) {
+    return this.loginGrpcClient.isExpired(StringValue.of(token))
+        .getValue();
+  }
+
 }
