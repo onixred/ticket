@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import my.pet.ticket.server.ApplicationTest;
 import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.adapter.persistence.entity.ClientEntity;
@@ -12,6 +11,7 @@ import my.pet.ticket.server.adapter.persistence.entity.ClientEntity_;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 
 
@@ -51,7 +51,7 @@ class ClientPortTest extends ApplicationTest {
 
   @Test
   void getAllTest() {
-    List<ClientEntity> clientEntities = this.clientPort.getAll(
+    Page<T> clientEntities = this.clientPort.getAll(
         (Specification<ClientEntity>) (root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
     assertFalse(clientEntities.isEmpty());
   }

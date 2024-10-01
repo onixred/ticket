@@ -1,12 +1,12 @@
 package my.pet.ticket.server.adapter.persistence;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import my.pet.ticket.server.adapter.persistence.entity.ClientEntity;
 import my.pet.ticket.server.adapter.persistence.entity.ClientEntity_;
 import my.pet.ticket.server.adapter.persistence.repository.ClientRepository;
 import my.pet.ticket.server.application.port.persistence.ClientPort;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -29,9 +29,8 @@ public class ClientAdapter implements ClientPort {
   }
 
   @Override
-  public List<ClientEntity> getAll(Specification<ClientEntity> specification, Pageable pageable) {
-    return this.clientRepository.findAll(NOT_DELETED_SPECIFICATION.and(specification), pageable)
-        .stream().toList();
+  public Page<ClientEntity> getAll(Specification<ClientEntity> specification, Pageable pageable) {
+    return this.clientRepository.findAll(NOT_DELETED_SPECIFICATION.and(specification), pageable);
   }
 
   @Override

@@ -4,12 +4,15 @@ import com.google.protobuf.Empty;
 import com.google.protobuf.Int32Value;
 import java.util.List;
 import my.pet.ticket.application.domain.model.User;
+import my.pet.ticket.application.domain.model.payload.request.RegisterUserRequest;
 import my.pet.ticket.grpc.Filter;
 import my.pet.ticket.grpc.FilterRequest;
 
 public interface UserGrpcPort {
 
   User getUser(Long userId, String token);
+
+  User registerUser(RegisterUserRequest request);
 
   default List<User> getAllUsers(String token) {
     return getAllUsers(FilterRequest.newBuilder().setEmpty(Empty.getDefaultInstance()).build(),

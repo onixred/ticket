@@ -21,20 +21,22 @@
         <a href="/login">Login</a>
       </div>
     </div>
-    <div class="form d-flex gap-1 f-d-col jc-center ai-center">
+    <form class="form d-flex gap-1 f-d-col jc-center ai-center" method="post"
+          th:action="@{/loginRequest}">
       <div class="input w-100">
-        <input placeholder="Last First Sur Names" type="text">
+        <input id="full-name" name="full-name" placeholder="Last First Sur Names" type="text">
       </div>
       <div class="input w-100">
-        <input placeholder="Login" type="text">
+        <input id="login" name="login" placeholder="Login" type="text">
       </div>
-      <div class="passwords d-flex f-d-row gap-1 w-100">
-        <div class="input w-100">
-          <input placeholder="Password" type="password">
-        </div>
-        <div class="input w-100">
-          <input placeholder="Re-password" type="password">
-        </div>
+      <div class="input w-100">
+        <input id="password" name="password" placeholder="Password" type="password">
+      </div>
+      <div class="input w-100">
+        <input id="re-password" name="re-password" placeholder="Re-password" type="password">
+      </div>
+      <div class="error" th:if="${error}">
+        <div class="text" th:text="${error_message}"></div>
       </div>
       <div class="agreement w-100 d-flex f-d-row ai-center gap-05 jc-left">
         <input type="checkbox">
@@ -43,7 +45,7 @@
       <div class="submit-button">
         <input type="submit" value="Registration">
       </div>
-    </div>
+    </form>
   </div>
   <div th:replace="~{fragments/footer.html}"></div>
 </div>

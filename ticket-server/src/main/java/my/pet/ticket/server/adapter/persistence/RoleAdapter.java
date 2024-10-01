@@ -1,11 +1,11 @@
 package my.pet.ticket.server.adapter.persistence;
 
-import java.util.List;
 import java.util.Optional;
 import my.pet.ticket.server.adapter.persistence.entity.RoleEntity;
 import my.pet.ticket.server.adapter.persistence.entity.RoleEntity_;
 import my.pet.ticket.server.adapter.persistence.repository.RoleRepository;
 import my.pet.ticket.server.application.port.persistence.RolePort;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -28,9 +28,9 @@ public class RoleAdapter implements RolePort {
   }
 
   @Override
-  public List<RoleEntity> getAll(Specification<RoleEntity> specification, Pageable pageable) {
+  public Page<RoleEntity> getAll(Specification<RoleEntity> specification, Pageable pageable) {
     return this.roleRepository.findAll(NOT_DELETED_SPECIFICATION.and(specification),
-        pageable).stream().toList();
+        pageable);
   }
 
   @Override

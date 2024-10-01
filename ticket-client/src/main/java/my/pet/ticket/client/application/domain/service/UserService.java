@@ -3,6 +3,8 @@ package my.pet.ticket.client.application.domain.service;
 import java.util.List;
 import my.pet.ticket.application.domain.model.User;
 import my.pet.ticket.client.application.port.api.UserGrpcPort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -23,6 +25,12 @@ public class UserService {
           .ifPresent(user -> model.addAttribute("requestUser", user));
     }
     return "users.html";
+  }
+
+  public ResponseEntity<String> registrationUserRequest() {
+
+    return ResponseEntity.status(302).header(HttpHeaders.LOCATION, "/login")
+        .build();
   }
 
 }

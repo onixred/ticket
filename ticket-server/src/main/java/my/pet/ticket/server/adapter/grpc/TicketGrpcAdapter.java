@@ -3,6 +3,7 @@ package my.pet.ticket.server.adapter.grpc;
 import static my.pet.utils.GrpcMessageUtils.convertTicketToTicketResponse;
 
 import com.google.protobuf.Empty;
+import com.google.protobuf.Int64Value;
 import io.grpc.stub.StreamObserver;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,7 @@ public class TicketGrpcAdapter extends TicketServiceImplBase {
         .map(GrpcMessageUtils::convertTicketToTicketResponse).toList();
     TicketResponses ticketResponses = TicketResponses.newBuilder()
         .addAllTickets(ticketResponseList)
+        .setPages(Int64Value.of())
         .build();
     responseObserver.onNext(ticketResponses);
     responseObserver.onCompleted();

@@ -3,7 +3,6 @@ package my.pet.ticket.server.application.port.persistence;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import my.pet.ticket.server.ApplicationTest;
 import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.adapter.persistence.entity.RoleEntity;
@@ -11,6 +10,7 @@ import my.pet.ticket.server.adapter.persistence.entity.RoleEntity_;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 
 class RolesPortTest extends ApplicationTest {
@@ -46,7 +46,7 @@ class RolesPortTest extends ApplicationTest {
 
   @Test
   void getAllTest() {
-    List<RoleEntity> roleEntities = this.rolePort.getAll(
+    Page<T> roleEntities = this.rolePort.getAll(
         (root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
     assertFalse(roleEntities.isEmpty());
   }

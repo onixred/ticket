@@ -1,11 +1,11 @@
 package my.pet.ticket.server.adapter.persistence;
 
-import java.util.List;
 import java.util.Optional;
 import my.pet.ticket.server.adapter.persistence.entity.UserEntity;
 import my.pet.ticket.server.adapter.persistence.entity.UserEntity_;
 import my.pet.ticket.server.adapter.persistence.repository.UserRepository;
 import my.pet.ticket.server.application.port.persistence.UserPort;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -28,9 +28,8 @@ public class UserAdapter implements UserPort {
   }
 
   @Override
-  public List<UserEntity> getAll(Specification<UserEntity> specification, Pageable pageable) {
-    return this.userRepository.findAll(NOT_DELETED_SPECIFICATION.and(specification), pageable)
-        .stream().toList();
+  public Page<UserEntity> getAll(Specification<UserEntity> specification, Pageable pageable) {
+    return this.userRepository.findAll(NOT_DELETED_SPECIFICATION.and(specification), pageable);
   }
 
   @Override

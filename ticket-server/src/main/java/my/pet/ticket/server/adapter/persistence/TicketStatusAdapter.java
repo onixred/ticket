@@ -1,11 +1,11 @@
 package my.pet.ticket.server.adapter.persistence;
 
-import java.util.List;
 import java.util.Optional;
 import my.pet.ticket.server.adapter.persistence.entity.TicketStatusEntity;
 import my.pet.ticket.server.adapter.persistence.entity.TicketStatusEntity_;
 import my.pet.ticket.server.adapter.persistence.repository.TicketStatusRepository;
 import my.pet.ticket.server.application.port.persistence.TicketStatusPort;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -28,10 +28,10 @@ public class TicketStatusAdapter implements TicketStatusPort {
   }
 
   @Override
-  public List<TicketStatusEntity> getAll(Specification<TicketStatusEntity> specification,
+  public Page<TicketStatusEntity> getAll(Specification<TicketStatusEntity> specification,
       Pageable pageable) {
     return this.ticketStatusRepository.findAll(NOT_DELETED_SPECIFICATION.and(specification),
-        pageable).stream().toList();
+        pageable);
   }
 
   @Override

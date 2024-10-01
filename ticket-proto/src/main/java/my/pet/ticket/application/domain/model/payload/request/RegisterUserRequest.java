@@ -18,20 +18,24 @@ public class RegisterUserRequest {
 
   private String password;
 
+  private String rePassword;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof RegisterUserRequest request)) {
+    if (!(o instanceof RegisterUserRequest that)) {
       return false;
     }
-    return Objects.equals(fullName, request.fullName) && Objects.equals(login,
-        request.login) && Objects.equals(password, request.password);
+    return Objects.equals(fullName, that.fullName) && Objects.equals(login,
+        that.login) && Objects.equals(password, that.password) && Objects.equals(
+        rePassword, that.rePassword);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fullName, login, password);
+    return Objects.hash(fullName, login, password, rePassword);
   }
+
 }

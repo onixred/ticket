@@ -3,7 +3,6 @@ package my.pet.ticket.server.application.port.persistence;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import my.pet.ticket.server.ApplicationTest;
 import my.pet.ticket.server.adapter.persistence.PersistenceAdapterException;
 import my.pet.ticket.server.adapter.persistence.entity.TicketEntity;
@@ -12,6 +11,7 @@ import my.pet.ticket.server.adapter.persistence.entity.TicketIdEntity_;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 
 class TicketPortTest extends ApplicationTest {
 
@@ -63,7 +63,7 @@ class TicketPortTest extends ApplicationTest {
 
   @Test
   void getAllTest() {
-    List<TicketEntity> ticketEntities = this.ticketPort.getAll(
+    Page<T> ticketEntities = this.ticketPort.getAll(
         (root, query, criteriaBuilder) -> criteriaBuilder.conjunction());
     assertFalse(ticketEntities.isEmpty());
   }

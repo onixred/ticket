@@ -24,6 +24,7 @@ message TicketResponse {
 
 message TicketResponses {
   repeated TicketResponse tickets = 1;
+  google.protobuf.Int64Value pages = 2;
 }
 
 service TicketService {

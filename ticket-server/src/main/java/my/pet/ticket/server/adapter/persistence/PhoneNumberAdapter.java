@@ -1,11 +1,11 @@
 package my.pet.ticket.server.adapter.persistence;
 
-import java.util.List;
 import java.util.Optional;
 import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity;
 import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity_;
 import my.pet.ticket.server.adapter.persistence.repository.PhoneNumberRepository;
 import my.pet.ticket.server.application.port.persistence.PhoneNumberPort;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -28,10 +28,10 @@ public class PhoneNumberAdapter implements PhoneNumberPort {
   }
 
   @Override
-  public List<PhoneNumberEntity> getAll(Specification<PhoneNumberEntity> specification,
+  public Page<PhoneNumberEntity> getAll(Specification<PhoneNumberEntity> specification,
       Pageable pageable) {
     return this.phoneNumberRepository.findAll(NOT_DELETED_SPECIFICATION.and(specification),
-        pageable).stream().toList();
+        pageable);
   }
 
   @Override
