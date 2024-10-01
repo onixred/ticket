@@ -1,4 +1,4 @@
-package my.pet.ticket.server.application.domain.model;
+package my.pet.ticket.application.domain.model;
 
 import java.util.Objects;
 import lombok.AllArgsConstructor;

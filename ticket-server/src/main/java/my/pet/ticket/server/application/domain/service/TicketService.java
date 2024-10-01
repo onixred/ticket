@@ -1,13 +1,13 @@
 package my.pet.ticket.server.application.domain.service;
 
 import java.util.List;
+import my.pet.ticket.application.domain.model.Client;
+import my.pet.ticket.application.domain.model.Ticket;
+import my.pet.ticket.application.domain.model.TicketStatus;
+import my.pet.ticket.application.domain.model.User;
 import my.pet.ticket.server.adapter.persistence.entity.TicketEntity;
 import my.pet.ticket.server.adapter.persistence.entity.TicketEntity_;
 import my.pet.ticket.server.adapter.persistence.entity.TicketIdEntity_;
-import my.pet.ticket.server.application.domain.model.Client;
-import my.pet.ticket.server.application.domain.model.Ticket;
-import my.pet.ticket.server.application.domain.model.TicketStatus;
-import my.pet.ticket.server.application.domain.model.User;
 import my.pet.ticket.server.application.port.persistence.TicketPort;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;

@@ -3,7 +3,7 @@ package my.pet.ticket.client.application.port.api;
 import com.google.protobuf.Empty;
 import com.google.protobuf.Int32Value;
 import java.util.List;
-import my.pet.ticket.client.application.domain.model.User;
+import my.pet.ticket.application.domain.model.User;
 import my.pet.ticket.grpc.Filter;
 import my.pet.ticket.grpc.FilterRequest;
 

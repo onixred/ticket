@@ -1,8 +1,8 @@
 package my.pet.ticket.client.application.domain.service;
 
 import java.util.List;
+import my.pet.ticket.application.domain.model.Ticket;
 import my.pet.ticket.client.adapter.grpc.TicketGrpcAdapter;
-import my.pet.ticket.client.application.domain.model.Ticket;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 

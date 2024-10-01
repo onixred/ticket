@@ -1,4 +1,4 @@
-package my.pet.ticket.client.application.domain.model.payload.request;
+package my.pet.ticket.application.domain.model.payload.request;
 
 import java.util.Objects;
 import lombok.AllArgsConstructor;

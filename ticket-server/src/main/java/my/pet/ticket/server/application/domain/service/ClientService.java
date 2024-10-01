@@ -1,9 +1,9 @@
 package my.pet.ticket.server.application.domain.service;
 
 import java.util.List;
+import my.pet.ticket.application.domain.model.Client;
 import my.pet.ticket.server.adapter.persistence.entity.ClientEntity;
 import my.pet.ticket.server.adapter.persistence.entity.ClientEntity_;
-import my.pet.ticket.server.application.domain.model.Client;
 import my.pet.ticket.server.application.port.persistence.ClientPort;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;

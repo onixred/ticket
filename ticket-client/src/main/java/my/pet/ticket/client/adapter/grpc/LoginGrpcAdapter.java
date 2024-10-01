@@ -1,8 +1,8 @@
 package my.pet.ticket.client.adapter.grpc;
 
 import com.google.protobuf.StringValue;
-import my.pet.ticket.client.application.domain.model.Token;
-import my.pet.ticket.client.application.domain.model.payload.request.LoginRequest;
+import my.pet.ticket.application.domain.model.Token;
+import my.pet.ticket.application.domain.model.payload.request.LoginRequest;
 import my.pet.ticket.client.application.port.api.LoginGrpcPort;
 import my.pet.ticket.grpc.LoginResponse;
 import my.pet.ticket.grpc.LoginServiceGrpc.LoginServiceBlockingStub;

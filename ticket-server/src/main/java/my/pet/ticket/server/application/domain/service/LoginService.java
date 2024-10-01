@@ -1,9 +1,9 @@
 package my.pet.ticket.server.application.domain.service;
 
 import java.util.function.Function;
-import my.pet.ticket.server.application.domain.model.Token;
-import my.pet.ticket.server.application.domain.model.User;
-import my.pet.ticket.server.application.domain.model.payload.request.LoginRequest;
+import my.pet.ticket.application.domain.model.Token;
+import my.pet.ticket.application.domain.model.User;
+import my.pet.ticket.application.domain.model.payload.request.LoginRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

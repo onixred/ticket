@@ -1,9 +1,9 @@
 package my.pet.ticket.server.application.domain.service;
 
 import java.util.List;
+import my.pet.ticket.application.domain.model.Role;
 import my.pet.ticket.server.adapter.persistence.entity.RoleEntity;
 import my.pet.ticket.server.adapter.persistence.entity.RoleEntity_;
-import my.pet.ticket.server.application.domain.model.Role;
 import my.pet.ticket.server.application.port.persistence.RolePort;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;

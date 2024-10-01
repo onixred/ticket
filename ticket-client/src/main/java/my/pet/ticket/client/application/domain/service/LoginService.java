@@ -1,8 +1,8 @@
 package my.pet.ticket.client.application.domain.service;
 
-import my.pet.ticket.client.application.domain.model.Token;
-import my.pet.ticket.client.application.domain.model.User;
-import my.pet.ticket.client.application.domain.model.payload.request.LoginRequest;
+import my.pet.ticket.application.domain.model.Token;
+import my.pet.ticket.application.domain.model.User;
+import my.pet.ticket.application.domain.model.payload.request.LoginRequest;
 import my.pet.ticket.client.application.port.api.LoginGrpcPort;
 import my.pet.ticket.client.application.port.api.UserGrpcPort;
 import org.springframework.http.HttpHeaders;

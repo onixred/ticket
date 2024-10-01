@@ -1,8 +1,8 @@
 package my.pet.ticket.server.common.security;
 
 import java.util.List;
-import my.pet.ticket.server.application.domain.model.Token;
-import my.pet.ticket.server.application.domain.model.User;
+import my.pet.ticket.application.domain.model.Token;
+import my.pet.ticket.application.domain.model.User;
 import my.pet.ticket.server.application.domain.service.TokenService;
 import my.pet.ticket.server.application.domain.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;

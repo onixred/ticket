@@ -1,8 +1,8 @@
 package my.pet.ticket.server.application.domain.service;
 
 import java.util.List;
+import my.pet.ticket.application.domain.model.User;
 import my.pet.ticket.server.ApplicationTest;
-import my.pet.ticket.server.application.domain.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

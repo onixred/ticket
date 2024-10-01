@@ -1,19 +1,19 @@
 package my.pet.ticket.server.adapter.grpc;
 
-import static my.pet.ticket.server.common.utils.GrpcMessageUtils.convertClientToClientResponse;
+import static my.pet.utils.GrpcMessageUtils.convertClientToClientResponse;
 
 import com.google.protobuf.Empty;
 import io.grpc.stub.StreamObserver;
 import java.util.ArrayList;
 import java.util.List;
+import my.pet.ticket.application.domain.model.Client;
 import my.pet.ticket.grpc.ClientResponse;
 import my.pet.ticket.grpc.ClientResponses;
 import my.pet.ticket.grpc.ClientServiceGrpc.ClientServiceImplBase;
 import my.pet.ticket.grpc.FilterRequest;
-import my.pet.ticket.server.application.domain.model.Client;
 import my.pet.ticket.server.application.domain.service.ClientService;
 import my.pet.ticket.server.application.domain.service.DomainServiceException;
-import my.pet.ticket.server.common.utils.GrpcMessageUtils;
+import my.pet.utils.GrpcMessageUtils;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.security.access.annotation.Secured;
 

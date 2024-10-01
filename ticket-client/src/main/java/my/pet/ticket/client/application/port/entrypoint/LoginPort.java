@@ -1,6 +1,6 @@
 package my.pet.ticket.client.application.port.entrypoint;
 
-import my.pet.ticket.client.application.domain.model.payload.request.LoginRequest;
+import my.pet.ticket.application.domain.model.payload.request.LoginRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;

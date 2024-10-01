@@ -1,8 +1,8 @@
 package my.pet.ticket.client.adapter.http;
 
 import io.grpc.StatusRuntimeException;
+import my.pet.ticket.application.domain.model.payload.request.LoginRequest;
 import my.pet.ticket.client.adapter.http.exception.LoginAdapterException;
-import my.pet.ticket.client.application.domain.model.payload.request.LoginRequest;
 import my.pet.ticket.client.application.domain.service.LoginService;
 import my.pet.ticket.client.application.port.entrypoint.LoginPort;
 import org.springframework.http.ResponseEntity;

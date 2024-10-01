@@ -1,4 +1,4 @@
-package my.pet.ticket.client.application.domain.model;
+package my.pet.ticket.application.domain.model;
 
 import java.util.Objects;
 import lombok.AllArgsConstructor;
@@ -12,28 +12,26 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Filter {
+public class TicketStatus {
 
-  private Long clientId;
+  private Long ticketStatusId;
 
-  private Long userId;
-
-  private Long ticketId;
+  private String name;
 
   @Override
   public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof Filter filter)) {
+    if (!(o instanceof TicketStatus that)) {
       return false;
     }
-    return Objects.equals(clientId, filter.clientId) && Objects.equals(userId,
-        filter.userId) && Objects.equals(ticketId, filter.ticketId);
+    return Objects.equals(ticketStatusId, that.ticketStatusId) && Objects.equals(
+        name, that.name);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(clientId, userId, ticketId);
+    return Objects.hash(ticketStatusId, name);
   }
 }

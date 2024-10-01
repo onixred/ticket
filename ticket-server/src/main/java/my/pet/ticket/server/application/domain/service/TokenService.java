@@ -2,9 +2,9 @@ package my.pet.ticket.server.application.domain.service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import my.pet.ticket.application.domain.model.Token;
 import my.pet.ticket.server.adapter.redis.TokenAdapter;
 import my.pet.ticket.server.adapter.redis.entity.TokenEntity;
-import my.pet.ticket.server.application.domain.model.Token;
 import my.pet.ticket.server.application.port.persistence.TokenPort;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

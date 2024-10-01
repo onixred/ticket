@@ -1,7 +1,7 @@
 package my.pet.ticket.server.common.security;
 
+import my.pet.ticket.application.domain.model.Role;
 import my.pet.ticket.server.adapter.persistence.entity.Roles;
-import my.pet.ticket.server.application.domain.model.Role;
 import org.springframework.security.core.GrantedAuthority;
 
 public class GrantedAuthorityImpl implements GrantedAuthority {
