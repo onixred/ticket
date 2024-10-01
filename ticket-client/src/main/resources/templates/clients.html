@@ -25,7 +25,8 @@
         </div>
         <div class="table-item d-flex f-d-row jc-between padding-1 gap-2"
              th:classappend="${iterStat.last} ? last : not-last"
-             th:each="client, iterStat : ${clients}">
+             th:each="client, iterStat : ${clients}"
+             th:onclick="|window.location.href='/clients?id=${client.clientId}'|">
           <div th:text="${client.clientId}"></div>
           <div th:text="${client.fullName}"></div>
           <div th:text="${client.email}"></div>
@@ -44,24 +45,29 @@
       <div class="title h2">
         Client info
       </div>
-      <div class="client-id d-flex f-d-row jc-between gap-1">
-        <div class="name b">Client Id:</div>
-        <div class="text">1001</div>
+      <div class="info-block d-flex f-d-col gap-1" th:if="${requestClient} != null">
+        <div class="client-id d-flex f-d-row jc-between gap-1">
+          <div class="name b">Client Id:</div>
+          <div class="text" th:text="${requestClient.clientId}"></div>
+        </div>
+        <div class="full-name d-flex f-d-row jc-between gap-1">
+          <div class="name b">Full Name:</div>
+          <div class="text" th:text="${requestClient.fullName}"></div>
+        </div>
+        <div class="email d-flex f-d-row jc-between gap-1">
+          <div class="name b">Email:</div>
+          <div class="text" th:text="${requestClient.email}"></div>
+        </div>
+        <div class="phone-number d-flex f-d-row jc-between gap-1">
+          <div class="name b">Phone Number:</div>
+          <div class="text" th:text="${requestClient.phoneNumber}"></div>
+        </div>
+        <div class="button r1 c3 w-100">
+          <a href="/">Delete client</a>
+        </div>
       </div>
-      <div class="full-name d-flex f-d-row jc-between gap-1">
-        <div class="name b">Full Name:</div>
-        <div class="text">Testych Test Testoivik</div>
-      </div>
-      <div class="email d-flex f-d-row jc-between gap-1">
-        <div class="name b">Email:</div>
-        <div class="text">email@email.ru</div>
-      </div>
-      <div class="phone-number d-flex f-d-row jc-between gap-1">
-        <div class="name b">Phone Number:</div>
-        <div class="text">31231231</div>
-      </div>
-      <div class="button r1 c3 w-100">
-        <a href="/">Delete client</a>
+      <div class="d-flex jc-center ai-center w-100 h-100" th:unless="${requestClient} != null">
+        <div class="text h3">Nothing to show</div>
       </div>
     </div>
   </div>

@@ -15,8 +15,8 @@ public class ClientsAdapter implements ClientsPort {
   }
 
   @Override
-  public String clients(Model model, String token, Long userId, String role) {
-    return this.clientsService.clients(model, token, userId, role);
+  public String clients(Model model, String token, Long userId, String role, Long requestClientId) {
+    return this.clientsService.clients(model, token, userId, role, requestClientId);
   }
 
 }

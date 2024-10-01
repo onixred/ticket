@@ -27,7 +27,8 @@
         </div>
         <div class="table-item d-flex f-d-row jc-between padding-1 gap-2"
              th:classappend="${iterStat.last} ? last : not-last"
-             th:each="ticket, iterStat : ${tickets}">
+             th:each="ticket, iterStat : ${tickets}"
+             th:onclick="|window.location.href='/tickets?id=${ticket.ticketId}'|">
           <div th:text="${ticket.ticketId}"></div>
           <div th:text="${ticket.client.fullName}"></div>
           <div th:text="${ticket.author.login}"></div>
@@ -48,28 +49,33 @@
       <div class="title h2">
         Ticket info
       </div>
-      <div class="ticket-id d-flex f-d-row jc-between gap-1">
-        <div class="name b">Ticket Id:</div>
-        <div class="text">10001</div>
+      <div class="info-block d-flex f-d-col gap-1" th:if="${requestTicket} != null">
+        <div class="ticket-id d-flex f-d-row jc-between gap-1">
+          <div class="name b">Ticket Id:</div>
+          <div class="text" th:text="${requestTicket.ticketId}"></div>
+        </div>
+        <div class="client-full-name d-flex f-d-row jc-between gap-1">
+          <div class="name b">Client:</div>
+          <div class="text" th:text="${requestTicket.client.fullName}"></div>
+        </div>
+        <div class="author-login d-flex f-d-row jc-between gap-1">
+          <div class="name b">Author Login:</div>
+          <div class="text" th:text="${requestTicket.author.login}"></div>
+        </div>
+        <div class="manager-login d-flex f-d-row jc-between gap-1">
+          <div class="name b">Manager Login:</div>
+          <div class="text" th:text="${requestTicket.manager.login}"></div>
+        </div>
+        <div class="ticket-status d-flex f-d-row jc-between gap-1">
+          <div class="name b">Ticket Status:</div>
+          <div class="text" th:text="${requestTicket.ticketStatus.name}"></div>
+        </div>
+        <div class="button r1 c3 w-100">
+          <a href="/">Delete ticket</a>
+        </div>
       </div>
-      <div class="client-full-name d-flex f-d-row jc-between gap-1">
-        <div class="name b">Client:</div>
-        <div class="text">Testych Test Testoivik</div>
-      </div>
-      <div class="author-login d-flex f-d-row jc-between gap-1">
-        <div class="name b">Author Login:</div>
-        <div class="text">testlogin</div>
-      </div>
-      <div class="manager-login d-flex f-d-row jc-between gap-1">
-        <div class="name b">Manager Login:</div>
-        <div class="text">testlogin</div>
-      </div>
-      <div class="ticket-status d-flex f-d-row jc-between gap-1">
-        <div class="name b">Ticket Status:</div>
-        <div class="text">FINISHED</div>
-      </div>
-      <div class="button r1 c3 w-100">
-        <a href="/">Delete ticket</a>
+      <div class="d-flex jc-center ai-center w-100 h-100" th:unless="${requestTicket} != null">
+        <div class="text h3">Nothing to show</div>
       </div>
     </div>
   </div>

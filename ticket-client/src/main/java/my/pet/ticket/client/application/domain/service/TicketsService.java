@@ -15,9 +15,13 @@ public class TicketsService {
     this.ticketGrpcAdapter = ticketGrpcAdapter;
   }
 
-  public String tickets(Model model, String token, Long userId, String role) {
-    List<Ticket> ticketList = this.ticketGrpcAdapter.getAllTickets(token);
-    model.addAttribute("tickets", ticketList);
+  public String tickets(Model model, String token, Long userId, String role, Long requestTicketId) {
+    List<Ticket> tickets = this.ticketGrpcAdapter.getAllTickets(token);
+    model.addAttribute("tickets", tickets);
+    if (requestTicketId != null) {
+      tickets.stream().filter(ticket -> ticket.getTicketId().equals(requestTicketId)).findFirst()
+          .ifPresent(ticket -> model.addAttribute("requestTicket", ticket));
+    }
     return "tickets.html";
   }
 

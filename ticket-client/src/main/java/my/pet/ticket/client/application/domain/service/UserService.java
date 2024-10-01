@@ -19,8 +19,8 @@ public class UserService {
     List<User> users = this.userGrpcPort.getAllUsers(token);
     model.addAttribute("users", users);
     if (requestUserId != null) {
-      User requestUser = this.userGrpcPort.getUser(requestUserId, token);
-      model.addAttribute("requestUser", requestUser);
+      users.stream().filter(user -> user.getUserId().equals(requestUserId)).findFirst()
+          .ifPresent(user -> model.addAttribute("requestUser", user));
     }
     return "users.html";
   }

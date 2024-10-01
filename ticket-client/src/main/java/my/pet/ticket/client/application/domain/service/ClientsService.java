@@ -15,9 +15,14 @@ public class ClientsService {
     this.clientGrpcPort = clientGrpcPort;
   }
 
-  public String clients(Model model, String token, Long clientId, String role) {
+  public String clients(Model model, String token, Long clientId, String role,
+      Long requestClientId) {
     List<Client> clients = this.clientGrpcPort.getAllClients(token);
     model.addAttribute("clients", clients);
+    if (requestClientId != null) {
+      clients.stream().filter(client -> client.getClientId().equals(requestClientId)).findFirst()
+          .ifPresent(client -> model.addAttribute("requestClient", client));
+    }
     return "clients.html";
   }
 
