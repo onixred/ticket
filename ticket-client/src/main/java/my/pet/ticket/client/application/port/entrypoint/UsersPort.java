@@ -11,7 +11,8 @@ public interface UsersPort {
   String index(Model model, @CookieValue(value = "Authorization", required = false) String token,
       @CookieValue(name = "UserId", required = false) Long userId,
       @CookieValue(name = "Role", required = false) String role,
-      @RequestParam(name = "id", required = false) Long requestUserId
+      @RequestParam(name = "id", required = false) Long requestUserId,
+      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page
   );
 
   @RequestMapping("/users.html")

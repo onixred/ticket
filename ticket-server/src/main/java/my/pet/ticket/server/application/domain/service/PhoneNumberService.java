@@ -1,12 +1,12 @@
 package my.pet.ticket.server.application.domain.service;
 
-import java.util.List;
 import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity;
 import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity_;
 import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberIdEntity_;
 import my.pet.ticket.server.application.port.persistence.PhoneNumberPort;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,13 +36,13 @@ public class PhoneNumberService implements DomainService<String, PhoneNumberEnti
 
   @Override
   @Transactional
-  public List<String> getAll() {
+  public Page<String> getAll() {
     return DomainService.super.getAll();
   }
 
   @Override
   @Transactional
-  public List<String> getAll(Integer page, Integer pageSize) {
+  public Page<String> getAll(Integer page, Integer pageSize) {
     return DomainService.super.getAll(page, pageSize);
   }
 
@@ -79,12 +79,10 @@ public class PhoneNumberService implements DomainService<String, PhoneNumberEnti
 
   @Override
   @Transactional
-  public List<String> getAll(Pageable pageable) {
+  public Page<String> getAll(Pageable pageable) {
     return this.phoneNumberPort.getAll(
             ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()), pageable)
-        .stream()
-        .map(this::convertEntityToModel)
-        .toList();
+        .map(this::convertEntityToModel);
   }
 
   @Override

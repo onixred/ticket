@@ -16,6 +16,7 @@ message TicketStatusResponse {
 
 message TicketStatusResponses {
   repeated TicketStatusResponse ticket_statuses = 1;
+  google.protobuf.Int64Value pages = 2;
 }
 
 service TicketStatusService {

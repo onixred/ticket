@@ -1,6 +1,5 @@
 package my.pet.ticket.server.application.domain.service;
 
-import java.util.List;
 import my.pet.ticket.application.domain.model.Role;
 import my.pet.ticket.server.adapter.persistence.entity.RoleEntity;
 import my.pet.ticket.server.adapter.persistence.entity.RoleEntity_;
@@ -8,6 +7,7 @@ import my.pet.ticket.server.application.port.persistence.RolePort;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,13 +41,13 @@ public class RoleService implements DomainService<Role, RoleEntity> {
 
   @Override
   @Transactional
-  public List<Role> getAll() {
+  public Page<Role> getAll() {
     return DomainService.super.getAll();
   }
 
   @Override
   @Transactional
-  public List<Role> getAll(Integer page, Integer pageSize) {
+  public Page<Role> getAll(Integer page, Integer pageSize) {
     return DomainService.super.getAll(page, pageSize);
   }
 
@@ -65,11 +65,11 @@ public class RoleService implements DomainService<Role, RoleEntity> {
 
   @Override
   @Transactional
-  public List<Role> getAll(Pageable pageable) {
+  public Page<Role> getAll(Pageable pageable) {
     return this.rolePort.getAll(
             ((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(RoleEntity_.ACTIVE),
-                true)), pageable).stream()
-        .map(this::convertEntityToModel).toList();
+                true)), pageable)
+        .map(this::convertEntityToModel);
   }
 
   @Override

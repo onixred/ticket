@@ -18,6 +18,7 @@ message ClientResponse {
 
 message ClientResponses {
   repeated ClientResponse clients = 1;
+  google.protobuf.Int64Value pages = 2;
 }
 
 service ClientService {

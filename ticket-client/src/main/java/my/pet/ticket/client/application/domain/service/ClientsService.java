@@ -1,7 +1,6 @@
 package my.pet.ticket.client.application.domain.service;
 
-import java.util.List;
-import my.pet.ticket.application.domain.model.Client;
+import my.pet.ticket.client.application.domain.model.Clients;
 import my.pet.ticket.client.application.port.api.ClientGrpcPort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -16,11 +15,14 @@ public class ClientsService {
   }
 
   public String clients(Model model, String token, Long clientId, String role,
-      Long requestClientId) {
-    List<Client> clients = this.clientGrpcPort.getAllClients(token);
-    model.addAttribute("clients", clients);
+      Long requestClientId, Integer page) {
+    Clients clients = this.clientGrpcPort.getAllClients(token, page, 4);
+    model.addAttribute("clients", clients.getClients());
+    model.addAttribute("pages", clients.getPages());
+    model.addAttribute("page", page != null ? page : 0);
     if (requestClientId != null) {
-      clients.stream().filter(client -> client.getClientId().equals(requestClientId)).findFirst()
+      clients.getClients().stream().filter(client -> client.getClientId().equals(requestClientId))
+          .findFirst()
           .ifPresent(client -> model.addAttribute("requestClient", client));
     }
     return "clients.html";

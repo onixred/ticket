@@ -1,6 +1,5 @@
 package my.pet.ticket.server.application.domain.service;
 
-import java.util.List;
 import my.pet.ticket.application.domain.model.Client;
 import my.pet.ticket.server.adapter.persistence.entity.ClientEntity;
 import my.pet.ticket.server.adapter.persistence.entity.ClientEntity_;
@@ -8,6 +7,7 @@ import my.pet.ticket.server.application.port.persistence.ClientPort;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,13 +46,13 @@ public class ClientService implements DomainService<Client, ClientEntity> {
 
   @Override
   @Transactional
-  public List<Client> getAll() {
+  public Page<Client> getAll() {
     return DomainService.super.getAll();
   }
 
   @Override
   @Transactional
-  public List<Client> getAll(Integer page, Integer pageSize) {
+  public Page<Client> getAll(Integer page, Integer pageSize) {
     return DomainService.super.getAll(page, pageSize);
   }
 
@@ -70,17 +70,15 @@ public class ClientService implements DomainService<Client, ClientEntity> {
 
   @Override
   @Transactional
-  public List<Client> getAll(Pageable pageable) {
+  public Page<Client> getAll(Pageable pageable) {
     return this.clientPort.getAll(((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()),
             pageable)
-        .stream()
         .map(clientEntity -> {
           Client client = convertEntityToModel(clientEntity);
           String phoneNumber = this.phoneNumberService.getByClientId(clientEntity.getClientId());
           client.setPhoneNumber(phoneNumber);
           return client;
-        })
-        .toList();
+        });
   }
 
   @Override

@@ -15,8 +15,9 @@ public class TicketsAdapter implements TicketPort {
   }
 
   @Override
-  public String tickets(Model model, String token, Long userId, String role, Long requestTicketId) {
-    return this.ticketsService.tickets(model, token, userId, role, requestTicketId);
+  public String tickets(Model model, String token, Long userId, String role, Long requestTicketId,
+      Integer page) {
+    return this.ticketsService.tickets(model, token, userId, role, requestTicketId, page);
   }
 
 }

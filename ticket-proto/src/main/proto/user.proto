@@ -21,6 +21,7 @@ message UserResponse {
 
 message UserResponses {
   repeated UserResponse users = 1;
+  google.protobuf.Int64Value pages = 2;
 }
 
 message RegisterUserRequest {

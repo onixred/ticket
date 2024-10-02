@@ -304,10 +304,12 @@ a {
   .current {
     opacity: 50%;
     cursor: not-allowed;
+    pointer-events: none;
   }
   .disabled {
     opacity: 50%;
     cursor: not-allowed;
+    pointer-events: none;
   }
 }
 

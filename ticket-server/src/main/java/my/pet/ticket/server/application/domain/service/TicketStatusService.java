@@ -1,6 +1,5 @@
 package my.pet.ticket.server.application.domain.service;
 
-import java.util.List;
 import my.pet.ticket.application.domain.model.TicketStatus;
 import my.pet.ticket.server.adapter.persistence.entity.TicketStatusEntity;
 import my.pet.ticket.server.adapter.persistence.entity.TicketStatusEntity_;
@@ -8,6 +7,7 @@ import my.pet.ticket.server.application.port.persistence.TicketStatusPort;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,13 +40,13 @@ public class TicketStatusService implements DomainService<TicketStatus, TicketSt
 
   @Override
   @Transactional
-  public List<TicketStatus> getAll() {
+  public Page<TicketStatus> getAll() {
     return DomainService.super.getAll();
   }
 
   @Override
   @Transactional
-  public List<TicketStatus> getAll(Integer page, Integer pageSize) {
+  public Page<TicketStatus> getAll(Integer page, Integer pageSize) {
     return DomainService.super.getAll(page, pageSize);
   }
 
@@ -63,12 +63,10 @@ public class TicketStatusService implements DomainService<TicketStatus, TicketSt
 
   @Override
   @Transactional
-  public List<TicketStatus> getAll(Pageable pageable) {
+  public Page<TicketStatus> getAll(Pageable pageable) {
     return this.ticketStatusPort.getAll(((root, query, criteriaBuilder) -> criteriaBuilder.equal(
             root.get(TicketStatusEntity_.ACTIVE), true)), pageable)
-        .stream()
-        .map(this::convertEntityToModel)
-        .toList();
+        .map(this::convertEntityToModel);
   }
 
   @Override

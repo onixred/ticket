@@ -1,7 +1,6 @@
 package my.pet.ticket.server.application.domain.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.function.Function;
 import my.pet.ticket.application.domain.model.Role;
 import my.pet.ticket.application.domain.model.User;
@@ -134,13 +133,13 @@ public class UserService implements DomainService<User, UserEntity> {
 
   @Override
   @Transactional
-  public List<User> getAll() {
+  public Page<User> getAll() {
     return DomainService.super.getAll();
   }
 
   @Override
   @Transactional
-  public List<User> getAll(Integer page, Integer pageSize) {
+  public Page<User> getAll(Integer page, Integer pageSize) {
     return DomainService.super.getAll(page, pageSize);
   }
 
@@ -161,18 +160,18 @@ public class UserService implements DomainService<User, UserEntity> {
 
   @Override
   @Transactional
-  public List<User> getAll(Pageable pageable) {
+  public Page<User> getAll(Pageable pageable) {
     Page<UserEntity> userEntities = this.userPort.getAll(
         ((root, query, criteriaBuilder) -> criteriaBuilder.conjunction()), pageable);
-    List<Role> roles = this.roleService.getAll();
-    return userEntities.stream().map(currentUser -> {
+    Page<Role> roles = this.roleService.getAll();
+    return userEntities.map(currentUser -> {
       Role role = roles.stream()
           .filter(currentRole -> currentRole.getRoleId().equals(currentUser.getRoleId()))
           .findFirst().orElseThrow(() -> USER_NOT_FOUND);
       User user = convertEntityToModel(currentUser);
       user.setRole(role);
       return user;
-    }).toList();
+    });
   }
 
   @Override

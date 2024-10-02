@@ -3,8 +3,8 @@ package my.pet.ticket.server.adapter.grpc;
 import static my.pet.utils.GrpcMessageUtils.convertRoleToRoleResponse;
 
 import com.google.protobuf.Empty;
+import com.google.protobuf.Int64Value;
 import io.grpc.stub.StreamObserver;
-import java.util.ArrayList;
 import java.util.List;
 import my.pet.ticket.application.domain.model.Role;
 import my.pet.ticket.grpc.FilterRequest;
@@ -15,6 +15,7 @@ import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.application.domain.service.RoleService;
 import my.pet.utils.GrpcMessageUtils;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 
 @GrpcService
@@ -45,16 +46,18 @@ public class RoleGrpcAdapter extends RoleServiceImplBase {
   @Override
   @Secured({"MANAGER", "ADMIN"})
   public void getAllRoles(FilterRequest request, StreamObserver<RoleResponses> responseObserver) {
-    List<Role> users = new ArrayList<>();
+    Page<Role> roles;
     if (request.hasFilter()) {
-      users.addAll(this.roleService.getAll(request.getFilter().getPage().getValue(),
-          request.getFilter().getPageSize().getValue()));
+      roles = this.roleService.getAll(request.getFilter().getPage().getValue(),
+          request.getFilter().getPageSize().getValue());
     } else {
-      users.addAll(this.roleService.getAll());
+      roles = this.roleService.getAll();
     }
-    List<RoleResponse> roleResponses = users.stream()
+    List<RoleResponse> roleResponses = roles.stream()
         .map(GrpcMessageUtils::convertRoleToRoleResponse).toList();
-    responseObserver.onNext(RoleResponses.newBuilder().addAllRoles(roleResponses).build());
+    responseObserver.onNext(RoleResponses.newBuilder().addAllRoles(roleResponses)
+        .setPages(Int64Value.of(roles.getTotalPages()))
+        .build());
     responseObserver.onCompleted();
   }
 

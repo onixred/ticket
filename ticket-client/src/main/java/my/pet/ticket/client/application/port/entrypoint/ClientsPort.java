@@ -11,7 +11,8 @@ public interface ClientsPort {
   String clients(Model model, @CookieValue(value = "Authorization", required = false) String token,
       @CookieValue(name = "UserId", required = false) Long userId,
       @CookieValue(name = "Role", required = false) String role,
-      @RequestParam(name = "id", required = false) Long requestClientId);
+      @RequestParam(name = "id", required = false) Long requestClientId,
+      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page);
 
   @RequestMapping("/clients.html")
   default String ticketsExt() {

@@ -3,8 +3,8 @@ package my.pet.ticket.server.adapter.grpc;
 import static my.pet.utils.GrpcMessageUtils.convertUserToUserResponse;
 
 import com.google.protobuf.Empty;
+import com.google.protobuf.Int64Value;
 import io.grpc.stub.StreamObserver;
-import java.util.ArrayList;
 import java.util.List;
 import my.pet.ticket.application.domain.model.User;
 import my.pet.ticket.grpc.FilterRequest;
@@ -16,6 +16,7 @@ import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.application.domain.service.UserService;
 import my.pet.utils.GrpcMessageUtils;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.annotation.Secured;
 
 @GrpcService
@@ -84,16 +85,17 @@ public class UserGrpcAdapter extends UserServiceImplBase {
   @Override
   @Secured({"MANAGER", "ADMIN"})
   public void getAllUsers(FilterRequest request, StreamObserver<UserResponses> responseObserver) {
-    List<User> users = new ArrayList<>();
+    Page<User> users;
     if (request.hasFilter()) {
-      users.addAll(this.userService.getAll(request.getFilter().getPage().getValue(),
-          request.getFilter().getPageSize().getValue()));
+      users = this.userService.getAll(request.getFilter().getPage().getValue(),
+          request.getFilter().getPageSize().getValue());
     } else {
-      users.addAll(this.userService.getAll());
+      users = this.userService.getAll();
     }
-    List<UserResponse> userResponses = users.stream().map(
-        GrpcMessageUtils::convertUserToUserResponse).toList();
-    responseObserver.onNext(UserResponses.newBuilder().addAllUsers(userResponses).build());
+    List<UserResponse> userResponses = users.stream()
+        .map(GrpcMessageUtils::convertUserToUserResponse).toList();
+    responseObserver.onNext(UserResponses.newBuilder().addAllUsers(userResponses)
+        .setPages(Int64Value.of(users.getTotalPages())).build());
     responseObserver.onCompleted();
   }
 

@@ -16,6 +16,7 @@ message RoleResponse {
 
 message RoleResponses {
   repeated RoleResponse roles = 1;
+  google.protobuf.Int64Value pages = 2;
 }
 
 service RoleService {
