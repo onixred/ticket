@@ -70,19 +70,24 @@
       </div>
       <div class="users w-100 h-100 table d-flex f-d-col">
         <div class="table-header d-flex f-d-row jc-between padding-1 gap-2">
-          <div>Full Name</div>
-          <div>Role</div>
-          <div>Login</div>
-          <div>Active</div>
-          <div>Suspended</div>
+          <div>Ticket Id</div>
+          <div>Client Name</div>
+          <div>Author Login</div>
+          <div>Manager Login</div>
+          <div>Ticket Status</div>
+          <div>Title</div>
+          <div>Description</div>
         </div>
         <div class="table-item d-flex f-d-row jc-between padding-1 last gap-2"
+             th:each="activeTicket : ${activeTickets}"
              th:if="!${activeTickets.isEmpty()}">
-          <div>Test Testovik Testovich</div>
-          <div>Manager</div>
-          <div>testlogin</div>
-          <div>True</div>
-          <div>False</div>
+          <div th:text="${activeTicket.ticketId}"></div>
+          <div th:text="${activeTicket.client.fullName}"></div>
+          <div th:text="${activeTicket.author.login}"></div>
+          <div th:text="${activeTicket.manager.login}"></div>
+          <div th:text="${activeTicket.ticketStatus.name}"></div>
+          <div th:text="${activeTicket.title}"></div>
+          <div th:text="${activeTicket.description}"></div>
         </div>
         <div class="title h-100 stub d-flex ai-center jc-center padding-2"
              th:unless="!${activeTickets.isEmpty()}">

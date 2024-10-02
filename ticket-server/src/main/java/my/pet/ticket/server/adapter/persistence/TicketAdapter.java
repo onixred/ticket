@@ -3,6 +3,7 @@ package my.pet.ticket.server.adapter.persistence;
 import java.util.Optional;
 import my.pet.ticket.server.adapter.persistence.entity.TicketEntity;
 import my.pet.ticket.server.adapter.persistence.entity.TicketEntity_;
+import my.pet.ticket.server.adapter.persistence.entity.TicketIdEntity_;
 import my.pet.ticket.server.adapter.persistence.repository.TicketRepository;
 import my.pet.ticket.server.application.port.persistence.TicketPort;
 import org.springframework.data.domain.Page;
@@ -11,12 +12,12 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TicketAdapter
-    implements TicketPort {
+public class TicketAdapter implements TicketPort {
 
-  private static final Specification<TicketEntity> NOT_DELETED_SPECIFICATION = ((root, query, criteriaBuilder) -> criteriaBuilder.equal(
-      root.get(
-          TicketEntity_.DELETED), false));
+  private static final Specification<TicketEntity> NOT_DELETED_SPECIFICATION = ((root, query, criteriaBuilder) -> {
+    query.orderBy(criteriaBuilder.asc(root.get(TicketEntity_.ID).get(TicketIdEntity_.TICKET_ID)));
+    return criteriaBuilder.equal(root.get(TicketEntity_.DELETED), false);
+  });
 
   private final TicketRepository ticketRepository;
 

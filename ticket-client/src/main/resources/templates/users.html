@@ -18,6 +18,7 @@
       </div>
       <div class="users table d-flex f-d-col margin-1">
         <div class="table-header d-flex f-d-row jc-between padding-1 gap-2">
+          <div>User Id</div>
           <div>Full Name</div>
           <div>Role</div>
           <div>Login</div>
@@ -28,11 +29,12 @@
              th:classappend="${iterStat.last} ? last : not-last"
              th:each="user, iterStat : ${users}"
              th:onclick="|window.location.href='/users?id=${user.userId}&page=${page}'|">
+          <div th:text="${user.userId}"></div>
           <div th:text="${user.fullName}"></div>
-          <div th:text="${user.role.name}">Manager</div>
-          <div th:text="${user.login}">testlogin</div>
-          <div th:text="${user.active}">True</div>
-          <div th:text="${user.suspended}">False</div>
+          <div th:text="${user.role.name}"></div>
+          <div th:text="${user.login}"></div>
+          <div th:text="${user.active}"></div>
+          <div th:text="${user.suspended}"></div>
         </div>
         <div class="pageable d-flex jc-center gap-1 margin-1">
           <div class="prev page b" th:classappend="${page} <= 0 ? disabled : not-disabled"
