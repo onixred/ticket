@@ -11,6 +11,7 @@ import my.pet.ticket.grpc.FilterRequest;
 import my.pet.ticket.grpc.TicketResponse;
 import my.pet.ticket.grpc.TicketResponses;
 import my.pet.ticket.grpc.TicketServiceGrpc.TicketServiceImplBase;
+import my.pet.ticket.grpc.UpdateTicketRequest;
 import my.pet.ticket.server.application.domain.service.DomainServiceException;
 import my.pet.ticket.server.application.domain.service.TicketService;
 import my.pet.utils.GrpcMessageUtils;
@@ -32,8 +33,7 @@ public class TicketGrpcAdapter extends TicketServiceImplBase {
 
   @Override
   @Secured({"MANAGER", "ADMIN"})
-  public void getTicket(FilterRequest request,
-      StreamObserver<TicketResponse> responseObserver) {
+  public void getTicket(FilterRequest request, StreamObserver<TicketResponse> responseObserver) {
     if (request.hasFilter() && request.getFilter().hasTicketId()) {
       Ticket ticket = this.ticketService.get(request.getFilter().getTicketId().getValue());
       TicketResponse ticketResponse = convertTicketToTicketResponse(ticket);
@@ -57,14 +57,24 @@ public class TicketGrpcAdapter extends TicketServiceImplBase {
     }
     List<TicketResponse> ticketResponseList = tickets.stream()
         .map(GrpcMessageUtils::convertTicketToTicketResponse).toList();
-    TicketResponses ticketResponses = TicketResponses.newBuilder()
-        .addAllTickets(ticketResponseList)
+    TicketResponses ticketResponses = TicketResponses.newBuilder().addAllTickets(ticketResponseList)
         .setPages(Int64Value.of(request.getFilter().getPage().getValue()))
-        .setPages(Int64Value.of(tickets.getTotalPages()))
-        .build();
+        .setPages(Int64Value.of(tickets.getTotalPages())).build();
     responseObserver.onNext(ticketResponses);
     responseObserver.onCompleted();
     ;
+  }
+
+  @Override
+  @Secured({"MANAGER", "ADMIN"})
+  public void updateTicket(UpdateTicketRequest request,
+      StreamObserver<TicketResponse> responseObserver) {
+    Ticket ticket = this.ticketService.updateTicket(
+        my.pet.ticket.application.domain.model.payload.request.UpdateTicketRequest.builder()
+            .ticketId(request.getTicketId().getValue())
+            .ticketStatusId(request.getTicketStatusId().getValue()).build());
+    responseObserver.onNext(convertTicketToTicketResponse(ticket));
+    responseObserver.onCompleted();
   }
 
   @Override

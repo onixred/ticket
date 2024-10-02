@@ -27,8 +27,14 @@ message TicketResponses {
   google.protobuf.Int64Value pages = 2;
 }
 
+message UpdateTicketRequest {
+  google.protobuf.Int64Value ticketId = 1;
+  google.protobuf.Int64Value ticketStatusId = 2;
+}
+
 service TicketService {
   rpc getTicket(FilterRequest) returns (TicketResponse) {};
   rpc getAllTickets(FilterRequest) returns (TicketResponses) {};
+  rpc updateTicket(UpdateTicketRequest) returns (TicketResponse) {};
   rpc deleteTicket(FilterRequest) returns (google.protobuf.Empty) {};
 }

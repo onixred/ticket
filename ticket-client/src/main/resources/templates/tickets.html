@@ -56,7 +56,9 @@
       <div class="title h2">
         Ticket info
       </div>
-      <div class="info-block d-flex f-d-col gap-1" th:if="${requestTicket} != null">
+      <form action="#" class="info-block d-flex f-d-col gap-1" method="post"
+            th:action="@{/updateTicketRequest?id=__${requestTicket.ticketId}__&page=__${page}__}"
+            th:if="${requestTicket} != null">
         <div class="ticket-id d-flex f-d-row jc-between gap-1">
           <div class="name b">Ticket Id:</div>
           <div class="text" th:text="${requestTicket.ticketId}"></div>
@@ -73,14 +75,23 @@
           <div class="name b">Manager Login:</div>
           <div class="text" th:text="${requestTicket.manager.login}"></div>
         </div>
-        <div class="ticket-status d-flex f-d-row jc-between gap-1">
+        <div class="ticket-status d-flex f-d-row jc-between ai-center gap-1">
           <div class="name b">Ticket Status:</div>
-          <div class="text" th:text="${requestTicket.ticketStatus.name}"></div>
+          <select class="dropdown" id="ticketStatusId" name="ticketStatusId">
+            <option th:each="ticketStatus : ${ticketStatuses}"
+                    th:selected="${requestTicket.ticketStatus.ticketStatusId == ticketStatus.ticketStatusId}"
+                    th:text="${ticketStatus.name}"
+                    th:value="${ticketStatus.ticketStatusId}"
+                    value="apple"></option>
+          </select>
+        </div>
+        <div class="submit-button">
+          <input type="submit" value="Update ticket">
         </div>
         <div class="button r1 c3 w-100">
           <a href="/">Delete ticket</a>
         </div>
-      </div>
+      </form>
       <div class="d-flex jc-center ai-center w-100 h-100" th:unless="${requestTicket} != null">
         <div class="text h3">Nothing to show</div>
       </div>

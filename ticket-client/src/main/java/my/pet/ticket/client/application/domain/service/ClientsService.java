@@ -1,6 +1,6 @@
 package my.pet.ticket.client.application.domain.service;
 
-import my.pet.ticket.client.application.domain.model.Clients;
+import my.pet.ticket.application.domain.model.Clients;
 import my.pet.ticket.client.application.port.api.ClientGrpcPort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;

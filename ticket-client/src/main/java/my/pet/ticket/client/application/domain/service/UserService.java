@@ -1,6 +1,6 @@
 package my.pet.ticket.client.application.domain.service;
 
-import my.pet.ticket.client.application.domain.model.Users;
+import my.pet.ticket.application.domain.model.Users;
 import my.pet.ticket.client.application.port.api.UserGrpcPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

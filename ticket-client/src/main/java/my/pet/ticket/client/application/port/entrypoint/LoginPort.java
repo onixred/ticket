@@ -15,8 +15,7 @@ public interface LoginPort {
       @RequestParam(name = "logout", required = false, defaultValue = "false") Boolean logout);
 
   @RequestMapping("/loginRequest")
-  ResponseEntity<String> loginRequest(
-      @ModelAttribute("login_request") LoginRequest loginRequest);
+  ResponseEntity<String> loginRequest(@ModelAttribute LoginRequest loginRequest);
 
   @RequestMapping("/login.html")
   default String login() {

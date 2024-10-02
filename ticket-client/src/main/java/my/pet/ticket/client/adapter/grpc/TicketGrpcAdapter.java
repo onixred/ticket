@@ -2,9 +2,11 @@ package my.pet.ticket.client.adapter.grpc;
 
 import com.google.protobuf.Empty;
 import com.google.protobuf.Int32Value;
+import com.google.protobuf.Int64Value;
 import java.util.List;
 import my.pet.ticket.application.domain.model.Ticket;
-import my.pet.ticket.client.application.domain.model.Tickets;
+import my.pet.ticket.application.domain.model.Tickets;
+import my.pet.ticket.application.domain.model.payload.request.UpdateTicketRequest;
 import my.pet.ticket.client.application.port.api.TicketGrpcPort;
 import my.pet.ticket.grpc.Filter;
 import my.pet.ticket.grpc.FilterRequest;
@@ -39,6 +41,16 @@ public class TicketGrpcAdapter implements TicketGrpcPort {
     List<Ticket> tickets = ticketResponses.getTicketsList().stream()
         .map(GrpcMessageUtils::convertTicketResponseToTicket).toList();
     return new Tickets(tickets, ticketResponses.getPages().getValue());
+  }
+
+  public Ticket updateTicket(String token, UpdateTicketRequest updateTicketRequest) {
+    return GrpcMessageUtils.convertTicketResponseToTicket(
+        this.ticketServiceBlockingStub.withCallCredentials(
+            CallCredentialsHelper.authorizationHeader(token)).updateTicket(
+            my.pet.ticket.grpc.UpdateTicketRequest.newBuilder()
+                .setTicketId(Int64Value.of(updateTicketRequest.getTicketId()))
+                .setTicketStatusId(Int64Value.of(updateTicketRequest.getTicketStatusId()))
+                .build()));
   }
 
 }

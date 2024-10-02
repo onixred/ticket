@@ -4,7 +4,7 @@ import com.google.protobuf.Empty;
 import com.google.protobuf.Int32Value;
 import java.util.List;
 import my.pet.ticket.application.domain.model.Client;
-import my.pet.ticket.client.application.domain.model.Clients;
+import my.pet.ticket.application.domain.model.Clients;
 import my.pet.ticket.client.application.port.api.ClientGrpcPort;
 import my.pet.ticket.grpc.ClientResponses;
 import my.pet.ticket.grpc.ClientServiceGrpc.ClientServiceBlockingStub;
