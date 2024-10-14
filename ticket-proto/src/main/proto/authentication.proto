@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+package my.pet.protobuf;
+
+option java_package = "my.pet.ticket.grpc";
+option java_multiple_files = true;
+
+message LoginRequest {
+  google.protobuf.StringValue login = 1;
+  google.protobuf.StringValue password = 2;
+}
+
+message LoginResponse {
+  google.protobuf.Int64Value user_id = 1;
+  google.protobuf.StringValue token = 2;
+}
+
+service LoginService {
+  rpc login(LoginRequest) returns (LoginResponse) {};
+  rpc isExpired(google.protobuf.StringValue) returns (google.protobuf.BoolValue) {};
+}

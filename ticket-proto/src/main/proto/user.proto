@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "filter.proto";
+import "role.proto";
+
+package my.pet.protobuf;
+
+option java_package = "my.pet.ticket.grpc";
+option java_multiple_files = true;
+
+message UserResponse {
+  google.protobuf.Int64Value user_id = 1;
+  RoleResponse role = 2;
+  google.protobuf.StringValue full_name = 3;
+  google.protobuf.StringValue login = 4;
+  google.protobuf.BoolValue active = 5;
+  google.protobuf.BoolValue suspended = 6;
+}
+
+message UserResponses {
+  repeated UserResponse users = 1;
+  google.protobuf.Int64Value pages = 2;
+}
+
+message RegisterUserRequest {
+  google.protobuf.StringValue full_name = 1;
+  google.protobuf.StringValue login = 2;
+  google.protobuf.StringValue password = 3;
+}
+
+service UserService {
+  rpc registerUser(RegisterUserRequest) returns (UserResponse) {};
+  rpc activeUser(FilterRequest) returns (UserResponse) {};
+  rpc getUser(FilterRequest) returns (UserResponse) {};
+  rpc getAllUsers(FilterRequest) returns (UserResponses) {};
+  rpc suspendUser(FilterRequest) returns (UserResponse) {};
+  rpc deleteUser(FilterRequest) returns (google.protobuf.Empty) {};
+}

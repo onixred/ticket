@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet-Project - Clients</title>
+  <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+  <link href="../static/styles/main.css" rel="stylesheet"/>
+  <script th:src="@{/js/authenticationCheck.js}" type="text/javascript"></script>
+  <script src="http://localhost:35729/livereload.js"></script>
+</head>
+<body>
+<div class="wrapper d-flex f-d-col jc-between ai-center">
+  <div th:replace="~{fragments/header.html}"></div>
+  <div class="content w-100 h-100 d-flex f-d-row jc-top">
+    <div class="clients-block w-100 d-flex f-d-col">
+      <div class="title h2 padding-2">
+        Clients
+      </div>
+      <div class="clients table d-flex f-d-col margin-1">
+        <div class="table-header d-flex f-d-row jc-between padding-1 gap-2">
+          <div>Client Id</div>
+          <div>Full Name</div>
+          <div>Email</div>
+          <div>Phone Number</div>
+        </div>
+        <div class="table-item d-flex f-d-row jc-between padding-1 gap-2"
+             th:classappend="${iterStat.last} ? last : not-last"
+             th:each="client, iterStat : ${clients}"
+             th:onclick="|window.location.href='/clients?id=${client.clientId}&page=${page}'|">
+          <div th:text="${client.clientId}"></div>
+          <div th:text="${client.fullName}"></div>
+          <div th:text="${client.email}"></div>
+          <div th:text="${client.phoneNumber}"></div>
+        </div>
+        <div class="pageable d-flex jc-center gap-1 margin-1">
+          <div class="prev page b" th:classappend="${page} <= 0 ? disabled : not-disabled"
+               th:onclick="|window.location.href='/clients?page=${page-1}'|">
+            <
+          </div>
+          <div class="page b" th:classappend="${page} != ${i} ? not-current : current" th:each="i : ${#numbers.sequence(0, pages - 1)}"
+               th:onclick="|window.location.href='/clients?page=${i}'|"
+               th:text="${i}"
+          ></div>
+          <div class="next page b" th:classappend="${page} < ${pages-1} ? not-disabled : disabled"
+               th:onclick="|window.location.href='/clients?page=${page+1}'|">
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="client-info w-25 info-block d-flex f-d-col gap-1 margin-1 padding-1">
+      <div class="title h2">
+        Client info
+      </div>
+      <div class="info-block d-flex f-d-col gap-1" th:if="${requestClient} != null">
+        <div class="client-id d-flex f-d-row jc-between gap-1">
+          <div class="name b">Client Id:</div>
+          <div class="text" th:text="${requestClient.clientId}"></div>
+        </div>
+        <div class="full-name d-flex f-d-row jc-between gap-1">
+          <div class="name b">Full Name:</div>
+          <div class="text" th:text="${requestClient.fullName}"></div>
+        </div>
+        <div class="email d-flex f-d-row jc-between gap-1">
+          <div class="name b">Email:</div>
+          <div class="text" th:text="${requestClient.email}"></div>
+        </div>
+        <div class="phone-number d-flex f-d-row jc-between gap-1">
+          <div class="name b">Phone Number:</div>
+          <div class="text" th:text="${requestClient.phoneNumber}"></div>
+        </div>
+        <div class="button r1 c3 w-100">
+          <a href="/">Delete client</a>
+        </div>
+      </div>
+      <div class="d-flex jc-center ai-center w-100 h-100" th:unless="${requestClient} != null">
+        <div class="text h3">Nothing to show</div>
+      </div>
+    </div>
+  </div>
+  <div th:replace="~{fragments/footer.html}"></div>
+</div>
+</body>
+</html>

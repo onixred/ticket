@@ -6,5 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TicketStatusRepository extends JpaRepository<TicketStatusEntity, Long>, JpaSpecificationExecutor<TicketStatusEntity> {
+public interface TicketStatusRepository
+    extends JpaRepository<TicketStatusEntity, Long>,
+    JpaSpecificationExecutor<TicketStatusEntity> {
+
 }

@@ -1,21 +1,28 @@
 package my.pet.ticket.server.application.port.persistence;
 
+import java.util.Optional;
+import my.pet.ticket.server.adapter.persistence.entity.AbstractEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.List;
-import java.util.Optional;
+public interface PersistencePort<T extends AbstractEntity> {
 
-public interface PersistencePort<T> {
+  Optional<T> get(Specification<T> specification);
 
-    Optional<T> get(Specification<T> specification);
+  Page<T> getAll(Specification<T> specification, Pageable pageable);
 
-    List<T> getAll(Specification<T> specification, Pageable pageable);
+  T create(T entity);
 
-    T create(T entity);
+  T update(T entity);
 
-    T update(T entity);
+  default void delete(T entity) {
+    entity.setDeleted(true);
+    update(entity);
+  }
 
-    void delete(T entity);
+  default Page<T> getAll(Specification<T> specification) {
+    return getAll(specification, Pageable.unpaged());
+  }
 
 }

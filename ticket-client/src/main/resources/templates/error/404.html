@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet-Project - 404</title>
+  <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+  <link href="../../static/styles/main.css" rel="stylesheet"/>
+  <script src="http://localhost:35729/livereload.js"></script>
+  <script th:src="@{/js/authenticationCheck.js}" type="text/javascript"></script>
+</head>
+<body>
+<div class="wrapper d-flex f-d-col jc-between ai-center">
+  <div th:replace="~{fragments/header.html}"></div>
+  <div class="content d-flex f-d-col gap-2">
+    <div class="title d-flex f-d-col jc-center ai-center gap-1">
+      <div class="h1">404 Not Found</div>
+      <div class="p1 opacity-75">Something went wrong</div>
+    </div>
+    <div class="form d-flex gap-1 f-d-col jc-center ai-center">
+      <div class="button w-100">
+        <a href="/">Return to home</a>
+      </div>
+    </div>
+  </div>
+  <div th:replace="~{fragments/footer.html}"></div>
+</div>
+</body>
+</html>

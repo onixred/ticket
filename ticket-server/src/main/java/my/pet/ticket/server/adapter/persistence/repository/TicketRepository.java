@@ -7,5 +7,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TicketRepository extends JpaRepository<TicketEntity, TicketIdEntity>, JpaSpecificationExecutor<TicketEntity> {
+public interface TicketRepository
+    extends JpaRepository<TicketEntity, TicketIdEntity>,
+    JpaSpecificationExecutor<TicketEntity> {
+
 }

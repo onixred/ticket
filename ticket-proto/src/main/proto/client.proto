@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "filter.proto";
+
+package my.pet.protobuf;
+
+option java_package = "my.pet.ticket.grpc";
+option java_multiple_files = true;
+
+message ClientResponse {
+  google.protobuf.Int64Value clientId = 1;
+  google.protobuf.StringValue full_name = 2;
+  google.protobuf.StringValue email = 3;
+  google.protobuf.StringValue phone_number = 4;
+}
+
+message ClientResponses {
+  repeated ClientResponse clients = 1;
+  google.protobuf.Int64Value pages = 2;
+}
+
+service ClientService {
+  rpc getClient(FilterRequest) returns (ClientResponse) {};
+  rpc getAllClients(FilterRequest) returns (ClientResponses) {};
+  rpc deleteClient(FilterRequest) returns (google.protobuf.Empty) {};
+}

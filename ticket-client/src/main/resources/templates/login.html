@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Pet-Project - Login</title>
+  <link rel="stylesheet" th:href="@{/styles/main.css}"/>
+  <link href="../static/styles/main.css" rel="stylesheet"/>
+  <script th:src="@{/js/authenticationCheck.js}" type="text/javascript"></script>
+  <script src="http://localhost:35729/livereload.js"></script>
+</head>
+<body>
+<div class="wrapper d-flex f-d-col jc-between ai-center">
+  <div th:replace="~{fragments/header.html}"></div>
+  <div class="content d-flex f-d-col gap-2 w-25">
+    <div class="title d-flex f-d-col gap-1">
+      <div class="h1">Login</div>
+      <div class="d-flex f-d-row ai-align opacity-75 gap-05">
+        <div class="p1">
+          Still don't have an account?
+        </div>
+        <a class="p1" href="/registration">Register</a>
+      </div>
+    </div>
+    <form class="form d-flex gap-1 f-d-col jc-center ai-center" method="post"
+          action="#" th:action="@{/loginRequest}">
+      <div class="input w-100">
+        <input id="login" name="login" placeholder="Login" type="text">
+      </div>
+      <div class="input w-100">
+        <input id="password" name="password" placeholder="Password" type="password">
+      </div>
+      <div class="error" th:if="${error}">
+        <div class="text" th:text="${error_message}"></div>
+      </div>
+      <div class="submit-button">
+        <input type="submit" value="Login">
+      </div>
+    </form>
+  </div>
+  <div th:replace="~{fragments/footer.html}"></div>
+</div>
+</body>
+</html>

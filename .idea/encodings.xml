@@ -5,6 +5,8 @@
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ticket-client/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ticket-client/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ticket-proto/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/ticket-proto/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ticket-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/ticket-server/src/main/resources" charset="UTF-8" />
   </component>

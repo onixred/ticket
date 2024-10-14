@@ -1,5 +1,17 @@
 spring:
   application:
     name: ticket-client
+  thymeleaf:
+    cache: false
+    mode: HTML
+    encoding: UTF-8
+  resources:
+    cache:
+      period: 0
+grpc:
+  client:
+    globalClient:
+      address: static://localhost:9090
+      negotiationType: PLAINTEXT
 server:
   port: 8080

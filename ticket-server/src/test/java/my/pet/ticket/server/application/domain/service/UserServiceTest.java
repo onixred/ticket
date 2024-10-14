@@ -1,0 +1,63 @@
+package my.pet.ticket.server.application.domain.service;
+
+import java.util.List;
+import my.pet.ticket.application.domain.model.User;
+import my.pet.ticket.server.ApplicationTest;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+
+class UserServiceTest extends ApplicationTest {
+
+  @Autowired
+  UserService userService;
+
+  @Test
+  void registerUserTest() {
+    User user = this.userService.register(
+        builder -> builder.login("testlogin1").password("passwordhash")
+            .fullName("Eryomin Egor Konstantinovich").build());
+    Assertions.assertNotNull(user.getUserId());
+  }
+
+  @Test
+  void activateUserTest() {
+    User user = this.userService.activateUser(1001L);
+    Assertions.assertTrue(user.getActive());
+  }
+
+  @Test
+  void getUserTest() {
+    Assertions.assertDoesNotThrow(() -> {
+      this.userService.get(1001L);
+    });
+  }
+
+  @Test
+  void getAllUsersTest() {
+    List<User> users = this.userService.getAll();
+    Assertions.assertFalse(users.isEmpty());
+  }
+
+  @Test
+  void getAllUsersPageableTest() {
+    List<User> usersPage1 = this.userService.getAll(0, 1);
+    List<User> usersPage2 = this.userService.getAll(1, 1);
+    Assertions.assertNotEquals(usersPage1.get(0), usersPage2.get(0));
+  }
+
+  @Test
+  void suspendUserTest() {
+    User user = this.userService.suspend(1002L);
+    Assertions.assertTrue(user.getSuspended());
+  }
+
+  @Test
+  void deleteUser() {
+    Assertions.assertDoesNotThrow(() -> {
+      this.userService.delete(1004L);
+    });
+  }
+
+}

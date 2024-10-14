@@ -1,19 +1,15 @@
 package my.pet.ticket.server.application.port.configuration;
 
-import java.util.function.Consumer;
+import java.util.Map;
 
 public interface ConfigurationPort {
 
-    <T> T put(Class<T> type, String key, T value, Consumer<T> consumer);
+  String put(String key, String value);
 
-    <T> T getFirst(Class<T> type, String key, T defaultValue, Consumer<T> consumer);
+  String getFirst(String key);
 
-    default <T> T put(Class<T> type, String key, T value) {
-        return put(type, key, value, t -> {});
-    }
+  Map<String, String> getAll(String key);
 
-    default <T> T getFirst(Class<T> type, String key, T defaultValue) {
-        return getFirst(type, key, defaultValue, t -> {});
-    }
+  Map<String, String> getAllByProfile(String profile);
 
 }

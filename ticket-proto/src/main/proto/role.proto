@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "filter.proto";
+
+package my.pet.protobuf;
+
+option java_package = "my.pet.ticket.grpc";
+option java_multiple_files = true;
+
+message RoleResponse {
+  google.protobuf.Int64Value role_id = 1;
+  google.protobuf.StringValue name = 2;
+}
+
+message RoleResponses {
+  repeated RoleResponse roles = 1;
+  google.protobuf.Int64Value pages = 2;
+}
+
+service RoleService {
+  rpc getRole(FilterRequest) returns (RoleResponse);
+  rpc getAllRoles(FilterRequest) returns (RoleResponses);
+  rpc deleteRole(FilterRequest) returns (google.protobuf.Empty);
+}

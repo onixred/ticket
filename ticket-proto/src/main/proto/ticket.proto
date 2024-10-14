@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+import "filter.proto";
+import "client.proto";
+import "user.proto";
+import "ticket_status.proto";
+
+package my.pet.protobuf;
+
+option java_package = "my.pet.ticket.grpc";
+option java_multiple_files = true;
+
+message TicketResponse {
+  google.protobuf.Int64Value ticket_id = 1;
+  ClientResponse client = 2;
+  UserResponse author = 3;
+  UserResponse manager = 4;
+  TicketStatusResponse ticket_status = 5;
+  google.protobuf.StringValue title = 6;
+  google.protobuf.StringValue description = 7;
+}
+
+message TicketResponses {
+  repeated TicketResponse tickets = 1;
+  google.protobuf.Int64Value pages = 2;
+}
+
+message UpdateTicketRequest {
+  google.protobuf.Int64Value ticketId = 1;
+  google.protobuf.Int64Value ticketStatusId = 2;
+}
+
+service TicketService {
+  rpc getTicket(FilterRequest) returns (TicketResponse) {};
+  rpc getAllTickets(FilterRequest) returns (TicketResponses) {};
+  rpc updateTicket(UpdateTicketRequest) returns (TicketResponse) {};
+  rpc deleteTicket(FilterRequest) returns (google.protobuf.Empty) {};
+}

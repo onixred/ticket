@@ -2,36 +2,75 @@ package my.pet.ticket.server.adapter.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import lombok.Data;
-
+import java.time.LocalDateTime;
 import java.util.Objects;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(schema = "pet_project", name = "roles")
-public class RoleEntity extends AbstractEntity {
+@SequenceGenerator(
+    name = "roles_id_pk_seq",
+    schema = "pet_project",
+    sequenceName = "roles_id_pk_seq",
+    initialValue = 1001,
+    allocationSize = 0
+)
+public class RoleEntity
+    extends AbstractEntity {
 
-    @Id
-    @Column(name = "role_id")
-    private Long roleId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "roles_id_pk_seq")
+  @Column(name = "role_id")
+  private Long roleId;
 
-    @Column(name = "name")
-    private String name;
+  @Column(name = "name")
+  private String name;
 
-    @Column(name = "active")
-    private String active;
+  @Column(name = "active")
+  private Boolean active;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof RoleEntity roleDao)) return false;
-        return Objects.equals(roleId, roleDao.roleId) && Objects.equals(name, roleDao.name) && Objects.equals(active, roleDao.active);
+  @Builder
+  public RoleEntity(
+      Long roleId,
+      String name,
+      Boolean active,
+      LocalDateTime createdAt,
+      LocalDateTime updatedAt,
+      Boolean deleted
+  ) {
+    this.roleId = roleId;
+    this.name = name;
+    this.active = active;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.deleted = deleted;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(roleId, name, active);
+    if (!(o instanceof RoleEntity roleDao)) {
+      return false;
     }
+    return Objects.equals(roleId, roleDao.roleId) &&
+        Objects.equals(name, roleDao.name) &&
+        Objects.equals(active, roleDao.active);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(roleId, name, active);
+  }
+
 }

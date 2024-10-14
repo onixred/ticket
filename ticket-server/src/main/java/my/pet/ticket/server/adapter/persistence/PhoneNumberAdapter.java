@@ -1,55 +1,53 @@
 package my.pet.ticket.server.adapter.persistence;
 
+import java.util.Optional;
 import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity;
+import my.pet.ticket.server.adapter.persistence.entity.PhoneNumberEntity_;
 import my.pet.ticket.server.adapter.persistence.repository.PhoneNumberRepository;
 import my.pet.ticket.server.application.port.persistence.PhoneNumberPort;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Optional;
-
 @Component
 public class PhoneNumberAdapter implements PhoneNumberPort {
 
-    private final PhoneNumberRepository phoneNumberRepository;
+  private final static Specification<PhoneNumberEntity> NOT_DELETED_SPECIFICATION = ((root, query, criteriaBuilder) -> criteriaBuilder.equal(
+      root.get(PhoneNumberEntity_.DELETED), false));
 
-    public PhoneNumberAdapter(PhoneNumberRepository phoneNumberRepository) {
-        this.phoneNumberRepository = phoneNumberRepository;
-    }
+  private final PhoneNumberRepository phoneNumberRepository;
 
-    @Override
-    public Optional<PhoneNumberEntity> get(Specification<PhoneNumberEntity> specification) {
-        return this.phoneNumberRepository.findOne(specification);
-    }
+  public PhoneNumberAdapter(PhoneNumberRepository phoneNumberRepository) {
+    this.phoneNumberRepository = phoneNumberRepository;
+  }
 
-    @Override
-    public List<PhoneNumberEntity> getAll(Specification<PhoneNumberEntity> specification, Pageable pageable) {
-        return this.phoneNumberRepository.findAll(specification, pageable).stream().toList();
-    }
+  @Override
+  public Optional<PhoneNumberEntity> get(Specification<PhoneNumberEntity> specification) {
+    return this.phoneNumberRepository.findOne(NOT_DELETED_SPECIFICATION.and(specification));
+  }
 
-    @Override
-    public PhoneNumberEntity create(PhoneNumberEntity entity) {
-        return this.phoneNumberRepository.save(entity);
-    }
+  @Override
+  public Page<PhoneNumberEntity> getAll(Specification<PhoneNumberEntity> specification,
+      Pageable pageable) {
+    return this.phoneNumberRepository.findAll(NOT_DELETED_SPECIFICATION.and(specification),
+        pageable);
+  }
 
-    @Override
-    public PhoneNumberEntity update(PhoneNumberEntity entity) {
-        if(this.phoneNumberRepository.existsById(entity.getId())) {
-            return this.phoneNumberRepository.save(entity);
-        } else {
-            throw new RuntimeException(); //TODO: Custom exception
-        }
+  @Override
+  public PhoneNumberEntity create(PhoneNumberEntity entity) {
+    if (entity.getId().getPhoneNumberId() == null) {
+      return this.phoneNumberRepository.save(entity);
     }
+    throw new PersistenceAdapterException("Phone number shouldn't have id when creating");
+  }
 
-    @Override
-    public void delete(PhoneNumberEntity entity) {
-        entity.setDeleted(true);
-        if(this.phoneNumberRepository.existsById(entity.getId())) {
-            this.phoneNumberRepository.save(entity);
-        } else {
-            throw new RuntimeException();
-        }
+  @Override
+  public PhoneNumberEntity update(PhoneNumberEntity entity) {
+    if (this.phoneNumberRepository.existsById(entity.getId())) {
+      return this.phoneNumberRepository.save(entity);
     }
+    throw new PersistenceAdapterException("Phone number not exist");
+  }
+
 }
