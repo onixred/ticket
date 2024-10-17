@@ -2,6 +2,7 @@ package my.pet.ticket.adapter.web;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,28 +13,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import my.pet.ticket.adapter.AbstractMapper;
 import my.pet.ticket.domain.Ticket;
 import my.pet.ticket.domain.TicketService;
 
 @RestController
 @RequestMapping("/ticket")
-@RequiredArgsConstructor
-public class TicketController {
+public class TicketController extends AbstractMapper {
 
     private final TicketService ticketService;
-    private final TicketDtoMapper ticketDtoMapper;
+
+    TicketController(TicketService ticketService, ModelMapper modelMapper) {
+        super(modelMapper);
+        this.ticketService = ticketService;
+    }
 
     @PostMapping
     public ResponseEntity<TicketDto> createTicket(@Valid @RequestBody TicketDto ticketDto) {
-        Ticket ticket = ticketService.saveTicket(ticketDtoMapper.toTicket(ticketDto));
-        return ResponseEntity.ok(ticketDtoMapper.toTicketDto(ticket));
+        Ticket ticket = ticketService.saveTicket(map(ticketDto, Ticket.class));
+        return ResponseEntity.ok(map(ticket, TicketDto.class));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TicketDto> getTicket(@PathVariable Long id) {
         return ticketService.findTicket(id)
-                .map(ticketDtoMapper::toTicketDto)
+                .map(ticket -> map(ticket, TicketDto.class))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -41,7 +45,7 @@ public class TicketController {
     @GetMapping
     public ResponseEntity<List<TicketDto>> getTickets() {
         List<TicketDto> ticketDtoList = ticketService.findAllTickets().stream()
-                .map(ticketDtoMapper::toTicketDto)
+                .map(ticket -> map(ticket, TicketDto.class))
                 .toList();
         return ResponseEntity.ok(ticketDtoList);
     }
