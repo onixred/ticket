@@ -1,4 +1,4 @@
-package my.pet.ticket.adapter.web;
+package my.pet.ticket.adapter.in.rest;
 
 import java.util.List;
 
@@ -13,17 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import my.pet.ticket.adapter.AbstractMapper;
-import my.pet.ticket.domain.Ticket;
-import my.pet.ticket.domain.TicketService;
+import my.pet.ticket.adapter.in.rest.resource.TicketDto;
+import my.pet.ticket.adapter.mapper.AbstractMapper;
+import my.pet.ticket.application.TicketService;
+import my.pet.ticket.application.model.Ticket;
 
 @RestController
 @RequestMapping("/ticket")
-public class TicketController extends AbstractMapper {
+public class TicketRestAdapter extends AbstractMapper {
 
     private final TicketService ticketService;
 
-    TicketController(TicketService ticketService, ModelMapper modelMapper) {
+    TicketRestAdapter(TicketService ticketService, ModelMapper modelMapper) {
         super(modelMapper);
         this.ticketService = ticketService;
     }

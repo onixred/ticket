@@ -1,4 +1,4 @@
-package my.pet.ticket.adapter;
+package my.pet.ticket.adapter.mapper;
 
 import org.modelmapper.ModelMapper;
 
@@ -9,7 +9,7 @@ public abstract class AbstractMapper {
     protected AbstractMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
-    
+
     public <S, T> T map(S source, Class<T> target) {
         return modelMapper.map(source, target);
     }

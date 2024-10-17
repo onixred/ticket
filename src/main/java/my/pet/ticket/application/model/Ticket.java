@@ -1,4 +1,4 @@
-package my.pet.ticket.domain;
+package my.pet.ticket.application.model;
 
 import lombok.Data;
 

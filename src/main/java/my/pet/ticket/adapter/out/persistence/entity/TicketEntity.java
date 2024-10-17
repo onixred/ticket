@@ -1,4 +1,4 @@
-package my.pet.ticket.adapter.persistence;
+package my.pet.ticket.adapter.out.persistence.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
