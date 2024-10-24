@@ -1,4 +1,4 @@
-package my.pet.ticket.adapter.in.rest;
+package my.pet.ticket.infrastructure.adapter.in.rest;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import my.pet.ticket.adapter.in.rest.resource.TicketDto;
-import my.pet.ticket.adapter.mapper.AbstractMapper;
+import my.pet.ticket.infrastructure.adapter.in.rest.resource.TicketDto;
+import my.pet.ticket.infrastructure.adapter.mapper.AbstractMapper;
 import my.pet.ticket.application.TicketService;
 import my.pet.ticket.application.model.Ticket;
 

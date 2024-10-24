@@ -1,8 +1,8 @@
-package my.pet.ticket.adapter.out.persistence;
+package my.pet.ticket.infrastructure.adapter.out.persistence;
 
 import org.springframework.data.repository.CrudRepository;
 
-import my.pet.ticket.adapter.out.persistence.entity.TicketEntity;
+import my.pet.ticket.infrastructure.adapter.out.persistence.entity.TicketEntity;
 
 import java.util.List;
 import java.util.Optional;

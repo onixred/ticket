@@ -1,4 +1,4 @@
-package my.pet.ticket.config;
+package my.pet.ticket.infrastructure.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;

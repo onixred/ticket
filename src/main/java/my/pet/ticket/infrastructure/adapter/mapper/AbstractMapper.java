@@ -1,4 +1,4 @@
-package my.pet.ticket.adapter.mapper;
+package my.pet.ticket.infrastructure.adapter.mapper;
 
 import org.modelmapper.ModelMapper;
 

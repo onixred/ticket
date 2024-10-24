@@ -1,4 +1,4 @@
-package my.pet.ticket.adapter.in.rest.resource;
+package my.pet.ticket.infrastructure.adapter.in.rest.resource;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

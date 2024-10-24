@@ -1,4 +1,4 @@
-package my.pet.ticket.adapter.out.persistence;
+package my.pet.ticket.infrastructure.adapter.out.persistence;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import my.pet.ticket.adapter.mapper.AbstractMapper;
-import my.pet.ticket.adapter.out.persistence.entity.TicketEntity;
+import my.pet.ticket.infrastructure.adapter.mapper.AbstractMapper;
+import my.pet.ticket.infrastructure.adapter.out.persistence.entity.TicketEntity;
 import my.pet.ticket.application.model.Ticket;
 import my.pet.ticket.application.port.out.persistence.TicketPersistencePort;
 
