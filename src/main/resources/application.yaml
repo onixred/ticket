@@ -5,7 +5,16 @@ spring:
     url: jdbc:postgresql://localhost:5432/database
     username: username
     password: password
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
   main:
     banner-mode: off
+
+etcd:
+  endpoints: ${ETCD_ENDPOINTS}
+  request-timeout: ${ETCD_REQUEST_TIMEOUT}
+  dial-keep-alive-time: ${ETCD_DIAL_KEEP_ALIVE_TIME}
+  dial-keep-alive-timeout: ${ETCD_DIAL_KEEP_ALIVE_TIMEOUT}
+  dial-timeout: ${ETCD_DIAL_TIMEOUT}
+  keys-prefix: ${ETCD_KEYS_PREFIX}
+  component-name: ${ETCD_COMPONENT_NAME}
+  dc: ${ETCD_DC}
+  instance-name: ${ETCD_INSTANCE_NAME}

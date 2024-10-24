@@ -18,6 +18,7 @@
         <java.version>21</java.version>
         <modelmapper.version>3.2.1</modelmapper.version>
         <logback.version>1.5.11</logback.version>
+        <jetcd.version>0.8.3</jetcd.version>
     </properties>
 
     <dependencies>
@@ -69,6 +70,11 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.etcd</groupId>
+            <artifactId>jetcd-core</artifactId>
+            <version>${jetcd.version}</version>
         </dependency>
     </dependencies>
 
