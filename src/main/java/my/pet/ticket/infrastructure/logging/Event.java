@@ -1,4 +1,4 @@
-package my.pet.ticket.logging;
+package my.pet.ticket.infrastructure.logging;
 
 public interface Event {
 

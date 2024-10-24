@@ -1,8 +1,7 @@
-package my.pet.ticket.application.event;
+package my.pet.ticket.infrastructure.event;
 
-import my.pet.ticket.logging.EventLog;
-import my.pet.ticket.logging.EventType;
-import my.pet.ticket.logging.Log;
+import my.pet.ticket.infrastructure.logging.EventType;
+import my.pet.ticket.infrastructure.logging.Log;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
@@ -12,7 +11,7 @@ public class ApplicationStopListener implements ApplicationListener<ContextClose
 
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
-        Log.INFO("Handling application stopped event", new EventLog(EventType.APP_STOP));
+        Log.INFO("Обработка события остановки приложения", EventType.APP_STOP);
     }
 
 }

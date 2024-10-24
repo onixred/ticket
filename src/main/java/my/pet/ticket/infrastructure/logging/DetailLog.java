@@ -1,11 +1,10 @@
-package my.pet.ticket.logging;
+package my.pet.ticket.infrastructure.logging;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import my.pet.ticket.infrastructure.utils.JsonUtils;
 
 public class DetailLog implements Detail {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
     private final String key;
     private final String value;
 
@@ -16,9 +15,7 @@ public class DetailLog implements Detail {
 
     @Override
     public ObjectNode toDetails() {
-        ObjectNode objectNode = objectMapper.createObjectNode();
-        objectNode.put(key, value);
-        return objectNode;
+        return JsonUtils.createNode(key, value);
     }
 
 }
