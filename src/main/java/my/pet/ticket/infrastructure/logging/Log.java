@@ -22,7 +22,7 @@ public final class Log {
 
     public static void DEBUG(String message, Event event, Detail... details) {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(MESSAGE_EVENT_DETAILS_TEMPLATE, message, event.getDescription(), format(details));
+            LOGGER.debug(MESSAGE_EVENT_DETAILS_TEMPLATE, message, format(event), format(details));
         }
     }
 
@@ -32,7 +32,7 @@ public final class Log {
 
     public static void INFO(String message, Event event, Detail... details) {
         if (LOGGER.isInfoEnabled()) {
-            LOGGER.info(MESSAGE_EVENT_DETAILS_TEMPLATE, message, event.getDescription(), format(details));
+            LOGGER.info(MESSAGE_EVENT_DETAILS_TEMPLATE, message, format(event), format(details));
         }
     }
 
@@ -65,7 +65,11 @@ public final class Log {
     }
 
     private static String format(Event event) {
-        return String.format("Error code: '%s'. Description: '%s'.", event.getErrorCode(), event.getDescription());
+        if (event != null) {
+            return String.format("Error code: '%s'. Description: '%s'.", event.getErrorCode(), event.getDescription());
+        }
+
+        return "";
     }
 
     private static String format(Detail... details) {
