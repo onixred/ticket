@@ -13,5 +13,16 @@ services:
       - pg_data:/var/lib/postgresql/data
       - ./src/main/resources/db/migrations:/docker-entrypoint-initdb.d
 
+  etcd:
+    image: bitnami/etcd:3.5.16
+    container_name: etcd
+    restart: unless-stopped
+    environment:
+      ALLOW_NONE_AUTHENTICATION: yes
+      ETCD_ADVERTISE_CLIENT_URLS: http://etcd:2379
+    ports:
+      - '2379:2379'
+      - '2380:2380'
+
 volumes:
   pg_data:
