@@ -1,11 +1,8 @@
 spring:
   application:
     name: ticket
-  datasource:
-    url: jdbc:postgresql://localhost:5432/database
-    username: username
-    password: password
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
   main:
     banner-mode: off
+
+etcd:
+  endpoints: ${ETCD_ENDPOINTS}
